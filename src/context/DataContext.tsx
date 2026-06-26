@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import type { Product, Category, Collection, ShippingConfig } from '../types';
+import type { Product, Category, Collection } from '../types';
 
 const STORAGE_KEY = 'cchrome_data';
 const API_BASE = '/api';
@@ -7,7 +7,6 @@ const API_BASE = '/api';
 interface StoredData {
   products: Product[];
   collection: Collection;
-  shipping?: ShippingConfig;
 }
 
 interface DataContextValue {
@@ -19,8 +18,6 @@ interface DataContextValue {
   addCategory: (name: string) => void;
   collection: Collection;
   setCollection: (c: Collection) => void;
-  shipping: ShippingConfig;
-  setShipping: (s: ShippingConfig) => void;
   dbReady: boolean;
   clearProducts: () => void;
   clearAllData: () => void;
@@ -55,11 +52,6 @@ const defaultCollection: Collection = {
   tag: 'Магазин',
 };
 
-const defaultShipping: ShippingConfig = {
-  novaPoshtaPrice: 100,
-  freeShippingThreshold: 3000,
-};
-
 function loadData(): StoredData | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -83,7 +75,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const [products, setProducts] = useState<Product[]>(saved?.products || defaultProducts);
   const [collection, setCollectionState] = useState<Collection>(saved?.collection || defaultCollection);
-  const [shipping, setShippingState] = useState<ShippingConfig>(saved?.shipping || defaultShipping);
 
   const [categories, setCategories] = useState<Category[]>(() => {
     const existingNames = new Set(saved?.products.map((p) => p.category) || defaultProducts.map((p) => p.category));
@@ -105,15 +96,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const dbData = await res.json();
         if (dbData.products) setProducts(dbData.products);
         if (dbData.collection) setCollectionState(dbData.collection);
-        if (dbData.shipping) setShippingState(dbData.shipping);
         setDbReady(true);
       } catch {
         setDbReady(false);
         const local = loadData();
         if (local) {
-          if (local.products) setProducts(local.products);
-          if (local.collection) setCollectionState(local.collection);
-          if (local.shipping) setShippingState(local.shipping);
+        if (local.products) setProducts(local.products);
+        if (local.collection) setCollectionState(local.collection);
         }
       }
     })();
@@ -134,11 +123,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (dbReady) {
-      persist({ products, collection, shipping });
+      persist({ products, collection });
     } else {
-      saveData({ products, collection, shipping });
+      saveData({ products, collection });
     }
-  }, [products, collection, shipping, dbReady, persist]);
+  }, [products, collection, dbReady, persist]);
 
   const addProduct = (p: Product) => {
     setProducts((prev) => [...prev, p]);
@@ -158,17 +147,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
   };
 
   const setCollection = (c: Collection) => setCollectionState(c);
-  const setShipping = (s: ShippingConfig) => setShippingState(s);
 
   const clearProducts = () => setProducts([]);
   const clearAllData = () => {
     setProducts([]);
     setCollectionState(defaultCollection);
-    setShippingState(defaultShipping);
     setCategories(defaultCategories.filter((c) => c.name === 'All'));
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
     if (dbReady) {
-      persist({ products: [], collection: defaultCollection, shipping: defaultShipping });
+      persist({ products: [], collection: defaultCollection });
     }
   };
 
@@ -177,7 +164,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
       products, addProduct, updateProduct, deleteProduct,
       categories, addCategory,
       collection, setCollection,
-      shipping, setShipping,
       dbReady, clearProducts, clearAllData,
     }}>
       {children}

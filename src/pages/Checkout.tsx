@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import { useData } from '../context/DataContext'
 import { useLang } from '../context/LangContext'
+import { getNovaPoshtaPrice, estimateWeight } from '../lib/pricing'
 
 export function Checkout() {
   const navigate = useNavigate()
   const { items, totalPrice, clearCart } = useCart()
-  const { shipping: shippingConfig } = useData()
   const { t } = useLang()
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -16,7 +15,8 @@ export function Checkout() {
   const [submitting, setSubmitting] = useState(false)
 
   const subtotal = totalPrice
-  const shipping = subtotal >= shippingConfig.freeShippingThreshold ? 0 : shippingConfig.novaPoshtaPrice
+  const weight = estimateWeight(items.length)
+  const shipping = getNovaPoshtaPrice(weight)
   const total = subtotal + shipping
 
   const handleSubmit = async (e: React.FormEvent) => {

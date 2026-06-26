@@ -16,7 +16,6 @@ import { Products } from './pages/Products';
 import { Favorites } from './pages/Favorites';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { AdminOrders } from './pages/admin/Orders';
-import { AdminShipping } from './pages/admin/Shipping';
 import { AdminUsers } from './pages/admin/Users';
 import { AdminData } from './pages/admin/Data';
 import { AdminProducts } from './pages/admin/Products';
@@ -46,7 +45,6 @@ export default function App() {
                 <Route path="/admin/photos" element={<AdminPhotos />} />
                 <Route path="/admin/collection" element={<AdminCollection />} />
                 <Route path="/admin/orders" element={<AdminOrders />} />
-                <Route path="/admin/shipping" element={<AdminShipping />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
                 <Route path="/admin/data" element={<AdminData />} />
               </Routes>

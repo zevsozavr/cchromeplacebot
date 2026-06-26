@@ -34,11 +34,6 @@ export interface Collection {
   tag: string;
 }
 
-export interface ShippingConfig {
-  novaPoshtaPrice: number;
-  freeShippingThreshold: number;
-}
-
 export interface Order {
   id: string;
   items: { name: string; price: number; quantity: number; selectedSize: string; selectedColor: string }[];
