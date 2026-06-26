@@ -65,7 +65,6 @@ export function AdminProducts() {
   const [subcategory, setSubcategory] = useState('');
   const [price, setPrice] = useState('');
   const [imageDataUrls, setImageDataUrls] = useState<string[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>(['']);
   const [description, setDescription] = useState('');
   const [condition, setCondition] = useState('New');
   const [selectedSizes, setSelectedSizes] = useState<string[]>(['S', 'M', 'L']);
@@ -74,7 +73,6 @@ export function AdminProducts() {
   const [colorNameInput, setColorNameInput] = useState('');
   const [colorHexInput, setColorHexInput] = useState('#000000');
   const [sizeStock, setSizeStock] = useState<Record<string, number>>({ 'S': 5, 'M': 5, 'L': 5 });
-  const [activeImageTab, setActiveImageTab] = useState<'upload' | 'url'>('upload');
 
   if (!isAdmin) return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}><p>{t('admin.access.denied')}</p></div>;
 
@@ -96,22 +94,6 @@ export function AdminProducts() {
 
   const removeImageDataUrl = (index: number) => {
     setImageDataUrls((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const addUrlField = () => {
-    setImageUrls((prev) => [...prev, '']);
-  };
-
-  const updateUrlField = (index: number, value: string) => {
-    setImageUrls((prev) => {
-      const next = [...prev];
-      next[index] = value;
-      return next;
-    });
-  };
-
-  const removeUrlField = (index: number) => {
-    setImageUrls((prev) => prev.filter((_, i) => i !== index));
   };
 
   const toggleSize = (size: string) => {
@@ -158,11 +140,10 @@ export function AdminProducts() {
 
   const resetForm = () => {
     setName(''); setCategory(''); setNewCategory(''); setSubcategory(''); setPrice('');
-    setImageDataUrls([]); setImageUrls(['']); setDescription(''); setCondition('New');
+    setImageDataUrls([]); setDescription(''); setCondition('New');
     setSelectedSizes(['S', 'M', 'L']); setCustomSize('');
     setColors([{ name: 'Default', hex: '#000000' }]); setColorNameInput(''); setColorHexInput('#000000');
     setSizeStock({ 'S': 5, 'M': 5, 'L': 5 });
-    setActiveImageTab('upload');
     setEditingId(null); setShowForm(false);
   };
 
@@ -170,8 +151,7 @@ export function AdminProducts() {
     setEditingId(p.id);
     setName(p.name); setCategory(p.category); setPrice(String(p.price));
     setSubcategory(p.subcategory || '');
-    setImageDataUrls([]);
-    setImageUrls(p.images && p.images.length > 0 ? p.images : [p.image]);
+    setImageDataUrls(p.images?.length ? p.images : (p.image ? [p.image] : []));
     setDescription(p.description || '');
     setCondition(p.condition || 'New');
     setSelectedSizes(p.sizes || ['One Size']);
@@ -180,10 +160,7 @@ export function AdminProducts() {
     setShowForm(true);
   };
 
-  const getFinalImages = (): string[] => {
-    const urls = imageUrls.filter(Boolean);
-    return [...imageDataUrls, ...urls];
-  };
+  const getFinalImages = (): string[] => imageDataUrls.filter(Boolean);
 
   const handleAdd = () => {
     if (!name || !price) return;
@@ -273,62 +250,66 @@ export function AdminProducts() {
             <div style={sectionStyle}>
               <span style={labelStyle}>{t('admin.product.photos')} <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>({t('admin.form.first_is_primary')})</span></span>
 
-              <div style={{ display: 'flex', gap: 0, marginBottom: 8 }}>
-                <button onClick={() => setActiveImageTab('upload')} style={{
-                  padding: '6px 16px', fontSize: 12, cursor: 'pointer', border: '1px solid var(--glass-border)',
-                  background: activeImageTab === 'upload' ? '#22c55e' : 'var(--glass-bg)', color: activeImageTab === 'upload' ? '#001f2e' : '#9ca3af',
-                  borderRadius: 'var(--rounded-md) 0 0 var(--rounded-md)', fontWeight: 600, transition: 'all 0.15s',
-                }}>{t('admin.form.upload')}</button>
-                <button onClick={() => setActiveImageTab('url')} style={{
-                  padding: '6px 16px', fontSize: 12, cursor: 'pointer', border: '1px solid var(--glass-border)',
-                  background: activeImageTab === 'url' ? '#22c55e' : 'var(--glass-bg)', color: activeImageTab === 'url' ? '#001f2e' : '#9ca3af',
-                  borderRadius: '0 var(--rounded-md) var(--rounded-md) 0', fontWeight: 600, transition: 'all 0.15s',
-                }}>{t('admin.form.url')}</button>
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                style={{
+                  border: '2px dashed rgba(34,197,94,0.3)',
+                  borderRadius: 16,
+                  padding: '32px 16px',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  background: 'rgba(34,197,94,0.03)',
+                  transition: 'background 0.15s',
+                  marginBottom: imageDataUrls.length > 0 ? 12 : 0,
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(34,197,94,0.08)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(34,197,94,0.03)'}
+              >
+                <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFilesChange} style={{ display: 'none' }} />
+                <span className="material-symbols-outlined" style={{ fontSize: 36, color: '#22c55e', marginBottom: 8, display: 'block' }}>add_photo_alternate</span>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#22c55e', margin: 0 }}>{t('admin.form.upload')}</p>
+                <p style={{ fontSize: 12, color: '#6b7280', margin: '4px 0 0' }}>PNG, JPG — до 10 фото</p>
               </div>
 
-              {activeImageTab === 'upload' && (
-                <div>
-                  <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFilesChange}
-                    style={{ width: '100%', font: 'var(--font-body)', marginBottom: 8 }} />
-                  {imageDataUrls.length > 0 && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
-                      {imageDataUrls.map((url, i) => (
-                        <div key={i} style={{ position: 'relative', width: 64, height: 80, borderRadius: 'var(--rounded-md)', overflow: 'hidden', border: i === 0 ? '2px solid #22c55e' : '1px solid var(--glass-border)' }}>
-                          <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <button onClick={() => removeImageDataUrl(i)} style={{ position: 'absolute', top: 2, right: 2, width: 18, height: 18, borderRadius: '50%', background: 'rgba(0,0,0,0.6)', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, fontSize: 12, lineHeight: 1 }}>×</button>
-                          {i === 0 && <span style={{ position: 'absolute', bottom: 2, left: 2, fontSize: 8, background: '#22c55e', color: '#001f2e', padding: '0 4px', borderRadius: 4, fontWeight: 700 }}>1st</span>}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {activeImageTab === 'url' && (
-                <div>
-                  {imageUrls.map((url, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
-                      <input placeholder={`${t('admin.product.photo.placeholder')} #${i + 1}`} value={url} onChange={(e) => updateUrlField(i, e.target.value)}
-                        style={{ ...inputStyle, flex: 1 }} />
-                      {imageUrls.length > 1 && (
-                        <button onClick={() => removeUrlField(i)} style={{ color: '#ef4444', cursor: 'pointer', background: 'none', border: 'none', padding: '0 4px' }}>
-                          <Icon name="delete" style={{ fontSize: 18 }} />
-                        </button>
+              {imageDataUrls.length > 0 && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+                  {imageDataUrls.map((url, i) => (
+                    <div key={i} style={{ position: 'relative', aspectRatio: '4/5', borderRadius: 12, overflow: 'hidden', border: i === 0 ? '2px solid #22c55e' : '1px solid rgba(255,255,255,0.08)', background: '#0f1524' }}>
+                      <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <button
+                        onClick={() => removeImageDataUrl(i)}
+                        style={{
+                          position: 'absolute', top: 4, right: 4,
+                          width: 24, height: 24, borderRadius: '50%',
+                          background: 'rgba(0,0,0,0.6)',
+                          backdropFilter: 'blur(4px)',
+                          border: 'none', color: '#fff', cursor: 'pointer',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          padding: 0, fontSize: 16,
+                        }}
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: 14 }}>close</span>
+                      </button>
+                      {i === 0 && (
+                        <span style={{
+                          position: 'absolute', bottom: 4, left: 4,
+                          fontSize: 9, fontWeight: 700,
+                          background: '#22c55e', color: '#001f2e',
+                          padding: '1px 6px', borderRadius: 6,
+                        }}>{t('admin.form.primary')}</span>
+                      )}
+                      {imageDataUrls.length > 1 && i > 0 && (
+                        <div style={{
+                          position: 'absolute', top: 4, left: 4,
+                          width: 22, height: 22, borderRadius: '50%',
+                          background: 'rgba(0,0,0,0.5)',
+                          backdropFilter: 'blur(4px)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: 10, fontWeight: 700, color: '#fff',
+                        }}>{i + 1}</div>
                       )}
                     </div>
                   ))}
-                  <button onClick={addUrlField} style={{ background: 'none', border: '1px dashed var(--glass-border)', color: '#22c55e', cursor: 'pointer', padding: '6px 12px', borderRadius: 'var(--rounded-md)', fontSize: 12, width: '100%', marginTop: 4 }}>
-                    + {t('admin.form.add_photo')}
-                  </button>
-                  {imageUrls.filter(Boolean).length > 0 && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
-                      {imageUrls.filter(Boolean).map((url, i) => (
-                        <div key={i} style={{ position: 'relative', width: 48, height: 60, borderRadius: 'var(--rounded-md)', overflow: 'hidden', border: i === 0 && imageDataUrls.length === 0 ? '2px solid #22c55e' : '1px solid var(--glass-border)' }}>
-                          <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
               )}
             </div>
