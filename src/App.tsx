@@ -17,6 +17,8 @@ import { Favorites } from './pages/Favorites';
 import { AdminDashboard } from './pages/admin/Dashboard';
 import { AdminOrders } from './pages/admin/Orders';
 import { AdminShipping } from './pages/admin/Shipping';
+import { AdminUsers } from './pages/admin/Users';
+import { AdminData } from './pages/admin/Data';
 import { AdminProducts } from './pages/admin/Products';
 import { AdminPhotos } from './pages/admin/Photos';
 import { AdminCollection } from './pages/admin/Collection';
@@ -45,6 +47,8 @@ export default function App() {
                 <Route path="/admin/collection" element={<AdminCollection />} />
                 <Route path="/admin/orders" element={<AdminOrders />} />
                 <Route path="/admin/shipping" element={<AdminShipping />} />
+                <Route path="/admin/users" element={<AdminUsers />} />
+                <Route path="/admin/data" element={<AdminData />} />
               </Routes>
               <MiniCart />
             </LangProvider>

@@ -25,6 +25,8 @@ export function AdminDashboard() {
     { label: t('admin.collection'), value: '', icon: 'auto_awesome', path: '/admin/collection', color: '#22c55e' },
     { label: t('admin.orders'), value: '', icon: 'receipt_long', path: '/admin/orders', color: '#22c55e' },
     { label: t('admin.shipping'), value: '', icon: 'local_shipping', path: '/admin/shipping', color: '#22c55e' },
+    { label: t('admin.users'), value: '', icon: 'people', path: '/admin/users', color: '#22c55e' },
+    { label: t('admin.data'), value: '', icon: 'delete_sweep', path: '/admin/data', color: '#ff6b6b' },
   ];
 
   return (

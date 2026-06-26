@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import type { Product, Category, Collection, ShippingConfig } from '../types';
 
 const STORAGE_KEY = 'cchrome_data';
+const API_BASE = '/api';
 
 interface StoredData {
   products: Product[];
@@ -20,6 +21,9 @@ interface DataContextValue {
   setCollection: (c: Collection) => void;
   shipping: ShippingConfig;
   setShipping: (s: ShippingConfig) => void;
+  dbReady: boolean;
+  clearProducts: () => void;
+  clearAllData: () => void;
 }
 
 const defaultCategories: Category[] = [
@@ -74,7 +78,8 @@ function getNextCategoryId(): string {
 const DataContext = createContext<DataContextValue | null>(null);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const saved = loadData();
+  const [dbReady, setDbReady] = useState(false);
+  const saved = !dbReady ? loadData() : null;
 
   const [products, setProducts] = useState<Product[]>(saved?.products || defaultProducts);
   const [collection, setCollectionState] = useState<Collection>(saved?.collection || defaultCollection);
@@ -91,9 +96,49 @@ export function DataProvider({ children }: { children: ReactNode }) {
     return extra.length > 1 ? extra : defaultCategories;
   });
 
+  // Load from DB on mount
   useEffect(() => {
-    saveData({ products, collection, shipping });
-  }, [products, collection]);
+    (async () => {
+      try {
+        const res = await fetch(`${API_BASE}/data`);
+        if (!res.ok) throw new Error('DB not available');
+        const dbData = await res.json();
+        if (dbData.products) setProducts(dbData.products);
+        if (dbData.collection) setCollectionState(dbData.collection);
+        if (dbData.shipping) setShippingState(dbData.shipping);
+        setDbReady(true);
+      } catch {
+        setDbReady(false);
+        const local = loadData();
+        if (local) {
+          if (local.products) setProducts(local.products);
+          if (local.collection) setCollectionState(local.collection);
+          if (local.shipping) setShippingState(local.shipping);
+        }
+      }
+    })();
+  }, []);
+
+  // Persist to DB or localStorage on changes
+  const persist = useCallback(async (data: StoredData) => {
+    try {
+      await fetch(`${API_BASE}/data`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } catch {
+      saveData(data);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dbReady) {
+      persist({ products, collection, shipping });
+    } else {
+      saveData({ products, collection, shipping });
+    }
+  }, [products, collection, shipping, dbReady, persist]);
 
   const addProduct = (p: Product) => {
     setProducts((prev) => [...prev, p]);
@@ -115,7 +160,29 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const setCollection = (c: Collection) => setCollectionState(c);
   const setShipping = (s: ShippingConfig) => setShippingState(s);
 
-  return <DataContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, categories, addCategory, collection, setCollection, shipping, setShipping }}>{children}</DataContext.Provider>;
+  const clearProducts = () => setProducts([]);
+  const clearAllData = () => {
+    setProducts([]);
+    setCollectionState(defaultCollection);
+    setShippingState(defaultShipping);
+    setCategories(defaultCategories.filter((c) => c.name === 'All'));
+    try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    if (dbReady) {
+      persist({ products: [], collection: defaultCollection, shipping: defaultShipping });
+    }
+  };
+
+  return (
+    <DataContext.Provider value={{
+      products, addProduct, updateProduct, deleteProduct,
+      categories, addCategory,
+      collection, setCollection,
+      shipping, setShipping,
+      dbReady, clearProducts, clearAllData,
+    }}>
+      {children}
+    </DataContext.Provider>
+  );
 }
 
 export function useData() {

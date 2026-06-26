@@ -36,10 +36,25 @@ export function Checkout() {
       status: 'new',
     }
 
+    // Save order to localStorage + DB
     try {
       const existing = JSON.parse(localStorage.getItem('plugstreet_orders') || '[]')
       existing.push(order)
       localStorage.setItem('plugstreet_orders', JSON.stringify(existing))
+    } catch {}
+
+    // Sync order to database
+    try {
+      const res = await fetch('/api/data')
+      if (res.ok) {
+        const dbData = await res.json()
+        const orders = [...(dbData.orders || []), order]
+        await fetch('/api/data', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...dbData, orders }),
+        })
+      }
     } catch {}
 
     try {
