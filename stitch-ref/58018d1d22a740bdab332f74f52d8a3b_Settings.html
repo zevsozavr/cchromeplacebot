@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELITE Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#fcba5e",
+                    "inverse-on-surface": "#283044",
+                    "on-tertiary-fixed": "#2a1800",
+                    "surface-variant": "#2d3449",
+                    "on-tertiary": "#452b00",
+                    "on-secondary-fixed": "#001e2c",
+                    "outline": "#899298",
+                    "surface": "#0b1326",
+                    "surface-container-highest": "#2d3449",
+                    "on-primary-fixed-variant": "#004d66",
+                    "tertiary": "#ffdfba",
+                    "on-surface-variant": "#bec8ce",
+                    "tertiary-fixed": "#ffddb5",
+                    "on-secondary-fixed-variant": "#004c69",
+                    "on-primary-container": "#005b78",
+                    "surface-container-lowest": "#060e20",
+                    "on-background": "#dae2fd",
+                    "primary-fixed": "#c0e8ff",
+                    "inverse-surface": "#dae2fd",
+                    "on-tertiary-fixed-variant": "#633f00",
+                    "primary-container": "#7dd3fc",
+                    "on-tertiary-container": "#754b00",
+                    "surface-container": "#171f33",
+                    "on-primary-fixed": "#001e2b",
+                    "inverse-primary": "#006686",
+                    "secondary-fixed": "#c4e7ff",
+                    "surface-container-high": "#222a3d",
+                    "tertiary-container": "#febc60",
+                    "surface-bright": "#31394d",
+                    "on-secondary-container": "#00374d",
+                    "on-error": "#690005",
+                    "secondary-container": "#00a6e0",
+                    "on-secondary": "#00354a",
+                    "primary": "#c5eaff",
+                    "background": "#0b1326",
+                    "surface-dim": "#0b1326",
+                    "primary-fixed-dim": "#7bd1fa",
+                    "secondary": "#7bd0ff",
+                    "outline-variant": "#3f484e",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-low": "#131b2e",
+                    "on-surface": "#dae2fd",
+                    "error-container": "#93000a",
+                    "surface-tint": "#7bd1fa",
+                    "error": "#ffb4ab",
+                    "on-primary": "#003547",
+                    "secondary-fixed-dim": "#7bd0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "gutter": "16px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-base": ["Inter"],
+                    "label-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-base": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        }
+        .glass-glow {
+            position: relative;
+        }
+        .glass-glow::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(135deg, rgba(197, 234, 255, 0.2), transparent 40%);
+            z-index: -1;
+            border-radius: inherit;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Toggle Styling */
+        .toggle-checkbox:checked {
+            right: 0;
+            background-color: #c5eaff;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #005b78;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+<!-- Background Shader -->
+<!-- STITCH_SHADER_START:ANIMATION_8 class="fixed inset-0 w-full h-full -z-10 opacity-40" -->
+<div class="fixed inset-0 w-full h-full -z-10 opacity-40" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_8" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_8');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = v_texCoord;
+    float time = u_time * 0.2;
+    
+    // Create organic movement using sine waves
+    float noise = sin(uv.x * 3.0 + time) * cos(uv.y * 2.0 - time);
+    noise += sin(uv.y * 5.0 + time * 1.5) * 0.5;
+    
+    // Base dark blue/black
+    vec3 color1 = vec3(0.02, 0.05, 0.1); 
+    // Icy blue highlight
+    vec3 color2 = vec3(0.49, 0.83, 0.99);
+    
+    vec3 finalColor = mix(color1, color2, noise * 0.15 + 0.1);
+    
+    // Add a slight vignette
+    float vignette = 1.0 - length(uv - 0.5) * 0.7;
+    
+    gl_FragColor = vec4(finalColor * vignette, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_8 -->
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-container-padding h-16">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform" data-icon="menu">menu</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-primary">ELITE</h1>
+</div>
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform" data-icon="shopping_bag">shopping_bag</button>
+</header>
+<main class="pt-24 px-container-padding space-y-gutter">
+<!-- Title -->
+<div class="mb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface">Settings</h2>
+</div>
+<!-- Profile Card -->
+<section class="glass-panel glass-glow rounded-xl p-stack-md flex items-center space-x-stack-md">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-primary/20 shrink-0">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a sophisticated young executive with short dark hair, wearing a high-tech minimalist white jacket. The background is a soft, out-of-focus arctic landscape with deep navy and ice blue tones. High-end editorial lighting creates sharp highlights and deep, clean shadows, perfectly matching the Glacier luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBAgzsK3rOy7SsDy9zQ3z14RwVX_6fEgkc029rh8S8xmUF6ov46J-G_hm9_mjyHNsFtSl9uatsiENJZ_KJ6cw7POB3UKrcGDue84fLWe7qrt5615wLkOIgiaxZQCQTB9wg8BdBmedI0dmf1Fzz96luglMAc2wUUTcuFPo1d2labgiBLot5iCb-vL-_U5Tk5vlxU3GqhIzRSUSiwxfqUB6xIpufrPrndgPtFxX4NsGc_F_RaLeIbZR516cGKyX9KvtzqFqQgS_TIvq6"/>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-md text-[18px] leading-tight text-primary">Julian Vane</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">julian.vane@elite.tech</p>
+<div class="mt-2 inline-flex items-center px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">
+<span class="font-label-sm text-[10px] uppercase tracking-widest text-primary">Pro Member</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant" data-icon="edit">edit</button>
+</section>
+<!-- Theme Settings Section -->
+<section class="space-y-stack-sm">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-[0.2em] px-1">Interface</h4>
+<div class="glass-panel rounded-xl p-stack-md flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary" data-icon="light_mode">light_mode</span>
+<span class="font-body-base text-body-base text-on-surface">White Theme</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-transparent transition-all duration-300 right-6 checked:right-0" id="toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-300" for="toggle"></label>
+</div>
+</div>
+</section>
+<!-- General Links -->
+<section class="space-y-stack-sm">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-[0.2em] px-1">Account &amp; Support</h4>
+<div class="glass-panel rounded-xl overflow-hidden">
+<!-- Order History -->
+<button class="w-full flex items-center justify-between p-stack-md hover:bg-white/5 transition-colors group active:scale-[0.98]">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary" data-icon="history">history</span>
+<span class="font-body-base text-body-base text-on-surface">Order History</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+<div class="h-[1px] bg-white/5 mx-stack-md"></div>
+<!-- Contact Support -->
+<button class="w-full flex items-center justify-between p-stack-md hover:bg-white/5 transition-colors group active:scale-[0.98]">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary" data-icon="support_agent">support_agent</span>
+<span class="font-body-base text-body-base text-on-surface">Contact Support</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Security Section -->
+<section class="space-y-stack-sm">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-[0.2em] px-1">Privacy</h4>
+<div class="glass-panel rounded-xl p-stack-md flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary" data-icon="fingerprint">fingerprint</span>
+<span class="font-body-base text-body-base text-on-surface">Biometric Login</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-transparent transition-all duration-300 right-6 checked:right-0" id="toggle-bio" name="toggle-bio" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-300" for="toggle-bio"></label>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="pt-4">
+<button class="w-full py-4 rounded-xl border border-error/30 text-error font-body-base text-body-base flex items-center justify-center space-x-2 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</button>
+<p class="mt-8 text-center font-label-sm text-label-sm text-on-surface-variant/40">ELITE VERSION 4.2.0-GLACIER</p>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 flex justify-around items-center px-8 pb-6 pt-2">
+<!-- Storefront -->
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+</a>
+<!-- Local Mall (Cart) -->
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="local_mall">local_mall</span>
+</a>
+<!-- Settings (Active) -->
+<a class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(123,209,250,0.3)] active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for theme toggle
+        const toggle = document.getElementById('toggle');
+        toggle.addEventListener('change', function() {
+            if(this.checked) {
+                // Future implementation: document.documentElement.classList.remove('dark');
+                console.log('White theme requested - Aesthetic validation pending.');
+            } else {
+                // document.documentElement.classList.add('dark');
+            }
+        });
+
+        // Add subtle parallax to the background on tilt (if supported)
+        window.addEventListener('deviceorientation', (event) => {
+            const shader = document.querySelector('webgl-shader');
+            if(shader) {
+                const x = event.beta / 45; // range ~ -2 to 2
+                const y = event.gamma / 45;
+                shader.style.transform = `scale(1.1) translate(${y * 10}px, ${x * 10}px)`;
+            }
+        });
+    </script>
+</body></html>

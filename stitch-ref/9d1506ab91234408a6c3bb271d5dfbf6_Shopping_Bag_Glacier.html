@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping Bag - ELITE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#fcba5e",
+                        "inverse-on-surface": "#283044",
+                        "on-tertiary-fixed": "#2a1800",
+                        "surface-variant": "#2d3449",
+                        "on-tertiary": "#452b00",
+                        "on-secondary-fixed": "#001e2c",
+                        "outline": "#899298",
+                        "surface": "#0b1326",
+                        "surface-container-highest": "#2d3449",
+                        "on-primary-fixed-variant": "#004d66",
+                        "tertiary": "#ffdfba",
+                        "on-surface-variant": "#bec8ce",
+                        "tertiary-fixed": "#ffddb5",
+                        "on-secondary-fixed-variant": "#004c69",
+                        "on-primary-container": "#005b78",
+                        "surface-container-lowest": "#060e20",
+                        "on-background": "#dae2fd",
+                        "primary-fixed": "#c0e8ff",
+                        "inverse-surface": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#633f00",
+                        "primary-container": "#7dd3fc",
+                        "on-tertiary-container": "#754b00",
+                        "surface-container": "#171f33",
+                        "on-primary-fixed": "#001e2b",
+                        "inverse-primary": "#006686",
+                        "secondary-fixed": "#c4e7ff",
+                        "surface-container-high": "#222a3d",
+                        "tertiary-container": "#febc60",
+                        "surface-bright": "#31394d",
+                        "on-secondary-container": "#00374d",
+                        "on-error": "#690005",
+                        "secondary-container": "#00a6e0",
+                        "on-secondary": "#00354a",
+                        "primary": "#7dd3fc",
+                        "background": "#0b1326",
+                        "surface-dim": "#0b1326",
+                        "primary-fixed-dim": "#7bd1fa",
+                        "secondary": "#7bd0ff",
+                        "outline-variant": "#3f484e",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#131b2e",
+                        "on-surface": "#dae2fd",
+                        "error-container": "#93000a",
+                        "surface-tint": "#7bd1fa",
+                        "error": "#ffb4ab",
+                        "on-primary": "#003547",
+                        "secondary-fixed-dim": "#7bd0ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "64px",
+                        "md": "16px",
+                        "container-margin": "20px",
+                        "gutter": "12px",
+                        "xs": "4px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xl": "40px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(125, 211, 252, 0.3);
+            border-radius: 4px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Background Shader Canvas -->
+<div class="fixed inset-0 w-full h-full z-0 opacity-40" style="display:block;">
+<canvas id="shader-canvas" style="display:block;width:100%;height:100%"></canvas>
+<script>
+    (function() {
+      const canvas = document.getElementById('shader-canvas');
+      function syncSize() {
+        const w = canvas.clientWidth || 1280;
+        const h = canvas.clientHeight || 720;
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width = w;
+          canvas.height = h;
+        }
+      }
+      if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(syncSize).observe(canvas);
+      }
+      syncSize();
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) return;
+      const vs = `attribute vec2 a_position; varying vec2 v_texCoord; void main() { v_texCoord = a_position * 0.5 + 0.5; gl_Position = vec4(a_position, 0.0, 1.0); }`;
+      const fs = `precision highp float; varying vec2 v_texCoord; uniform float u_time; void main() { vec2 uv = v_texCoord; float noise = sin(uv.x * 3.0 + u_time * 0.2) * cos(uv.y * 2.0 - u_time * 0.2); noise += sin(uv.y * 5.0 + u_time * 0.3) * 0.5; vec3 color1 = vec3(0.02, 0.05, 0.1); vec3 color2 = vec3(0.49, 0.83, 0.99); vec3 finalColor = mix(color1, color2, noise * 0.15 + 0.1); float vignette = 1.0 - length(uv - 0.5) * 0.7; gl_FragColor = vec4(finalColor * vignette, 1.0); }`;
+      function cs(type, src) { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+      const prog = gl.createProgram();
+      gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+      gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+      gl.linkProgram(prog);
+      gl.useProgram(prog);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+      const pos = gl.getAttribLocation(prog, 'a_position');
+      gl.enableVertexAttribArray(pos);
+      gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+      const uTime = gl.getUniformLocation(prog, 'u_time');
+      function render(t) {
+        if (typeof ResizeObserver === 'undefined') syncSize();
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        if (uTime) gl.uniform1f(uTime, t * 0.001);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        requestAnimationFrame(render);
+      }
+      render(0);
+    })();
+    </script>
+</div>
+<!-- Header -->
+<header class="flex justify-between items-center px-container-margin w-full h-16 sticky top-0 z-[60] bg-surface/40 backdrop-blur-xl border-b border-white/10">
+<div class="flex-none">
+<button class="flex items-center justify-center p-sm hover:opacity-80 active:scale-95 transition-all text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="flex-grow flex justify-center">
+<span class="font-headline-md text-headline-md text-primary tracking-tighter uppercase">ELITE</span>
+</div>
+<div class="flex-none">
+<button class="flex items-center justify-center p-sm hover:opacity-80 active:scale-95 transition-all text-primary relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary-container rounded-full"></span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="relative z-10 flex-grow flex flex-col px-container-margin py-xl w-full max-w-4xl mx-auto space-y-xl pb-32">
+<!-- Page Title -->
+<div class="text-center">
+<h1 class="font-display-lg text-display-lg text-on-surface">Your Bag</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-sm">2 items selected</p>
+</div>
+<!-- Cart Items List -->
+<div class="flex flex-col space-y-md">
+<!-- Item 1 -->
+<div class="glass-card flex items-stretch gap-md p-md rounded-2xl">
+<div class="w-24 h-32 flex-none bg-surface-container-low rounded-xl overflow-hidden relative border border-white/5">
+<img class="w-full h-full object-cover" data-alt="A minimalist, high-end fashion editorial photograph of a tailored linen blazer in an elegant neutral tone." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbQEb-SS9Kyu8w-dLl4etlD0wWos7XJio2v2XiYBM8PCBZZMrKg9emi08L1ck_pdygUoPoNeFNg0Ed1geCrcmWT0KE_o8x9vzMuMLfhfWZEISHop0oPEvbSuN1uM_5SlGLxMdSVPu9_X4ATl0OGDoy2F0kmyGosD_pkxdAZZYPLOyUEc763nWfHbnDT-KgPa_K3XpYtlY7K-OoXUGMCNkggr1nmZ74Si8jOBf98CsUmRpBLxhZYX59Jm1UdbO8urx88PIha6Gh37eI"/>
+</div>
+<div class="flex flex-col flex-grow justify-between py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h2 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Structured Linen Blazer</h2>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-xs -mr-xs -mt-xs">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Oatmeal / Size M</p>
+</div>
+<div class="flex justify-between items-end mt-lg">
+<div class="flex items-center glass-panel rounded-full px-1">
+<button class="px-sm py-xs text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">remove</span></button>
+<span class="font-body-md text-body-md w-8 text-center text-on-surface">1</span>
+<button class="px-sm py-xs text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">add</span></button>
+</div>
+<span class="font-label-lg text-label-lg text-primary">$450.00</span>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="glass-card flex items-stretch gap-md p-md rounded-2xl">
+<div class="w-24 h-32 flex-none bg-surface-container-low rounded-xl overflow-hidden relative border border-white/5">
+<img class="w-full h-full object-cover" data-alt="A detailed, premium close-up shot of a leather tote bag resting on a marble surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvOeTDxJFOxTfzZpv98vakqcNJka3GH_tV96-pTH53bYJAEXZvm8Cp1URsS0JgdexdQDi7k4DUjvJKKMrV1d_aYskFvc3x_soVA2bnawrzPTTtiGDxstNyb-sHMXX1uq667raxF9MPFODuUpPRc3YofTaG5pwzfyywii3iOW0BkQfXrTveKgvmROpZeN8OP5Kw6DL5l388EDHylr9z3lNr7Ropj9OZKCJD6figvURFA_-BlCW_aisdGLv7NjWMI1s2fahXQMQfGoWr"/>
+</div>
+<div class="flex flex-col flex-grow justify-between py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h2 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Signature Leather Tote</h2>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-xs -mr-xs -mt-xs">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Cognac / One Size</p>
+</div>
+<div class="flex justify-between items-end mt-lg">
+<div class="flex items-center glass-panel rounded-full px-1">
+<button class="px-sm py-xs text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">remove</span></button>
+<span class="font-body-md text-body-md w-8 text-center text-on-surface">1</span>
+<button class="px-sm py-xs text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">add</span></button>
+</div>
+<span class="font-label-lg text-label-lg text-primary">$890.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Summary Section -->
+<div class="glass-card p-lg rounded-2xl space-y-md mt-auto">
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-widest border-b border-white/10 pb-sm">Order Summary</h3>
+<div class="flex justify-between items-center text-on-surface-variant font-body-md text-body-md">
+<span>Subtotal</span>
+<span class="text-on-surface">$1,340.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant font-body-md text-body-md">
+<span>Shipping</span>
+<span class="text-on-surface">Calculated at checkout</span>
+</div>
+<div class="flex justify-between items-center text-primary font-headline-md text-headline-md pt-sm border-t border-white/10">
+<span>Total</span>
+<span>$1,340.00</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-lg text-label-lg uppercase py-4 rounded-full hover:opacity-90 active:scale-[0.98] transition-all mt-lg flex items-center justify-center gap-sm shadow-[0_0_20px_rgba(125,211,252,0.3)]">
+            Chat with Seller to Buy
+            <span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Glacier Style) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 rounded-t-2xl">
+<!-- Storefront -->
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">storefront</span>
+</a>
+<!-- Bag (Active) -->
+<a class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(125,211,252,0.3)] active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+</a>
+<!-- Settings/Profile -->
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+<style>
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        nav {
+            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+        }
+        main {
+            padding-bottom: calc(8rem + env(safe-area-inset-bottom));
+        }
+    }
+</style>
+</body></html>

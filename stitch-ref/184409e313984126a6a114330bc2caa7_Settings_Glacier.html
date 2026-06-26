@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELITE - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#0a4c6e",
+                    "on-secondary-fixed-variant": "#2a4a5e",
+                    "on-tertiary-fixed-variant": "#4d2a73",
+                    "on-primary-fixed-variant": "#004d73",
+                    "surface-container": "#141c2e",
+                    "secondary": "#88b4cc",
+                    "surface-variant": "#1a2438",
+                    "surface-container-lowest": "#0a0e1a",
+                    "tertiary-fixed-dim": "#c8a0f0",
+                    "surface-container-highest": "#202c42",
+                    "primary-fixed": "#c8eaff",
+                    "on-tertiary": "#1a002e",
+                    "tertiary": "#c8a0f0",
+                    "on-background": "#e0e8f0",
+                    "surface": "#0f1524",
+                    "on-error-container": "#ffb3b3",
+                    "tertiary-container": "#3d2060",
+                    "inverse-surface": "#e0e8f0",
+                    "inverse-on-surface": "#0a0e1a",
+                    "on-secondary": "#001f2e",
+                    "error-container": "#3d1414",
+                    "on-primary-fixed": "#001f2e",
+                    "on-error": "#1a0000",
+                    "secondary-container": "#1a3a4e",
+                    "surface-dim": "#0f1524",
+                    "primary-fixed-dim": "#7dd3fc",
+                    "outline-variant": "#2a3a48",
+                    "on-primary-container": "#c8eaff",
+                    "on-secondary-container": "#c0d8e8",
+                    "on-tertiary-container": "#e8d0ff",
+                    "error": "#ff6b6b",
+                    "on-surface-variant": "#a0b4c4",
+                    "on-surface": "#e0e8f0",
+                    "primary-container": "#0e4d6e",
+                    "secondary-fixed-dim": "#88b4cc",
+                    "outline": "#4a6070",
+                    "on-secondary-fixed": "#0d1f2b",
+                    "tertiary-fixed": "#e8d0ff",
+                    "primary": "#7dd3fc",
+                    "surface-tint": "#7dd3fc",
+                    "secondary-fixed": "#c0d8e8",
+                    "background": "#0a0e1a",
+                    "surface-container-high": "#1a2438",
+                    "surface-container-low": "#111828",
+                    "on-tertiary-fixed": "#1a002e",
+                    "on-primary": "#001f2e",
+                    "surface-bright": "#1a2438"
+            },
+            "padding": {
+              "container-padding": "1.5rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter", "sans-serif"],
+                    "display": ["Inter", "sans-serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0e1a;
+            color: #e0e8f0;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glacier-card {
+            background: rgba(15, 21, 36, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.1);
+        }
+        .glacier-card-elevated {
+            background: rgba(15, 21, 36, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen max-w-[390px] mx-auto overflow-x-hidden pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full bg-surface/40 backdrop-blur-xl flex justify-between items-center px-6 h-16 border-b border-white/10 z-50 max-w-[390px]">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="menu">menu</span>
+<h1 class="font-display text-2xl font-extrabold tracking-tighter text-primary">ELITE</h1>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" data-icon="shopping_bag">shopping_bag</span>
+</header>
+<main class="pt-24 px-6 space-y-8 relative">
+<!-- Animated Background Ornament -->
+
+<!-- Profile Section -->
+<section class="relative z-10 flex flex-col items-center">
+<div class="relative group">
+<div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-primary to-tertiary">
+<img class="w-full h-full rounded-full object-cover border-2 border-background" data-alt="A professional, high-fashion portrait of a man with sophisticated features and sharp style. He is wearing a minimalist navy blue designer turtleneck. The lighting is ethereal and high-contrast, characteristic of a luxury fashion brand's editorial look, set against a deep moody navy background with subtle lens flares and a cinematic glacier-cool aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQgWTDn1AOLBeOG7nsC6x99hSLOsWPijxFSHdPz0rrZoFeqm4v_ggd40azRvOrHZ4NlFLYUgEEjU1gmlKh677TmvIGmTQNfTpOIuPk3LdQLbCpPUpvTd8Hss1LfTK4u7V1dElHl0xhCWOy5GQgtj1zYnju4zZ-j4GyUG27KX4Q_XSWwNu2Xus_EzHREa1-PGIitfHY9SAwJ7b1eqAQAiUBmks-OhTKQ-aGw0dOjkJuskW1MtSH40rlaxc-h--dQgVpS7rwpfD0yJLL"/>
+</div>
+<button class="absolute bottom-0 right-0 p-2 glacier-card-elevated rounded-full text-primary active:scale-90 transition-all border border-primary/20">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+<div class="mt-4 text-center">
+<h2 class="text-2xl font-bold tracking-tight text-on-surface">Julian Vane</h2>
+<p class="text-on-surface-variant text-sm font-medium">julian.vane@elite.tech</p>
+</div>
+</section>
+<!-- Account Group -->
+<section class="space-y-3">
+<h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-primary opacity-70 px-1">Account Management</h3>
+<div class="glacier-card rounded-2xl overflow-hidden divide-y divide-white/5">
+<div class="flex items-center justify-between p-4 active:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+<span class="font-medium">Notifications</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 active:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+</div>
+<span class="font-medium">Shipping Addresses</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 active:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<span class="font-medium">Payment Methods</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 active:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-xl bg-primary/10 text-primary">
+<span class="material-symbols-outlined" data-icon="lock_open">lock_open</span>
+</div>
+<span class="font-medium">Password</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Preferences Group -->
+<section class="space-y-3">
+<h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-tertiary opacity-70 px-1">Preferences</h3>
+<div class="glacier-card rounded-2xl overflow-hidden divide-y divide-white/5">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-xl bg-tertiary/10 text-tertiary">
+<span class="material-symbols-outlined" data-icon="currency_exchange">currency_exchange</span>
+</div>
+<span class="font-medium">Currency</span>
+</div>
+<div class="flex items-center space-x-1 text-primary">
+<span class="text-sm font-bold">USD</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-xl bg-tertiary/10 text-tertiary">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</div>
+<span class="font-medium">Language</span>
+</div>
+<div class="flex items-center space-x-1 text-primary">
+<span class="text-sm font-bold">English</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Theme Toggle -->
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center rounded-xl bg-tertiary/10 text-tertiary">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</div>
+<span class="font-medium">Dark Mode</span>
+</div>
+<div class="w-12 h-6 bg-primary/20 rounded-full relative p-1 flex items-center cursor-pointer transition-all duration-300">
+<div class="w-4 h-4 bg-primary rounded-full absolute right-1 shadow-[0_0_10px_rgba(125,211,252,0.6)]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Support Group -->
+<section class="space-y-3">
+<h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant px-1">Support &amp; Legals</h3>
+<div class="glacier-card rounded-2xl overflow-hidden divide-y divide-white/5">
+<div class="flex items-center justify-between p-4 active:bg-white/5 transition-colors cursor-pointer">
+<span class="font-medium opacity-80">FAQ</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-50" data-icon="launch">launch</span>
+</div>
+<div class="flex items-center justify-between p-4 active:bg-white/5 transition-colors cursor-pointer">
+<span class="font-medium opacity-80">Contact Us</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-50" data-icon="mail">mail</span>
+</div>
+<div class="flex items-center justify-between p-4 active:bg-white/5 transition-colors cursor-pointer">
+<span class="font-medium opacity-80">Privacy Policy</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-50" data-icon="policy">policy</span>
+</div>
+<div class="flex items-center justify-between p-4 active:bg-white/5 transition-colors cursor-pointer">
+<span class="font-medium opacity-80">Terms of Service</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-50" data-icon="description">description</span>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="pt-4 pb-12 flex flex-col items-center space-y-6">
+<div class="text-center">
+<p class="text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">Version 4.2.0-GLACIER</p>
+<p class="text-[10px] text-primary/40 mt-1">ELITE LUXURY BOUTIQUE TM</p>
+</div>
+<button class="flex items-center space-x-2 px-10 py-3 rounded-full border border-error/30 bg-error/5 text-error font-bold tracking-tight active:scale-95 transition-all hover:bg-error/10">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span>Logout</span>
+</button>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 max-w-[390px] mx-auto">
+<!-- Storefront -->
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="storefront">storefront</span>
+</a>
+<!-- Bag -->
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="local_mall">local_mall</span>
+</a>
+<!-- Settings/Profile (ACTIVE) -->
+<a class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(123,209,250,0.3)] active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-2xl" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for glass surfaces
+        document.querySelectorAll('.glacier-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.borderColor = 'rgba(125, 211, 252, 0.4)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.borderColor = 'rgba(125, 211, 252, 0.1)';
+            });
+        });
+    </script>
+</body></html>

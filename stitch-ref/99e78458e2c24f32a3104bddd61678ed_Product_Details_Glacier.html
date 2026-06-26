@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Elite - Product Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#a0b4c4",
+                    "surface-variant": "#1a2438",
+                    "surface-dim": "#0f1524",
+                    "on-surface": "#e0e8f0",
+                    "tertiary-fixed": "#e8d0ff",
+                    "surface": "#0f1524",
+                    "secondary-fixed-dim": "#88b4cc",
+                    "primary-fixed": "#c8eaff",
+                    "on-tertiary-fixed": "#1a002e",
+                    "tertiary-fixed-dim": "#c8a0f0",
+                    "on-secondary-fixed-variant": "#2a4a5e",
+                    "surface-container-high": "#1a2438",
+                    "surface-bright": "#1a2438",
+                    "error-container": "#3d1414",
+                    "on-primary-fixed": "#001f2e",
+                    "surface-tint": "#7dd3fc",
+                    "inverse-on-surface": "#0a0e1a",
+                    "secondary": "#88b4cc",
+                    "primary": "#7dd3fc",
+                    "on-tertiary-container": "#e8d0ff",
+                    "tertiary-container": "#3d2060",
+                    "on-tertiary-fixed-variant": "#4d2a73",
+                    "on-primary-container": "#c8eaff",
+                    "on-error-container": "#ffb3b3",
+                    "on-primary-fixed-variant": "#004d73",
+                    "surface-container-lowest": "#0a0e1a",
+                    "secondary-fixed": "#c0d8e8",
+                    "outline": "#4a6070",
+                    "on-error": "#1a0000",
+                    "on-background": "#e0e8f0",
+                    "error": "#ff6b6b",
+                    "inverse-primary": "#0a4c6e",
+                    "secondary-container": "#1a3a4e",
+                    "outline-variant": "#2a3a48",
+                    "surface-container-low": "#111828",
+                    "tertiary": "#c8a0f0",
+                    "on-secondary-container": "#c0d8e8",
+                    "on-tertiary": "#1a002e",
+                    "on-primary": "#001f2e",
+                    "background": "#0a0e1a",
+                    "surface-container": "#141c2e",
+                    "primary-container": "#0e4d6e",
+                    "surface-container-highest": "#202c42",
+                    "inverse-surface": "#e0e8f0",
+                    "primary-fixed-dim": "#7dd3fc",
+                    "on-secondary": "#001f2e",
+                    "on-secondary-fixed": "#0d1f2b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #0a0e1a; color: #e0e8f0; }
+        .glass-panel {
+            background: rgba(15, 21, 36, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.1);
+        }
+        .glass-elevated {
+            background: rgba(26, 36, 56, 0.75);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .active-dot { background-color: #7dd3fc; width: 24px; border-radius: 99px; }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        @keyframes subtle-glow {
+            0% { box-shadow: 0 0 15px rgba(125, 211, 252, 0.05); }
+            50% { box-shadow: 0 0 30px rgba(125, 211, 252, 0.1); }
+            100% { box-shadow: 0 0 15px rgba(125, 211, 252, 0.05); }
+        }
+        .glow-hover:hover { animation: subtle-glow 2s infinite ease-in-out; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen pb-32">
+<!-- Top Navigation (Shell Implementation) -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-6 h-16">
+<button class="w-10 h-10 flex items-center justify-center rounded-full glass-panel active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<span class="font-display text-lg font-extrabold tracking-tighter text-primary">ELITE</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full glass-panel active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">share</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-16">
+<!-- Image Carousel -->
+<section class="relative w-full aspect-[4/5] overflow-hidden bg-surface-dim">
+<div class="flex h-full w-full overflow-x-auto snap-x snap-mandatory hide-scrollbar">
+<div class="flex-shrink-0 w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="A high-end editorial fashion shot of a premium ice-blue technical parka jacket displayed in a minimalist arctic setting with dramatic rim lighting. The background features geometric ice formations under a deep navy atmospheric sky. The textures of the fabric are crisp and high-resolution, conveying a sense of luxury and performance. The mood is ethereal, cold, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmOhF-4gNMvNytvUlG-j5tNyHSpgV4xcbRbKNX08WgMFb1ZdvNojoZMa5mtyqLJXmFnl__3jamvQJ8O7ZpAQrK_Y7n8I8hGeDtKdgn9E0kuCecGzX5Wj9WJaV-1wIDhK8iv6sl7Jgk3-aYidicUlTstPxeJpY5QRXsoZGN6o1uLPCsZHbK3mnfxnSnRYZTLXauyHWQ8X_hNvsVWXXm9pwBUAnkMv9Mz0Wa5xcKk-kLjoivmIQwlkpwn9ovUIMjWgXvqiXia1aAe8bI"/>
+</div>
+<div class="flex-shrink-0 w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="Close-up detailed macro shot showing the intricate stitching and translucent fabric weave of a high-performance jacket. The lighting is cold and cinematic, highlighting the shimmering ice-blue fibers and water-repellent coating. Soft lavender light-leaks suggest a futuristic tech-wear aesthetic. Sharp focus on technical details against a blurred deep-space background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkYIUKhEH918C_qTAOCfcVv_kVHquoPuvO3F-xxaP9ZBAfNj19sVsk5WgoyAUxVK_KrjMXoIcfScziNVzpyYwNX3xhFAh6rajETDKjk-JP2lwkHpVxOqqm8tXJb3nZ8Sfn6KePWFdw73sulg2jbHolXGWrc2h6-es6U8LI9G5OKQkPHiUieE9zc2LH_1dVN3X7LsIFWlcxhIHOQ-P51dvqw6GpcdQJArN1b1Dfi3UDejtIJHXFqgyFH1pYpyCILN7NY89_-In3XR3c"/>
+</div>
+<div class="flex-shrink-0 w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="A minimalist studio product shot of an elite blue outerwear piece floating in a zero-gravity void. Surrounding the product are ethereal shards of floating glass and soft blue light rays. The composition is clean and modern, focusing on the silhouette and premium craftsmanship. Professional studio lighting with a high-key focus on structural design elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQHhJwd-5mJPS_1YBhpzt4sR5RWwVxKNnTX3d1cp_bMLIp1Hsqhi22uGVDe1tGcAVm1PrLuR9jOPz4HjLNcBSN8vekKOAJZbJ3cml4fzp9yLYoY_ak6Lz6FrTPv0Ueyx34ZVTRsZ9GtwJXbvGuV-cikdFd03YEtXqzQbz87g4HdIwDekRP_PJNDOhg2Lk50hxBYGhQ-5qRoYXz6nX4D2TAWjKTBsOPqe4aVp7uwtiJT4nmAffTKD9m317nXVfp08HDYHs9TO4lSKTM"/>
+</div>
+</div>
+<!-- Pagination Dots -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+<div class="w-2 h-2 rounded-full active-dot"></div>
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+</div>
+</section>
+<!-- Product Details Panel -->
+<section class="px-6 -mt-8 relative z-10">
+<div class="glass-elevated rounded-xl p-6 shadow-2xl">
+<!-- Info Header -->
+<div class="flex justify-between items-start mb-4">
+<div>
+<h1 class="text-2xl font-semibold tracking-tight text-on-surface">GLACIER TECH PARKA</h1>
+<p class="text-on-surface-variant font-medium mt-1">Luxe Performance Series</p>
+</div>
+<div class="text-right">
+<span class="text-2xl font-bold text-primary">$850</span>
+<div class="flex items-center gap-1 mt-1 justify-end">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-sm font-medium">4.9</span>
+</div>
+</div>
+</div>
+<!-- Color Swatches -->
+<div class="mt-8">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">Color Way</h3>
+<div class="flex gap-3">
+<button class="w-8 h-8 rounded-full border-2 border-primary p-0.5">
+<div class="w-full h-full rounded-full bg-primary shadow-inner"></div>
+</button>
+<button class="w-8 h-8 rounded-full border border-white/10 p-0.5">
+<div class="w-full h-full rounded-full bg-tertiary opacity-80"></div>
+</button>
+<button class="w-8 h-8 rounded-full border border-white/10 p-0.5">
+<div class="w-full h-full rounded-full bg-white/10"></div>
+</button>
+</div>
+</div>
+<!-- Size Selector -->
+<div class="mt-8">
+<div class="flex justify-between items-center mb-3">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Select Size</h3>
+<button class="text-xs text-primary underline">Size Guide</button>
+</div>
+<div class="grid grid-cols-4 gap-3">
+<button class="h-12 rounded-lg glass-panel flex items-center justify-center font-medium hover:border-primary/40 transition-colors">S</button>
+<button class="h-12 rounded-lg glass-panel flex items-center justify-center font-medium bg-primary text-on-primary shadow-[0_0_15px_rgba(123,209,250,0.3)]">M</button>
+<button class="h-12 rounded-lg glass-panel flex items-center justify-center font-medium hover:border-primary/40 transition-colors">L</button>
+<button class="h-12 rounded-lg glass-panel flex items-center justify-center font-medium hover:border-primary/40 transition-colors">XL</button>
+</div>
+</div>
+<!-- Quantity -->
+<div class="mt-8 flex items-center justify-between border-t border-white/5 pt-6">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Quantity</h3>
+<div class="flex items-center gap-6 glass-panel rounded-full px-4 py-2">
+<button class="material-symbols-outlined text-primary active:scale-90">remove</button>
+<span class="font-bold w-4 text-center">1</span>
+<button class="material-symbols-outlined text-primary active:scale-90">add</button>
+</div>
+</div>
+</div>
+<!-- Accordions -->
+<div class="mt-4 space-y-2">
+<details class="group glass-panel rounded-xl" open="">
+<summary class="flex justify-between items-center p-4 cursor-pointer list-none">
+<span class="font-semibold text-sm">Description</span>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-4 pb-4 text-sm text-on-surface-variant leading-relaxed">
+                        Engineered for the most extreme environments, the Glacier Tech Parka combines our proprietary atmospheric-seal fabric with premium insulation. Designed for the modern explorer who demands aesthetic excellence without compromising on technical performance.
+                    </div>
+</details>
+<details class="group glass-panel rounded-xl">
+<summary class="flex justify-between items-center p-4 cursor-pointer list-none">
+<span class="font-semibold text-sm">Materials</span>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-4 pb-4 text-sm text-on-surface-variant">
+                        Shell: 100% Recycled Technical Nylon. Lining: Translucent Membrane. Insulation: Sustainably sourced 800-fill down.
+                    </div>
+</details>
+<details class="group glass-panel rounded-xl">
+<summary class="flex justify-between items-center p-4 cursor-pointer list-none">
+<span class="font-semibold text-sm">Care Instruction</span>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-4 pb-4 text-sm text-on-surface-variant">
+                        Professional clean only. Do not bleach. Store in a cool, dry place within the provided protective garment bag.
+                    </div>
+</details>
+</div>
+</section>
+<!-- Related Products -->
+<section class="mt-12 mb-20">
+<div class="px-6 flex justify-between items-end mb-6">
+<div>
+<h2 class="text-xl font-bold tracking-tight">THE ECOSYSTEM</h2>
+<p class="text-xs text-tertiary tracking-widest uppercase">Complete the kit</p>
+</div>
+<button class="text-sm text-primary font-medium">See all</button>
+</div>
+<div class="flex overflow-x-auto gap-4 px-6 hide-scrollbar">
+<!-- Related Item 1 -->
+<div class="min-w-[200px] group">
+<div class="aspect-square rounded-xl glass-panel overflow-hidden mb-3 relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A pair of sleek, futuristic technical winter boots in white and ice-blue. They feature translucent chunky soles and reflective details. The boots are placed on a reflective glass surface with a dark, moody background lit by soft blue neons. High-end fashion photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2EXh0-Na4-d6FOAecFrdZuB76cbSl2fhZF99cW-lAnWsqnd4-bVHblbNkhV4OHiyZJZ23lgy4u9H5_X-TCteUjh2fFjor9wTO3fg4R-1e_lFhGCgMigDH0mivWH76_f5UDiP4Swe5OcscBYRyxAK0hYZWnNO2TWPARckXl_CSgoun2MV_jw-VgPNR9hhqU56OL1GlJxkXpDuWXnTWeTRSeeFkutXvP11fVpRFdpQrLfhEoZp_ouMWW8BZmzSXRL43X82ALRteJgSE"/>
+<button class="absolute top-2 right-2 w-8 h-8 rounded-full glass-elevated flex items-center justify-center">
+<span class="material-symbols-outlined text-xs">favorite</span>
+</button>
+</div>
+<h4 class="text-sm font-semibold text-on-surface truncate">Glacier Walker I</h4>
+<p class="text-xs text-primary font-bold mt-1">$420</p>
+</div>
+<!-- Related Item 2 -->
+<div class="min-w-[200px] group">
+<div class="aspect-square rounded-xl glass-panel overflow-hidden mb-3 relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A minimalist technical backpack in a deep charcoal and lavender color palette. Multiple geometric compartments, matte waterproof zippers, and ethereal translucent straps. Photographed in a high-tech studio environment with soft purple lighting and haze." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlwEBBiSTuKKZlkPIBxBOib4DodFGx9KPtzu-Tgfr1YwxMxBbmncVH0w2RQwv1SL2l0YZJfSH4UBq8XGpW7uPqe-W5rc5rS2Doq6BANfRPLoQCv4xqFw5c2OkIX9dDD-i6n3TRJFM1ICHtkTZyHA-T6cUbKmpmLQP9SXW87XhOFlAW10hpG4xAOf_b8kh0-p2E-3RE4jTrEuZ2tkfS81A7j8dG35z8WnPovU9-XJGWNSUv7J8gLmPKfbz6NXPBSdFPudrcLZFjfMaE"/>
+<button class="absolute top-2 right-2 w-8 h-8 rounded-full glass-elevated flex items-center justify-center">
+<span class="material-symbols-outlined text-xs">favorite</span>
+</button>
+</div>
+<h4 class="text-sm font-semibold text-on-surface truncate">Aero Pack 30L</h4>
+<p class="text-xs text-primary font-bold mt-1">$315</p>
+</div>
+<!-- Related Item 3 -->
+<div class="min-w-[200px] group">
+<div class="aspect-square rounded-xl glass-panel overflow-hidden mb-3 relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Technical accessories including a pair of thermal gloves and a sleek beanie in matching ice-blue and navy colors. Arranged artistically on a frosted glass surface. The lighting is ethereal and cold with high-contrast shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCGIsR2AfZQIcWN5-Q97u8Zek61vtkqiiBcShWbWrQBDYgu9cribxFO-QSRzpK9RlIVRlLXxOuQ3vsANd79qvMuTflYVram6MxRRPDOBPQFr_dPa_8ItLfl6lmaIlHKbwa0uoCImDEFcue9MTZnomqOvi_ZckYBURUQwgrjt-M1-zVMhL9t45678QZIRakw14YHSBqBoy6QM8FZLCGF8aJcHTjbqK4nAhSfuovHuRqNUNgMZfzcWxlO_JksgaFfqvdV5pJ6CQZhwA1"/>
+<button class="absolute top-2 right-2 w-8 h-8 rounded-full glass-elevated flex items-center justify-center">
+<span class="material-symbols-outlined text-xs">favorite</span>
+</button>
+</div>
+<h4 class="text-sm font-semibold text-on-surface truncate">Thermal Kit</h4>
+<p class="text-xs text-primary font-bold mt-1">$150</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Bar -->
+<div class="fixed bottom-0 left-0 w-full z-[60] p-6 bg-gradient-to-t from-background via-background/80 to-transparent">
+<div class="glass-elevated rounded-2xl p-4 flex gap-4 items-center shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+<button class="w-14 h-14 rounded-xl glass-panel flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-on-surface-variant">favorite</span>
+</button>
+<button class="flex-1 h-14 bg-primary text-on-primary rounded-xl font-bold tracking-tight shadow-[0_0_20px_rgba(125,211,252,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 glow-hover">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_mall</span>
+                Add to Bag
+            </button>
+</div>
+</div>
+<!-- Navigation Shell (Bottom Bar Logic) - Contextual Suppression for Product Detail Page -->
+<!-- Nav is suppressed on Details pages to prioritize Task Focus -->
+<script>
+        // Micro-interactions and Carousel logic
+        const carousel = document.querySelector('.snap-x');
+        const dots = document.querySelectorAll('.active-dot').length ? document.querySelectorAll('.active-dot')[0].parentElement.children : [];
+        
+        if(carousel && dots.length) {
+            carousel.addEventListener('scroll', () => {
+                const scrollLeft = carousel.scrollLeft;
+                const width = carousel.offsetWidth;
+                const activeIndex = Math.round(scrollLeft / width);
+                
+                Array.from(dots).forEach((dot, index) => {
+                    if(index === activeIndex) {
+                        dot.classList.add('active-dot', 'w-6');
+                        dot.classList.remove('bg-white/20', 'w-2');
+                    } else {
+                        dot.classList.remove('active-dot', 'w-6');
+                        dot.classList.add('bg-white/20', 'w-2');
+                    }
+                });
+            });
+        }
+
+        // Add visual feedback on interaction
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const originalScale = this.style.transform;
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = originalScale;
+                }, 100);
+            });
+        });
+    </script>
+</body></html>

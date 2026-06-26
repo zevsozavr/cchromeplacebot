@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping Bag | ELITE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#a0b4c4",
+                    "surface-variant": "#1a2438",
+                    "surface-dim": "#0f1524",
+                    "on-surface": "#e0e8f0",
+                    "tertiary-fixed": "#e8d0ff",
+                    "surface": "#0f1524",
+                    "secondary-fixed-dim": "#88b4cc",
+                    "primary-fixed": "#c8eaff",
+                    "on-tertiary-fixed": "#1a002e",
+                    "tertiary-fixed-dim": "#c8a0f0",
+                    "on-secondary-fixed-variant": "#2a4a5e",
+                    "surface-container-high": "#1a2438",
+                    "surface-bright": "#1a2438",
+                    "error-container": "#3d1414",
+                    "on-primary-fixed": "#001f2e",
+                    "surface-tint": "#7dd3fc",
+                    "inverse-on-surface": "#0a0e1a",
+                    "secondary": "#88b4cc",
+                    "primary": "#7dd3fc",
+                    "on-tertiary-container": "#e8d0ff",
+                    "tertiary-container": "#3d2060",
+                    "on-tertiary-fixed-variant": "#4d2a73",
+                    "on-primary-container": "#c8eaff",
+                    "on-error-container": "#ffb3b3",
+                    "on-primary-fixed-variant": "#004d73",
+                    "surface-container-lowest": "#0a0e1a",
+                    "secondary-fixed": "#c0d8e8",
+                    "outline": "#4a6070",
+                    "on-error": "#1a0000",
+                    "on-background": "#e0e8f0",
+                    "error": "#ff6b6b",
+                    "inverse-primary": "#0a4c6e",
+                    "secondary-container": "#1a3a4e",
+                    "outline-variant": "#2a3a48",
+                    "surface-container-low": "#111828",
+                    "tertiary": "#c8a0f0",
+                    "on-secondary-container": "#c0d8e8",
+                    "on-tertiary": "#1a002e",
+                    "on-primary": "#001f2e",
+                    "background": "#0a0e1a",
+                    "surface-container": "#141c2e",
+                    "primary-container": "#0e4d6e",
+                    "surface-container-highest": "#202c42",
+                    "inverse-surface": "#e0e8f0",
+                    "primary-fixed-dim": "#7dd3fc",
+                    "on-secondary": "#001f2e",
+                    "on-secondary-fixed": "#0d1f2b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0e1a;
+            color: #e0e8f0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass-card {
+            background: rgba(15, 21, 36, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.1);
+        }
+
+        .glass-card-elevated {
+            background: rgba(15, 21, 36, 0.75);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+        }
+
+        .ice-glow {
+            box-shadow: 0 0 30px rgba(125, 211, 252, 0.05);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .ice-button {
+            background: rgba(125, 211, 252, 0.1);
+            border: 1px solid rgba(125, 211, 252, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .ice-button:hover {
+            background: rgba(125, 211, 252, 0.2);
+            border: 1px solid rgba(125, 211, 252, 0.5);
+        }
+
+        .ice-button-primary {
+            background: #7dd3fc;
+            color: #001f2e;
+            box-shadow: 0 0 20px rgba(125, 211, 252, 0.2);
+        }
+
+        .ice-button-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(125, 211, 252, 0.2);
+            border-radius: 3px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-32">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-6 h-16">
+<button class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-lg-mobile text-2xl font-extrabold tracking-tighter text-primary">ELITE</h1>
+<div class="relative">
+<button class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+</button>
+<span class="absolute -top-1 -right-1 bg-tertiary text-on-tertiary text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
+</div>
+</nav>
+<main class="pt-24 px-4 max-w-4xl mx-auto space-y-6">
+<!-- Header -->
+<header class="flex items-center justify-between">
+<h2 class="text-2xl font-semibold text-on-surface">Shopping Bag</h2>
+<span class="text-on-surface-variant text-sm">2 Items</span>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Left Column: Items -->
+<div class="lg:col-span-2 space-y-4">
+<!-- Bag Item 1 -->
+<div class="glass-card rounded-xl p-4 flex gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div class="w-24 h-32 rounded-lg bg-surface-variant overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-end studio photograph of a sleek, futuristic metallic parka jacket with ice-blue glowing trim. The jacket is displayed on a minimalist black mannequin against a deep navy background with atmospheric light-blue rim lighting, reflecting the premium Glacier design system aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7ZHo_GJXU7HrEIgDo9SV883S4t5hgAxCx20h-ujefTyPu4RfDl3Yw79CoqDEQXKGWUXvruZanMYqAywiwZ6HnBxGIAQHY5GRsQKAqISFyiW1BDiTw2u58JZW3n0UyDlur1mSA5v-l8xwU6Uox05Eu5esXEt_JTM9tQ-c2blGqC2B_Z0Yf-tNcr5C_qlClMQxehU030QLJdTmLEp4HQMwyZE3gmQPSA1DhN8DsZgRTxlOQyGNBEw8ocmWcCbt2575O4xDhqE-lsO7l"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-medium text-on-surface">Thermal Tech Parka</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Size: L • Color: Glacier Navy</p>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-3 bg-surface-container-low rounded-full px-3 py-1 border border-white/5">
+<button class="text-on-surface-variant hover:text-primary active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="text-sm font-medium w-4 text-center">1</span>
+<button class="text-on-surface-variant hover:text-primary active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<span class="font-bold text-primary">$895.00</span>
+</div>
+</div>
+</div>
+<!-- Bag Item 2 -->
+<div class="glass-card rounded-xl p-4 flex gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+<div class="w-24 h-32 rounded-lg bg-surface-variant overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close-up commercial shot of a high-performance carbon fiber sneaker with iridescent blue textures. The lighting is cold and cinematic, emphasizing the sharp edges and premium materials. Set against a dark, foggy environment with faint blue neon highlights consistent with a luxury tech-wear brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzqqLfBNx-gp9TNDYAm8DMB9ZhpemNzOhxuatYOs1lL2jKbNyaeiTi7f9rO3secEXurifeAgOAcBOEZTuaRZycCfT8f4AWjf43m-g-Qahg5yLfeY-Fewek36Ycx7vA4YvS-rZuo0F6HqN7DMbdSYb3tBa7CcPibBXAf8q_u6LDC9dklY6XjyygAtQHhLwQ5UreqiI1fC9y37yz4FcgefMbhSDb_YnSkHaQzqBzK1Ndr0NNRFAXETF0otY_dvESjQ-CSetKCWtj7jFN"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-medium text-on-surface">Aero Kinetic Runner</h3>
+<p class="text-xs text-on-surface-variant mt-0.5">Size: 10.5 • Color: Frost Grey</p>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-3 bg-surface-container-low rounded-full px-3 py-1 border border-white/5">
+<button class="text-on-surface-variant hover:text-primary active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="text-sm font-medium w-4 text-center">1</span>
+<button class="text-on-surface-variant hover:text-primary active:scale-90 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<span class="font-bold text-primary">$450.00</span>
+</div>
+</div>
+</div>
+<!-- Promo Code -->
+<div class="glass-card rounded-xl p-4 flex gap-2">
+<div class="flex-1 relative">
+<input class="w-full bg-surface-container-low border border-white/10 rounded-lg py-2.5 px-4 text-sm focus:border-primary/50 focus:ring-0 text-on-surface placeholder:text-on-surface-variant" placeholder="Promo Code" type="text"/>
+</div>
+<button class="ice-button px-6 py-2 rounded-lg text-sm font-medium text-primary active:scale-95">Apply</button>
+</div>
+</div>
+<!-- Right Column: Summary -->
+<div class="space-y-4">
+<div class="glass-card-elevated rounded-xl p-6 space-y-6 ice-glow">
+<h3 class="font-semibold text-lg border-b border-white/10 pb-4">Order Summary</h3>
+<div class="space-y-3">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="text-on-surface font-medium">$1,345.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Shipping</span>
+<span class="text-tertiary font-medium">Complimentary</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Estimated Tax</span>
+<span class="text-on-surface font-medium">$107.60</span>
+</div>
+</div>
+<div class="pt-4 border-t border-white/10 flex justify-between items-baseline">
+<span class="text-lg font-bold">Total</span>
+<div class="text-right">
+<span class="text-2xl font-black text-primary">$1,452.60</span>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">USD Incl. Tax</p>
+</div>
+</div>
+<button class="w-full ice-button-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 group transition-all">
+                        Checkout Now
+                        <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-6 pt-2">
+<span class="material-symbols-outlined text-on-surface-variant/40 text-3xl">credit_card</span>
+<span class="material-symbols-outlined text-on-surface-variant/40 text-3xl">account_balance_wallet</span>
+<span class="material-symbols-outlined text-on-surface-variant/40 text-3xl">currency_bitcoin</span>
+</div>
+</div>
+<!-- Perks -->
+<div class="glass-card rounded-xl p-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<p class="text-xs font-semibold text-on-surface">Secure Transaction</p>
+<p class="text-[10px] text-on-surface-variant">256-bit SSL encrypted checkout</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State (Hidden by default, shown for demonstration logic) -->
+<div class="hidden py-24 flex flex-col items-center text-center space-y-6" id="empty-state">
+<div class="w-24 h-24 rounded-full bg-surface-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-5xl text-on-surface-variant/30">shopping_bag</span>
+</div>
+<div class="space-y-2">
+<h3 class="text-xl font-semibold text-on-surface">Your bag is empty</h3>
+<p class="text-on-surface-variant max-w-xs mx-auto">Explore our latest drops and find the next piece for your collection.</p>
+</div>
+<button class="ice-button px-8 py-3 rounded-xl font-bold text-primary">Start Shopping</button>
+</div>
+</main>
+<!-- Navigation Shell Footer (BottomNavBar) -->
+<div class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 md:hidden">
+<div class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(123,209,250,0.3)] active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">local_mall</span>
+</div>
+<div class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90">
+<span class="material-symbols-outlined">settings</span>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-40">
+<div class="absolute top-[10%] left-[5%] w-96 h-96 bg-primary/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[20%] right-[10%] w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[150px]"></div>
+</div>
+<script>
+        // Micro-interactions and quantity management
+        document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+            if (icon.innerText === 'add' || icon.innerText === 'remove') {
+                icon.parentElement.addEventListener('click', function() {
+                    const counter = this.parentElement.querySelector('span:not(.material-symbols-outlined)');
+                    let val = parseInt(counter.innerText);
+                    if (this.querySelector('.material-symbols-outlined').innerText === 'add') {
+                        val++;
+                    } else if (val > 1) {
+                        val--;
+                    }
+                    counter.innerText = val;
+                });
+            }
+        });
+
+        // Removal logic simulation
+        document.querySelectorAll('.text-error').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.glass-card');
+                card.style.transform = 'scale(0.9)';
+                card.style.opacity = '0';
+                setTimeout(() => {
+                    card.remove();
+                    // Toggle empty state if all cards removed (not implemented for full complexity, just for UX feel)
+                }, 300);
+            });
+        });
+    </script>
+</body></html>

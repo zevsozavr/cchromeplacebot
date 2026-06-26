@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELITE | Winter Collection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0e1a;
+            color: #e0e8f0;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(15, 21, 36, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.1);
+        }
+        .glass-card-elevated {
+            background: rgba(15, 21, 36, 0.75);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 30px rgba(123, 209, 250, 0.15);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#a0b4c4",
+                      "surface-variant": "#1a2438",
+                      "surface-dim": "#0f1524",
+                      "on-surface": "#e0e8f0",
+                      "tertiary-fixed": "#e8d0ff",
+                      "surface": "#0f1524",
+                      "secondary-fixed-dim": "#88b4cc",
+                      "primary-fixed": "#c8eaff",
+                      "on-tertiary-fixed": "#1a002e",
+                      "tertiary-fixed-dim": "#c8a0f0",
+                      "on-secondary-fixed-variant": "#2a4a5e",
+                      "surface-container-high": "#1a2438",
+                      "surface-bright": "#1a2438",
+                      "error-container": "#3d1414",
+                      "on-primary-fixed": "#001f2e",
+                      "surface-tint": "#7dd3fc",
+                      "inverse-on-surface": "#0a0e1a",
+                      "secondary": "#88b4cc",
+                      "primary": "#7dd3fc",
+                      "on-tertiary-container": "#e8d0ff",
+                      "tertiary-container": "#3d2060",
+                      "on-tertiary-fixed-variant": "#4d2a73",
+                      "on-primary-container": "#c8eaff",
+                      "on-error-container": "#ffb3b3",
+                      "on-primary-fixed-variant": "#004d73",
+                      "surface-container-lowest": "#0a0e1a",
+                      "secondary-fixed": "#c0d8e8",
+                      "outline": "#4a6070",
+                      "on-error": "#1a0000",
+                      "on-background": "#e0e8f0",
+                      "error": "#ff6b6b",
+                      "inverse-primary": "#0a4c6e",
+                      "secondary-container": "#1a3a4e",
+                      "outline-variant": "#2a3a48",
+                      "surface-container-low": "#111828",
+                      "tertiary": "#c8a0f0",
+                      "on-secondary-container": "#c0d8e8",
+                      "on-tertiary": "#1a002e",
+                      "on-primary": "#001f2e",
+                      "background": "#0a0e1a",
+                      "surface-container": "#141c2e",
+                      "primary-container": "#0e4d6e",
+                      "surface-container-highest": "#202c42",
+                      "inverse-surface": "#e0e8f0",
+                      "primary-fixed-dim": "#7dd3fc",
+                      "on-secondary": "#001f2e",
+                      "on-secondary-fixed": "#0d1f2b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.5rem",
+                      "lg": "1rem",
+                      "xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Inter"],
+                      "display": ["Inter"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-[100] bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-6 h-16">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[28px]">menu</span>
+</button>
+<h1 class="font-display text-[24px] font-extrabold tracking-tighter text-primary">ELITE</h1>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[28px]">shopping_bag</span>
+</button>
+</header>
+<main class="pt-16 pb-32">
+<!-- Hero Section -->
+<section class="relative w-full h-[618px] flex items-end px-6 pb-12 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="A cinematic, high-fashion editorial photograph of a model wearing a luxury oversized wool coat in a serene, frozen landscape. The scene is illuminated by the soft, blue-tinted light of a winter dawn, creating an ethereal and premium atmosphere. Ice crystals and subtle frost details are visible in the background, matching the Glacier design system's deep navy and ice-blue color palette. The composition is wide and dramatic, emphasizing the 'Frozen Light' aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMyxZb2VSUn_AC5PdSPkVsGP8E8pdYaGj4i7HDzFhkyI8lxD87Z9bWq8ViQuuPGTg9vh6LrE3jnQdjrmK5tUjhWg6R0djCUlP3fqv0P6rdF4-wlvMQHsugIh1VrpYorO9XO8l9EtiUhe9eekRl6dpbx5oJXqHlpDRFKeSE8sOUZuW8a_Dn0vf_TYhrpz-8lhgk2RM93eYEOibSuulT3zseSx3q5QTV11dK-Tb0qfL32byaeCdg68ElZIGknhEe_8916BRWn9HeawCG')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-xl">
+<h2 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4 text-on-surface">WINTER COLLECTION</h2>
+<p class="text-on-surface-variant text-lg mb-8 max-w-md">Ethereal warmth engineered for the sub-zero elite. Discover the new standard in luxury outerwear.</p>
+<button class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary px-8 py-4 rounded-full font-semibold hover:bg-primary/40 transition-all active:scale-95 glow-hover">
+                    Explore Now
+                </button>
+</div>
+</section>
+<!-- Category Chips -->
+<section class="px-6 py-8 overflow-x-auto hide-scrollbar flex gap-3 whitespace-nowrap sticky top-16 bg-background/80 backdrop-blur-md z-40 border-b border-white/5">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-medium text-sm transition-all shadow-[0_0_15px_rgba(123,209,250,0.3)]">All</button>
+<button class="px-6 py-2 rounded-full glass-card text-on-surface-variant font-medium text-sm hover:text-primary transition-all border-white/10">Outerwear</button>
+<button class="px-6 py-2 rounded-full glass-card text-on-surface-variant font-medium text-sm hover:text-primary transition-all border-white/10">Accessories</button>
+<button class="px-6 py-2 rounded-full glass-card text-on-surface-variant font-medium text-sm hover:text-primary transition-all border-white/10">Knitwear</button>
+<button class="px-6 py-2 rounded-full glass-card text-on-surface-variant font-medium text-sm hover:text-primary transition-all border-white/10">Footwear</button>
+</section>
+<!-- New Arrivals (Horizontal Scroll) -->
+<section class="py-10">
+<div class="px-6 flex justify-between items-end mb-6">
+<h3 class="text-2xl font-bold tracking-tight">New Arrivals</h3>
+<button class="text-primary text-sm font-medium hover:underline">View All</button>
+</div>
+<div class="flex overflow-x-auto gap-6 px-6 hide-scrollbar">
+<!-- Product Card 1 -->
+<div class="min-w-[280px] group">
+<div class="relative h-[380px] rounded-2xl overflow-hidden glass-card mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Close-up of a premium tech-fabric puffer jacket in deep charcoal gray. The fabric has a subtle metallic sheen, illuminated by soft blue studio lighting. The aesthetic is ultra-modern and minimalist, emphasizing clean lines and high-quality construction consistent with a dark, premium fashion UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAwuXMB_Q-InmRSpyzgf8x1Jryaa9tP1aIJsM45EHUfg6zxZ4RE602DX3yajkrPWl0FhXNw2iIrR7K7Y4Rn0XW3WPgS6TKKtUaiTsa2sMrIlxMT0zcMbwIHuZfHsSNPvLoD7IpjoA5zhW2vMQMABfZ8Cmx6abLBUvERDLHoo0XqwM_KIPGnVIJ2PN2U-0Ay-_Dm3-cOotBPwq6stx-PNZMvdMYWlzlfJ_6_T5DYmgMKZ-s2rNXPiCZ_2BeqxaO06R4AV-2FBSP94w8"/>
+<div class="absolute bottom-4 right-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+<button class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg active:scale-90">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+<p class="font-semibold text-on-surface">Subzero Puffer</p>
+<p class="text-on-surface-variant text-sm">$850.00</p>
+</div>
+<!-- Product Card 2 -->
+<div class="min-w-[280px] group">
+<div class="relative h-[380px] rounded-2xl overflow-hidden glass-card mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A minimalist white merino wool turtleneck sweater styled against a dark, moody background with subtle cyan rim lighting. The texture of the knit is detailed and luxurious, fitting the 'Glacier' theme of ethereal depth and high-end fashion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfnhqGjX_qGpyimnr_s8uS_PN8zRCjMQZj7oK4AvCIOFQXPTYKougs6aWWTFRXUNoLo-O9Uo2P0hoiPkux6r6Q9sHVqnSVO8141du4wr83BC9I-EfJdxjN-JcFfzjylSjVB4mrhOVduDHCyKLXNbjejtLsEK9QSO6CwCGeNCI5CDfN7Liy_U58phwYvBh7LzJtqUgWqLaAPPDYnvgp05Dja0wEahhWvCtWMgtY9hDRWbLjws5yMKg8vnbJo8T6T4Zdrzg_ZfD7D-G9"/>
+<div class="absolute bottom-4 right-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+<button class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg active:scale-90">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+<p class="font-semibold text-on-surface">Merino Base Layer</p>
+<p class="text-on-surface-variant text-sm">$320.00</p>
+</div>
+<!-- Product Card 3 -->
+<div class="min-w-[280px] group">
+<div class="relative h-[380px] rounded-2xl overflow-hidden glass-card mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Sleek, futuristic black leather gloves with integrated heating elements, displayed on an ice-like surface. Atmospheric blue lighting highlights the premium leather texture and minimalist design, matching the dark, ethereal winter collection vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf0Uru3rm7iz2quPQ9b5RZZk9NLvLWdYYFSx3lI2TnNSyCp2e3N4VwOXVE3CuGzj1l6S3_Xc3m51Vw1ghoPax8FfWop9LEPOwEhLzjEy0y2ijk41cr9N38CiB8_yZkE0KdiMWMu0_H0HfrXjbw8WTXegvWVuN9XaA6yJxHXuLrs75b0fcmvSXLXKdu9riP_DB4Mo_9QWOmugEpGBLtYwTHcIwfme74aZXM3czsHMURUhei1mOiVwqa1iJNk6s_k1XTDMsyu6lqKdwf"/>
+<div class="absolute bottom-4 right-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+<button class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg active:scale-90">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+</div>
+<p class="font-semibold text-on-surface">Thermal Core Gloves</p>
+<p class="text-on-surface-variant text-sm">$195.00</p>
+</div>
+</div>
+</section>
+<!-- Highlight Card -->
+<section class="px-6 mb-12">
+<div class="relative w-full h-80 rounded-3xl overflow-hidden group glass-card border-primary/20">
+<div class="absolute inset-0 bg-gradient-to-r from-background via-transparent to-transparent z-10"></div>
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Wide-angle shot of an ultra-modern, glass-walled cabin in a snowy forest at twilight. The interior glow is warm and inviting, contrasted by the cool, deep blue snow outside. The image serves as a high-end lifestyle background for a luxury fashion brand, evoking feelings of exclusivity and serenity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuApVr6Cays8ze3WEcMFfnHwjZnTXWKP3_ZizkMotUabW_HvNIOy6_uIJ3QO0yejnCTi7ERfurlZJ4soGfV5Nng_t13-wBvO8MEdds7TDc33zFBernOfag2hQG4jNWQZLqdcGY_8URefcclC0wJXCnP3xoQPI7_SBtX4NuzwuZjCNp8ZVjGkQCPekAbtOMew2E54bJy4MRe8lXniUUy8z0qDYmvf1u9_DY1DvHSoFTnesJvpMG4j9ZhhCQ8l5AIa7KH1WfRv--JBN6L0"/>
+<div class="relative z-20 h-full flex flex-col justify-center px-10 max-w-md">
+<span class="text-primary font-bold text-xs uppercase tracking-widest mb-2">Featured Series</span>
+<h3 class="text-3xl font-bold mb-4 leading-tight">THE ALPINE COLLECTION</h3>
+<button class="w-fit px-6 py-2 rounded-full bg-white text-black font-semibold text-sm hover:bg-primary transition-colors">Discover Series</button>
+</div>
+</div>
+</section>
+<!-- Curated Selection (Masonry Grid) -->
+<section class="px-6 pb-20">
+<h3 class="text-2xl font-bold tracking-tight mb-8">Curated Selection</h3>
+<div class="grid grid-cols-2 gap-4 items-start">
+<!-- Col 1 -->
+<div class="space-y-6">
+<!-- Item -->
+<div class="group">
+<div class="relative aspect-[3/4] rounded-2xl overflow-hidden glass-card mb-3">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A fashion-forward model wearing a structured lavender wool coat, standing in front of a frosted glass wall. The lighting is soft and atmospheric, highlighting the soft texture of the fabric and the pastel tones against a dark navy environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5UFSiCwBfFDoNCdW7Dr3QX0zAAFKDf1uthgtEvge5sPggR9SwDVkMy4A5aJMXzd0lYWLK19JjPO7LgDBhxRKiIsODj8jP2s8Wf24h3g1DIuYRE2MWzNFtx8uFdBF2c7Wvn09OSUUdHL76t2ldQsf-a742_x9KiFY12m3XafUebgscniymx1-G_oDtye6zfC8Q0qowZmBa3hVVKomFuX-ug-kfW63nhdsiK1eSNP-MkPz6Hgc5Q2FxuliZ-IEBNCHmBtJNAHv4G_1X"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-full text-xs font-bold shadow-xl">ADD TO BAG</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<span class="text-sm font-semibold">Tundra Overcoat</span>
+<span class="text-sm text-primary">$1,200</span>
+</div>
+</div>
+<!-- Item -->
+<div class="group">
+<div class="relative aspect-square rounded-2xl overflow-hidden glass-card mb-3">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Luxury knit scarf with an intricate 3D pattern, draped elegantly over a translucent ice block. The scene is shot with high-end macro photography, emphasizing the luxury fibers and cold, premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx96Nl2va4n_zwqa58q7haqj3F3vSCIsrn4TPJuUvNSrwUJ_zmJGsYDUjggc-Bsp-VkRfZf5T9--KgIGI8uYJcO48BO2DUCBZx3xgoGZPVAKnBQTsNFoB2bPQZz7B8oFtx_rFs8wUvUafrPaVTdCvCIwKbz6nBChbj0LFRS9N5J2xfC47yIVu-dGfMfK_-gK6grQjYBtZxocIhJuTzpKlUStb3gaBMw3vG8kPZww4YtJyG_xsiowtpc87INA0IIisckRg2YmqZuznC"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-full text-xs font-bold shadow-xl">ADD TO BAG</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<span class="text-sm font-semibold">Frost Weave Scarf</span>
+<span class="text-sm text-primary">$250</span>
+</div>
+</div>
+</div>
+<!-- Col 2 -->
+<div class="space-y-6 pt-12">
+<!-- Item -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden glass-card mb-3">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Highly technical winter boots in a mix of suede and recycled synthetic materials, displayed in a high-tech laboratory setting with soft ice-blue neon accents. The lighting emphasizes the futuristic design and premium quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHd0GkEPNCp34k1_LjsvB8qLoBiWXBrGBCABzkab_1FednVeDYuHNM9uGUhZzPLqWE1ySa86OKJ8Pp3fyhoPt9TwEkzmRx6UtFc0gcLTQNOn3mHEV9xBYMvn0jRQi2Gbo9EFM_Ftnl5EmX2XMpXEYjbHy0vhr_ClxgDF_fcaepGHcCmEXwRoTqYegM2chaCrZGM-SHe23fdOyjGbYVhcZ_0atpXbbFn7Lv5DYq0YPZO4hd7sW_pd7Jm5ntjNEVu6bHNeP0YVFEbpcE"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-full text-xs font-bold shadow-xl">ADD TO BAG</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<span class="text-sm font-semibold">Glacier Trek Boots</span>
+<span class="text-sm text-primary">$480</span>
+</div>
+</div>
+<!-- Item -->
+<div class="group">
+<div class="relative aspect-[3/4] rounded-2xl overflow-hidden glass-card mb-3">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Minimalist luxury backpack made from matte waterproof fabric, featured in a dark, atmospheric shot with light rays cutting through a light fog. The style is industrial yet premium, following the dark-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYeCRm_eazLhEYghsPXCJAfnOcP21oHKniSpyC6lWLdI-ZSiBC0WVFksGwoC53wi6q57gAAOc_y2wHT7f6UETz05ojNkB-HTx98ZAckniGsp_7WjRWXthjNn-kiTzutaHMC9yyd8YkNt0ZoVvlm3OvxKWkZph7p3MNiuKThDYdOkVpPaqgvkkwofIv6AZ8MMAt-CpD_yFix4lZvfm0k93yeceIsOA9wnLlYZ8IF6ba0fkSrcXecGarXp7b6BRn2G9UpbFZC3FVgIQW"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-full text-xs font-bold shadow-xl">ADD TO BAG</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<span class="text-sm font-semibold">Stealth Pack 2.0</span>
+<span class="text-sm text-primary">$550</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 rounded-t-xl">
+<button class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(123,209,250,0.3)] active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">storefront</span>
+</button>
+<button class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">local_mall</span>
+</button>
+<button class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction for smooth horizontal scroll
+        const scrollContainer = document.querySelector('.hide-scrollbar');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        scrollContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            scrollContainer.classList.add('active');
+            startX = e.pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
+        });
+        scrollContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        scrollContainer.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+        scrollContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+
+        // Simple scroll observer for header transparency
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-surface/80');
+                header.classList.remove('bg-surface/40');
+            } else {
+                header.classList.add('bg-surface/40');
+                header.classList.remove('bg-surface/80');
+            }
+        });
+    </script>
+</body></html>

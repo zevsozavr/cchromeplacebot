@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELITE | Glacier Shell v.2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#88b4cc",
+                    "surface-container": "#141c2e",
+                    "tertiary-fixed-dim": "#c8a0f0",
+                    "surface-container-highest": "#202c42",
+                    "primary-fixed": "#c8eaff",
+                    "surface-variant": "#1a2438",
+                    "surface-container-lowest": "#0a0e1a",
+                    "tertiary": "#c8a0f0",
+                    "on-background": "#e0e8f0",
+                    "on-tertiary": "#1a002e",
+                    "inverse-primary": "#0a4c6e",
+                    "on-secondary-fixed-variant": "#2a4a5e",
+                    "on-tertiary-fixed-variant": "#4d2a73",
+                    "on-primary-fixed-variant": "#004d73",
+                    "on-primary-fixed": "#001f2e",
+                    "on-error": "#1a0000",
+                    "secondary-container": "#1a3a4e",
+                    "surface": "#0f1524",
+                    "tertiary-container": "#3d2060",
+                    "inverse-surface": "#e0e8f0",
+                    "inverse-on-surface": "#0a0e1a",
+                    "on-error-container": "#ffb3b3",
+                    "error-container": "#3d1414",
+                    "on-secondary": "#001f2e",
+                    "on-secondary-container": "#c0d8e8",
+                    "on-surface-variant": "#a0b4c4",
+                    "on-tertiary-container": "#e8d0ff",
+                    "error": "#ff6b6b",
+                    "primary-fixed-dim": "#7dd3fc",
+                    "surface-dim": "#0f1524",
+                    "on-primary-container": "#c8eaff",
+                    "outline-variant": "#2a3a48",
+                    "surface-container-high": "#1a2438",
+                    "on-primary": "#001f2e",
+                    "surface-container-low": "#111828",
+                    "on-tertiary-fixed": "#1a002e",
+                    "surface-bright": "#1a2438",
+                    "primary-container": "#0e4d6e",
+                    "on-surface": "#e0e8f0",
+                    "tertiary-fixed": "#e8d0ff",
+                    "primary": "#7dd3fc",
+                    "secondary-fixed-dim": "#88b4cc",
+                    "outline": "#4a6070",
+                    "on-secondary-fixed": "#0d1f2b",
+                    "secondary-fixed": "#c0d8e8",
+                    "surface-tint": "#7dd3fc",
+                    "background": "#0a0e1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0a0e1a;
+            color: #e0e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass {
+            background: rgba(15, 21, 36, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.1);
+        }
+        .glass-elevated {
+            background: rgba(15, 21, 36, 0.75);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+        }
+        .glow-primary {
+            box-shadow: 0 0 30px rgba(125, 211, 252, 0.15);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-[100] bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-6 h-16">
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-primary font-extrabold text-2xl">ELITE</h1>
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">share</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="pt-16 max-w-2xl mx-auto">
+<!-- Hero Image Gallery -->
+<section class="relative w-full aspect-[3/4] overflow-hidden group">
+<div class="flex h-full w-full">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-fashion studio shot of a technical 'Glacier Shell' parka in a shimmering ice-blue fabric. The jacket features reflective zippers and complex paneling, worn by a model in a dark, atmospheric setting with cold blue spotlighting and artificial snow particles. The aesthetic is premium glacier-themed luxury, echoing the deep navy and icy blue color palette of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9YUCoN_rpPvTRrbnTi-WMWVvwrB_0JcAgUIhc5KO0nGaIDcLrwb54SNh3INEkTw7dQ6LtwADG99lnXm1xqd_rqhPrqguqZw01MCBB9VdWNd6kzYBCplFmyqTDKqZFy4uu4SElCmwZ5gCT75LFxE1ljGA9g2TxNCw1CzTKVe3Y4ScI2RfsBMKRji8hzA9ABvMFEOqbf-hnPd56wiQ_pjLa4pI76fHdGK-xDNUFFvXxhp9WUbtfEzUFO3c2pbAyz_eWF286KPWCYSHG"/>
+</div>
+<!-- Pagination Dots -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+<div class="w-2 h-2 rounded-full bg-primary glow-primary"></div>
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+</div>
+</section>
+<!-- Product Info Shell -->
+<section class="px-6 pt-8 space-y-6">
+<div class="space-y-1">
+<div class="flex justify-between items-end">
+<h2 class="text-3xl font-bold tracking-tight text-on-surface">Glacier Shell v.2</h2>
+<span class="text-2xl font-light text-primary">$890</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="flex text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div></div></div></section></main></body></html>

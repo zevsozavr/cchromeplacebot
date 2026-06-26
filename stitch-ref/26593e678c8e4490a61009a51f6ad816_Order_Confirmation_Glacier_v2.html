@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order Confirmed | ELITE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#0f1524",
+                    "surface-bright": "#1a2438",
+                    "background": "#0a0e1a",
+                    "on-secondary-fixed": "#0d1f2b",
+                    "on-surface-variant": "#a0b4c4",
+                    "error": "#ff6b6b",
+                    "outline": "#4a6070",
+                    "on-secondary-container": "#c0d8e8",
+                    "on-tertiary-fixed": "#1a002e",
+                    "tertiary-container": "#3d2060",
+                    "surface-container-highest": "#202c42",
+                    "primary-fixed-dim": "#7dd3fc",
+                    "on-secondary-fixed-variant": "#2a4a5e",
+                    "on-primary-fixed-variant": "#004d73",
+                    "tertiary-fixed-dim": "#c8a0f0",
+                    "surface-container-high": "#1a2438",
+                    "secondary": "#88b4cc",
+                    "inverse-primary": "#0a4c6e",
+                    "error-container": "#3d1414",
+                    "on-primary": "#001f2e",
+                    "on-background": "#e0e8f0",
+                    "on-primary-container": "#c8eaff",
+                    "primary": "#7dd3fc",
+                    "on-tertiary-fixed-variant": "#4d2a73",
+                    "secondary-fixed": "#c0d8e8",
+                    "surface": "#0f1524",
+                    "on-error-container": "#ffb3b3",
+                    "on-surface": "#e0e8f0",
+                    "on-tertiary-container": "#e8d0ff",
+                    "inverse-on-surface": "#0a0e1a",
+                    "on-secondary": "#001f2e",
+                    "on-primary-fixed": "#001f2e",
+                    "surface-container": "#141c2e",
+                    "secondary-container": "#1a3a4e",
+                    "surface-container-lowest": "#0a0e1a",
+                    "on-tertiary": "#1a002e",
+                    "tertiary": "#c8a0f0",
+                    "on-error": "#1a0000",
+                    "secondary-fixed-dim": "#88b4cc",
+                    "surface-container-low": "#111828",
+                    "outline-variant": "#2a3a48",
+                    "surface-variant": "#1a2438",
+                    "surface-tint": "#7dd3fc",
+                    "primary-container": "#0e4d6e",
+                    "inverse-surface": "#e0e8f0",
+                    "primary-fixed": "#c8eaff",
+                    "tertiary-fixed": "#e8d0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(15, 21, 36, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.1);
+            box-shadow: 0 0 30px rgba(125, 211, 252, 0.05);
+        }
+        .success-glow {
+            filter: drop-shadow(0 0 12px rgba(125, 211, 252, 0.6));
+            animation: pulse 3s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        body::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary overflow-x-hidden">
+<!-- Global Background Shader -->
+
+<!-- Top App Bar (Shared Component Strategy) -->
+<header class="fixed top-0 w-full bg-surface/40 backdrop-blur-xl border-b border-white/10 z-50 flex justify-between items-center px-6 h-16">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display text-2xl font-extrabold tracking-tighter text-primary">ELITE</h1>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</header>
+<main class="relative z-10 pt-24 pb-32 px-6 max-w-lg mx-auto flex flex-col items-center">
+<!-- Success Header -->
+<div class="mb-10 text-center">
+<div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 mx-auto success-glow border border-primary/20">
+<span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'wght' 200;">check_circle</span>
+</div>
+<h2 class="text-primary font-headline font-bold text-2xl tracking-[0.2em] mb-2">ORDER CONFIRMED</h2>
+<p class="text-on-surface-variant font-light text-sm max-w-[280px] mx-auto leading-relaxed">
+                Your luxury pieces are being prepared with artisanal care.
+            </p>
+</div>
+<!-- Order ID Card -->
+<div class="glass-card w-full rounded-xl p-5 mb-6 flex justify-between items-center">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Order Reference</p>
+<p class="text-on-surface font-semibold tracking-tight">#EL-84920</p>
+</div>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center bg-white/5 border border-white/10 hover:bg-white/10 transition-colors active:scale-90" title="Copy Order ID">
+<span class="material-symbols-outlined text-primary text-lg">content_copy</span>
+</button>
+</div>
+<!-- Status Timeline -->
+<div class="glass-card w-full rounded-xl p-6 mb-6">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-6">Tracking Status</h3>
+<div class="relative flex justify-between items-start">
+<!-- Timeline Line -->
+<div class="absolute top-4 left-0 w-full h-[1px] bg-white/10 z-0"></div>
+<div class="absolute top-4 left-0 w-[15%] h-[1px] bg-primary z-0"></div>
+<!-- Step 1: Confirmed -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-[0_0_15px_rgba(125,211,252,0.4)]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[10px] font-semibold text-primary text-center">Confirmed</span>
+</div>
+<!-- Step 2: Processing -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-white/10 flex items-center justify-center text-on-surface-variant">
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+</div>
+<span class="text-[10px] font-medium text-on-surface-variant text-center">Processing</span>
+</div>
+<!-- Step 3: Shipped -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-white/10 flex items-center justify-center text-on-surface-variant">
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+</div>
+<span class="text-[10px] font-medium text-on-surface-variant text-center">Shipped</span>
+</div>
+<!-- Step 4: Delivered -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-white/10 flex items-center justify-center text-on-surface-variant">
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+</div>
+<span class="text-[10px] font-medium text-on-surface-variant text-center">Delivered</span>
+</div>
+</div>
+</div>
+<!-- Summary Section -->
+<div class="glass-card w-full rounded-xl p-6 mb-6">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-5">Order Summary</h3>
+<div class="flex gap-4 mb-6">
+<div class="w-20 h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="A high-fashion studio photograph of a futuristic 'Glacier Shell v.2' jacket. The garment features translucent ice-blue high-tech fabric with a subtle crystalline texture. It is set against a dark, atmospheric background with cinematic, cool-toned rim lighting highlighting the premium fabric quality and sharp architectural lines of the design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtnfFSo1j_b9QgKsADbbw5hPGJcqCd5W-kRBwp9Q8vPSQJThDp_n8PJzQAj4MsWK19U0MB524aWZeIRTTHaKlx6-8Ks2_f_7SpOTY8E5NEF-RpxP1p1V0t2nzHP_KnuXAtNJqLWyDmf-CVyMwp6bA0T2vuQpl-HaDZ8weJoPaUSVLiSPseRrJjHXCdprqUgg7RzIqR93oFAuvkl_B0vnY3hIXrtkwGyuBb39d0NuGfu44IXGqQ3-yMrLgZCb7dVbfwPQmkXsjEjidX"/>
+</div>
+<div class="flex-grow flex flex-col justify-center">
+<h4 class="text-sm font-semibold text-on-surface">Glacier Shell v.2</h4>
+<p class="text-xs text-on-surface-variant mt-1">Ice Blue • Qty 1</p>
+<p class="text-sm font-bold text-primary mt-2">$890</p>
+</div>
+</div>
+<div class="space-y-3 pt-5 border-t border-white/5">
+<div class="flex justify-between items-center">
+<span class="text-xs text-on-surface-variant">Estimated Arrival</span>
+<span class="text-xs font-medium text-on-surface">Dec 12 - 14</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs text-on-surface-variant">Shipping</span>
+<span class="text-xs font-medium text-tertiary">Complimentary</span>
+</div>
+<div class="flex justify-between items-center pt-2">
+<span class="text-sm font-bold text-on-surface">Total</span>
+<span class="text-lg font-extrabold text-primary">$890.00</span>
+</div>
+</div>
+</div>
+<!-- Secondary Info Bento -->
+<div class="grid grid-cols-1 gap-4 w-full mb-10">
+<div class="glass-card rounded-xl p-5 flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+</div>
+<div>
+<h4 class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Shipping Address</h4>
+<p class="text-sm leading-relaxed text-on-surface">1245 Arctic Circle,<br/>North Pole, Earth</p>
+</div>
+</div>
+<div class="glass-card rounded-xl p-5 flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+</div>
+<div>
+<h4 class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-1">Payment Method</h4>
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-on-surface">Telegram Pay</span>
+<span class="text-[10px] text-on-surface-variant bg-white/5 px-1.5 py-0.5 rounded border border-white/10">Visa ****4242</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main CTA -->
+<button class="w-full h-16 rounded-full bg-primary/20 border border-primary/40 text-primary font-bold tracking-widest text-sm hover:bg-primary/30 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(125,211,252,0.1)]">
+            CONTINUE SHOPPING
+            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</main>
+<!-- Bottom Navigation Bar (Shared Component Strategy) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 rounded-t-xl">
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">storefront</span>
+</a>
+<a class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(123,209,250,0.3)] active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_mall</span>
+</a>
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">favorite</span>
+</a>
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for the copy button
+        document.querySelector('button[title="Copy Order ID"]').addEventListener('click', function() {
+            const icon = this.querySelector('.material-symbols-outlined');
+            icon.textContent = 'check';
+            setTimeout(() => {
+                icon.textContent = 'content_copy';
+            }, 2000);
+        });
+    </script>
+</body></html>

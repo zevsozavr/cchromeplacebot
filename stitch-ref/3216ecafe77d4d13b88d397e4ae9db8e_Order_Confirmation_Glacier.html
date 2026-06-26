@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order Confirmation - ELITE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7dd3fc",
+                        "on-primary": "#003544",
+                        "primary-container": "#004d61",
+                        "on-primary-container": "#7dd3fc",
+                        "surface": "#0b1326",
+                        "on-surface": "#e2e8f0",
+                        "surface-variant": "#334155",
+                        "on-surface-variant": "#94a3b8",
+                        "background": "#0b1326",
+                        "on-background": "#e2e8f0",
+                        "outline": "#475569",
+                        "outline-variant": "#1e293b",
+                        "surface-container-lowest": "#060e20",
+                        "surface-container-low": "#131b2e",
+                        "surface-container": "#171f34",
+                        "surface-container-high": "#222a41",
+                        "surface-container-highest": "#31394d"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xxl": "64px",
+                        "md": "16px",
+                        "container-margin": "20px",
+                        "gutter": "12px",
+                        "xs": "4px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xl": "40px"
+                    },
+                    fontFamily: {
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "label-sm": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700", "letterSpacing": "-0.02em" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700", "letterSpacing": "-0.02em" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+            background-color: #0b1326;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center relative overflow-hidden font-body-md antialiased px-container-margin">
+<!-- Decorative Gradient Background -->
+<div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none -z-10"></div>
+<div class="absolute -top-32 -right-32 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<div class="absolute -bottom-32 -left-32 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<main class="w-full max-w-md mx-auto flex flex-col items-center text-center">
+<!-- Celebration Icon -->
+<div class="w-20 h-20 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center mb-xl shadow-[0_0_40px_rgba(125,211,252,0.2)]">
+<span class="material-symbols-outlined filled text-primary text-[40px]">check_circle</span>
+</div>
+<!-- Headline -->
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background mb-sm uppercase tracking-tight">Order Confirmed</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl max-w-[300px]">Your luxury pieces are being prepared with artisanal care.</p>
+<!-- Order Summary Card (Frosted Glass) -->
+<div class="w-full bg-white/[0.03] backdrop-blur-xl rounded-xl p-lg border border-white/10 mb-xl text-left relative overflow-hidden shadow-2xl">
+<div class="flex justify-between items-center mb-md pb-md border-b border-white/5">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-[0.2em]">Order No.</span>
+<span class="font-label-lg text-label-lg text-primary">#EL-84920</span>
+</div>
+<!-- Item -->
+<div class="flex items-center gap-md mb-md">
+<div class="w-16 h-16 rounded bg-surface-container-highest/50 border border-white/5 overflow-hidden shrink-0">
+<img alt="Luxury Handbag" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiAfBUHznN-dyoCfPpH02GXqOZEG9wY-X_5li72FbVeQ8VumGqTDBdJsviYpljARbzJw4vYSJaXl0zkn0OmW_PUy5Wk7xr8viG75dOD3j4iaH6XU2Wy_QzPGunwRooksmoln_pVYDAsYLIJ_73Xb1MyFRkg3zOVtZEc89lUAWQ8skKK3z48PP55F-TLy6UVWW1E86h9AQ-2pqv-dXjrx8kzhsZU9KEd0ThOQDFsMlDR4XBXc5PR5qRyv7nqjAnYuRUAulaPOTRa2Mj"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-label-lg text-label-lg text-on-surface mb-xs">Classic Leather Tote</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Taupe • Qty 1</p>
+</div>
+<div class="font-body-md text-body-md font-medium text-on-surface">
+                    $450.00
+                </div>
+</div>
+<!-- Subtotal / Total -->
+<div class="space-y-sm pt-md border-t border-white/5">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-sm text-label-sm">Subtotal</span>
+<span class="font-body-md text-body-md">$450.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-label-sm text-label-sm">Shipping</span>
+<span class="font-body-md text-body-md text-primary/80">Complimentary</span>
+</div>
+<div class="flex justify-between items-center pt-sm mt-sm border-t border-white/10">
+<span class="font-label-lg text-label-lg text-on-surface">Total</span>
+<span class="font-headline-md text-headline-md text-primary">$450.00</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="w-full space-y-md">
+<button class="w-full bg-primary text-on-primary font-label-lg text-label-lg uppercase h-14 rounded-lg flex items-center justify-center tracking-[0.15em] font-bold hover:brightness-110 transition-all active:scale-[0.98] shadow-lg shadow-primary/20">
+                Continue Shopping
+            </button>
+<button class="w-full bg-white/5 border border-white/10 text-on-surface font-label-lg text-label-lg uppercase h-14 rounded-lg flex items-center justify-center tracking-[0.15em] hover:bg-white/10 transition-all active:scale-[0.98]">
+                View Receipt
+            </button>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#a0b4c4",
+                        "surface-variant": "#1a2438",
+                        "surface-dim": "#0f1524",
+                        "on-surface": "#e0e8f0",
+                        "tertiary-fixed": "#e8d0ff",
+                        "surface": "#0f1524",
+                        "secondary-fixed-dim": "#88b4cc",
+                        "primary-fixed": "#c8eaff",
+                        "on-tertiary-fixed": "#1a002e",
+                        "tertiary-fixed-dim": "#c8a0f0",
+                        "on-secondary-fixed-variant": "#2a4a5e",
+                        "surface-container-high": "#1a2438",
+                        "surface-bright": "#1a2438",
+                        "error-container": "#3d1414",
+                        "on-primary-fixed": "#001f2e",
+                        "surface-tint": "#7dd3fc",
+                        "inverse-on-surface": "#0a0e1a",
+                        "secondary": "#88b4cc",
+                        "primary": "#7dd3fc",
+                        "on-tertiary-container": "#e8d0ff",
+                        "tertiary-container": "#3d2060",
+                        "on-tertiary-fixed-variant": "#4d2a73",
+                        "on-primary-container": "#c8eaff",
+                        "on-error-container": "#ffb3b3",
+                        "on-primary-fixed-variant": "#004d73",
+                        "surface-container-lowest": "#0a0e1a",
+                        "secondary-fixed": "#c0d8e8",
+                        "outline": "#4a6070",
+                        "on-error": "#1a0000",
+                        "on-background": "#e0e8f0",
+                        "error": "#ff6b6b",
+                        "inverse-primary": "#0a4c6e",
+                        "secondary-container": "#1a3a4e",
+                        "outline-variant": "#2a3a48",
+                        "surface-container-low": "#111828",
+                        "tertiary": "#c8a0f0",
+                        "on-secondary-container": "#c0d8e8",
+                        "on-tertiary": "#1a002e",
+                        "on-primary": "#001f2e",
+                        "background": "#0a0e1a",
+                        "surface-container": "#141c2e",
+                        "primary-container": "#0e4d6e",
+                        "surface-container-highest": "#202c42",
+                        "inverse-surface": "#e0e8f0",
+                        "primary-fixed-dim": "#7dd3fc",
+                        "on-secondary": "#001f2e",
+                        "on-secondary-fixed": "#0d1f2b",
+                        "container-padding": "1.5rem"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "display": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(15, 21, 36, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(125, 211, 252, 0.1);
+        }
+        .glass-panel-elevated {
+            background: rgba(15, 21, 36, 0.75);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(125, 211, 252, 0.15);
+        }
+        .primary-glow {
+            box-shadow: 0 0 30px rgba(125, 211, 252, 0.05);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0a0e1a;
+            color: #e0e8f0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-white/10 h-16 flex justify-between items-center px-6">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95">menu</button>
+<h1 class="font-display text-2xl font-extrabold tracking-tighter text-primary">ELITE</h1>
+</div>
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95">shopping_bag</button>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto space-y-8">
+<!-- Profile Header Card -->
+<section class="glass-panel-elevated rounded-xl p-6 primary-glow relative overflow-hidden group">
+<div class="absolute -right-12 -top-12 w-32 h-32 bg-primary/10 blur-[64px] rounded-full group-hover:bg-primary/20 transition-all duration-700"></div>
+<div class="flex items-center gap-5 relative z-10">
+<div class="relative">
+<div class="w-24 h-24 rounded-full border-2 border-primary/30 p-1">
+<img class="w-full h-full rounded-full object-cover" data-alt="A cinematic, close-up portrait of a sophisticated person with elegant lighting against a deep navy blue background. The style is high-end editorial photography with subtle rim lighting in ice-blue. The subject has a calm expression, embodying a premium and modern tech-focused lifestyle aesthetic that fits the Glacier design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQKRrp_1bQpPyCv_8QZB0AN7Kt68E-cq6aGAm43D-fxnJuLgRXzakFRmYM8tW43ZpF3yVqBNWSW4RLkCe2pyFdsLMKSKCjF1OPPxCz9Ou7P9grmQdDfllcwFCdIUKQq6dYmzxAOBf7rIRRCotrSW6b-nK4H7W4mFMc0hsgtd3RYCybkXQs2KyTEGHmtd4-ZLXYYvL2DKJ3S9zWSVfddC4IQUcnxfc_YDFIxj2Qetui98rGAQP__ZxH-l6uujzU2Od34mUZJY0OCRQS"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-base">edit</span>
+</button>
+</div>
+<div class="flex-1">
+<h2 class="text-2xl font-semibold text-on-surface tracking-tight">Julian Sterling</h2>
+<p class="text-on-surface-variant text-sm font-medium">j.sterling@elite-premium.com</p>
+<div class="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                        Diamond Member
+                    </div>
+</div>
+</div>
+</section>
+<!-- Settings Groups -->
+<div class="space-y-6">
+<!-- Account Section -->
+<div class="space-y-3">
+<h3 class="text-xs font-bold uppercase tracking-widest text-primary/60 px-2">Account</h3>
+<div class="glass-panel rounded-xl overflow-hidden divide-y divide-white/5">
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">notifications</span>
+<span class="text-on-surface font-medium">Notifications</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">local_shipping</span>
+<span class="text-on-surface font-medium">Shipping Addresses</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">payments</span>
+<span class="text-on-surface font-medium">Payment Methods</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">lock</span>
+<span class="text-on-surface font-medium">Password</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Preferences Section -->
+<div class="space-y-3">
+<h3 class="text-xs font-bold uppercase tracking-widest text-primary/60 px-2">Preferences</h3>
+<div class="glass-panel rounded-xl overflow-hidden divide-y divide-white/5">
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">payments</span>
+<span class="text-on-surface font-medium">Currency</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm text-on-surface-variant">USD ($)</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
+</div>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">language</span>
+<span class="text-on-surface font-medium">Language</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm text-on-surface-variant">English</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
+</div>
+</button>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">dark_mode</span>
+<span class="text-on-surface font-medium">Dark Mode</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Support Section -->
+<div class="space-y-3">
+<h3 class="text-xs font-bold uppercase tracking-widest text-primary/60 px-2">Support &amp; Legals</h3>
+<div class="glass-panel rounded-xl overflow-hidden divide-y divide-white/5">
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">help_center</span>
+<span class="text-on-surface font-medium">FAQ</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">chat_bubble</span>
+<span class="text-on-surface font-medium">Contact Us</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">policy</span>
+<span class="text-on-surface font-medium">Privacy Policy</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">open_in_new</span>
+</button>
+<button class="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">gavel</span>
+<span class="text-on-surface font-medium">Terms of Service</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-12 text-center space-y-6">
+<button class="w-full py-4 rounded-xl border border-error/30 text-error font-bold hover:bg-error/10 active:scale-[0.98] transition-all">
+                Logout
+            </button>
+<div class="flex flex-col items-center gap-1 opacity-40">
+<p class="text-xs font-bold tracking-widest uppercase">Elite Ecosystem</p>
+<p class="text-[10px]">Version 4.2.0-stable</p>
+</div>
+</footer>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 rounded-t-xl">
+<button class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90">
+<span class="material-symbols-outlined">storefront</span>
+</button>
+<button class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary transition-colors active:scale-90">
+<span class="material-symbols-outlined">local_mall</span>
+</button>
+<button class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(123,209,250,0.3)] active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions for glass panels
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

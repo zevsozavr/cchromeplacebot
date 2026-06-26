@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELITE | Glacier Luxury Boutique</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#0f1524",
+              "surface-dim": "#0f1524",
+              "surface-container-lowest": "#0a0e1a",
+              "primary-container": "#0e4d6e",
+              "surface-container-low": "#111828",
+              "error": "#ff6b6b",
+              "on-primary": "#001f2e",
+              "surface-variant": "#1a2438",
+              "secondary-fixed": "#c0d8e8",
+              "primary-fixed-dim": "#7dd3fc",
+              "inverse-surface": "#e0e8f0",
+              "surface-tint": "#7dd3fc",
+              "surface-bright": "#1a2438",
+              "tertiary-fixed": "#e8d0ff",
+              "on-secondary-container": "#c0d8e8",
+              "secondary": "#88b4cc",
+              "outline": "#4a6070",
+              "on-secondary-fixed": "#0d1f2b",
+              "tertiary": "#c8a0f0",
+              "primary-fixed": "#c8eaff",
+              "on-background": "#e0e8f0",
+              "on-tertiary-fixed": "#1a002e",
+              "on-error": "#1a0000",
+              "secondary-fixed-dim": "#88b4cc",
+              "tertiary-container": "#3d2060",
+              "secondary-container": "#1a3a4e",
+              "background": "#0a0e1a",
+              "on-surface": "#e0e8f0",
+              "on-error-container": "#ffb3b3",
+              "surface-container": "#141c2e",
+              "on-surface-variant": "#a0b4c4",
+              "on-secondary": "#001f2e",
+              "inverse-on-surface": "#0a0e1a",
+              "on-primary-container": "#c8eaff",
+              "on-secondary-fixed-variant": "#2a4a5e",
+              "surface-container-highest": "#202c42",
+              "primary": "#7dd3fc",
+              "error-container": "#3d1414",
+              "on-tertiary": "#1a002e",
+              "on-tertiary-fixed-variant": "#4d2a73",
+              "on-primary-fixed": "#001f2e",
+              "inverse-primary": "#0a4c6e",
+              "surface-container-high": "#1a2438",
+              "on-primary-fixed-variant": "#004d73",
+              "outline-variant": "#2a3a48",
+              "on-tertiary-container": "#e8d0ff",
+              "tertiary-fixed-dim": "#c8a0f0"
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "1rem",
+              "xl": "1.5rem",
+              "full": "9999px",
+              "glacier": "12px"
+            },
+            fontFamily: {
+              "headline": ["Inter", "sans-serif"],
+              "display": ["Inter", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            padding: {
+              "container-padding": "1.25rem"
+            }
+          }
+        }
+      }
+    </script>
+<style>
+      body {
+        background-color: #0a0e1a;
+        color: #e0e8f0;
+        font-family: 'Inter', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .glass-card {
+        background: rgba(15, 21, 36, 0.6);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(125, 211, 252, 0.1);
+      }
+      .glass-card-elevated {
+        background: rgba(15, 21, 36, 0.75);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(125, 211, 252, 0.15);
+      }
+      .glow-subtle {
+        box-shadow: 0 0 30px rgba(125, 211, 252, 0.05);
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen pb-24 max-w-[390px] mx-auto overflow-x-hidden relative">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-[60] bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-5 h-16">
+<button class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[28px]">menu</span>
+</button>
+<h1 class="font-display text-2xl font-extrabold tracking-tighter text-primary">ELITE</h1>
+<button class="text-primary active:scale-95 transition-transform relative">
+<span class="material-symbols-outlined text-[28px]">shopping_bag</span>
+<span class="absolute -top-1 -right-1 bg-tertiary text-on-tertiary text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
+</button>
+</header>
+<main class="pt-16 space-y-8">
+<!-- Hero Section -->
+<section class="relative w-full aspect-[4/5] overflow-hidden">
+<div class="absolute inset-0 w-full h-full" data-alt="High-fashion photography of a male model wearing an oversized, structured white parka and reflective goggles, standing against a vast, stark arctic landscape with jagged ice formations. The lighting is cinematic with cool blue tones and high-key brightness. The aesthetic is ultra-modern, premium, and atmospheric, perfectly capturing the Glacier theme's frozen light north star." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOw2uWUVHObxJsz3wcloph0Xc2AExqbvrrLOb82LKWVvjfyDbhxBfqzV5KvP0K-j3I3Aco9Xk6EFlhxNReL7uaUoPhzNFqL-uQNmtAQbere_5cQB0eWAN9Hkkge0OEw8QBnp1uCFe8CEVGu8d-nWbXV_eXjMJtr4ar-01PaHTV3wQWJ5Hm60e-0o-SCiJpDyyiZz53M981YMC5myf41DQ5BYywsYGnv3QhbtzqRDrCO6vFaHocMJfdZkl7RC5kE24vGRocwtA5H8XD')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-8 left-0 w-full px-6 flex flex-col items-center text-center space-y-4">
+<div class="space-y-1">
+<p class="text-primary font-bold tracking-[0.3em] text-xs uppercase">Limited Edition</p>
+<h2 class="text-4xl font-extrabold tracking-tight text-white leading-tight">WINTER<br/>COLLECTION</h2>
+</div>
+<button class="glass-card-elevated text-primary-fixed border border-primary/20 px-8 py-3 rounded-glacier font-semibold text-sm tracking-wide active:scale-95 transition-all glow-subtle">
+                    Explore Now
+                </button>
+</div>
+</section>
+<!-- Category Chips -->
+<section class="px-5">
+<div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2">
+<button class="px-5 py-2.5 rounded-full bg-primary text-on-primary text-xs font-semibold whitespace-nowrap shadow-[0_0_15px_rgba(123,209,250,0.3)]">All</button>
+<button class="px-5 py-2.5 rounded-full glass-card text-on-surface-variant text-xs font-medium whitespace-nowrap border-white/5">Outerwear</button>
+<button class="px-5 py-2.5 rounded-full glass-card text-on-surface-variant text-xs font-medium whitespace-nowrap border-white/5">Accessories</button>
+<button class="px-5 py-2.5 rounded-full glass-card text-on-surface-variant text-xs font-medium whitespace-nowrap border-white/5">Knitwear</button>
+<button class="px-5 py-2.5 rounded-full glass-card text-on-surface-variant text-xs font-medium whitespace-nowrap border-white/5">Footwear</button>
+</div>
+</section>
+<!-- New Arrivals (Horizontal Scroll) -->
+<section class="space-y-4">
+<div class="px-5 flex justify-between items-end">
+<h3 class="text-xl font-bold tracking-tight">New Arrivals</h3>
+<span class="text-primary text-xs font-medium uppercase tracking-wider">See All</span>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar gap-5 px-5">
+<!-- Card 1 -->
+<div class="min-w-[200px] group">
+<div class="relative w-[200px] aspect-[3/4] rounded-glacier overflow-hidden border border-white/10 glass-card">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A premium close-up of a designer charcoal grey wool scarf with intricate weaving patterns. The lighting is moody and ethereal, emphasizing the soft texture of the wool. Set against a dark, slightly frosted glass background consistent with a luxury fashion boutique aesthetic in the Glacier theme." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCT3UjcOZSgrKCueaXu6KqNoE0ByXZpXizFroIrBqgnw6tg8UVwXGIsIKfzwoS8ubE5wElpBVlJPCcSYS1nrL6cpPa_xjc0NOJpe14g7Rlcl007MxLbHqx_Lz_eFbUNnOTiC2PGJe-tAqZ5KrNbotpXhHYagfN1JqBp7Uxk3Eyb2dmXWLoj3CdbRIrGrTEEvlbWsmi4sFncyME9aGmSgiwXCtnRelgGp9GioDHbmhIuu2ymQkzyJjIIJjc0MwYm4_R4768k-M0GWrDS')"></div>
+<button class="absolute top-3 right-3 glass-card w-8 h-8 rounded-full flex items-center justify-center text-white/80">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+</div>
+<div class="mt-3 space-y-0.5">
+<h4 class="text-sm font-medium text-on-surface truncate">Artic Wool Scarf</h4>
+<p class="text-primary font-bold text-base">€245</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[200px] group">
+<div class="relative w-[200px] aspect-[3/4] rounded-glacier overflow-hidden border border-white/10 glass-card">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="A high-end technical shell jacket in deep cobalt blue, featuring matte waterproof zippers and a sleek aerodynamic design. The product is shown in a studio setting with icy blue atmospheric lighting and soft shadows, embodying the premium glacier luxury brand." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqKsTkpORAFYNrTtLWiki98vAbhDR41eYL8odJZ8ADq4eVqP6uvC97MQ_l8JqgiuF2CIsw7wNlBoWArq323jiNCWhLc_0e-MYX2nKFHcpIfGZtI0pk7PIbd8MsY2499ozs1UfddWZXoXSG7l5hBKJ5If9bQvZRdw8BWHB14VkHihSd0LwWy59XwX7uEQmKfPDTJjzfSE0CBfJWLHz5w3UyZ06Zv9DLR14rs1-F8p6lvWLxsIpL9vbymJq38qHhuMAVAy8SSSkP9fwN')"></div>
+<button class="absolute top-3 right-3 glass-card w-8 h-8 rounded-full flex items-center justify-center text-white/80">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+</div>
+<div class="mt-3 space-y-0.5">
+<h4 class="text-sm font-medium text-on-surface truncate">Glacier Shell v.1</h4>
+<p class="text-primary font-bold text-base">€890</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Focus -->
+<section class="px-5">
+<div class="relative w-full aspect-[16/9] rounded-glacier overflow-hidden border border-primary/20 glow-subtle">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="An artistic wide-angle shot of premium leather hiking boots with silver metallic accents, placed on a block of real ice. Vapor and cold mist swirl around the boots. The background is a deep navy gradient. The scene is lit with sharp, cool-toned studio lights to highlight the high-quality textures of the leather." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA33KX-wOsWurF-OMTq3tEedVVUK-tdYaaOwJWdLXUo46fKU1hI_Jtl4hQU6_g-xV6iidCfHx5T4wSmSftWVCs2rOCC0Kdy33qpNatW456NL17TC9i0MOMMOHZtIyQFIrQZcVyMB3DhoitHtUA5uBHrLD0UA62m21rbqxhGsSXQVpvPI9ywBUV2Xa0xYvlkjhk5KL1MPlV87G4SwD2lxHi3ZABNUQcQbxsCTIO03mNd72KsPIS1aIMG-faBXYe_M1pm90hwxUhCRNzk')"></div>
+<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute inset-0 p-6 flex flex-col justify-end">
+<span class="text-tertiary text-[10px] font-black tracking-widest uppercase mb-1">Highlight</span>
+<h3 class="text-lg font-bold text-white mb-3">Titanium Trek Boots</h3>
+<button class="w-fit px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest text-white active:scale-95 transition-all">View Detail</button>
+</div>
+</div>
+</section>
+<!-- Product Grid (Masonry-like flex) -->
+<section class="px-5 space-y-4">
+<h3 class="text-xl font-bold tracking-tight">Curated Selection</h3>
+<div class="grid grid-cols-2 gap-4">
+<!-- Item 1 -->
+<div class="space-y-3">
+<div class="relative w-full aspect-[4/5] rounded-glacier overflow-hidden glass-card border border-white/5">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Studio shot of a female model wearing an elegant, oversized lavender cashmere turtleneck sweater. The lighting is soft and ethereal, matching the tertiary lavender accents of the UI. The background is dark and atmospheric with subtle ice-like crystalline textures visible in the shadows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZ4pwrMpwtHv3lZZ5fYyLWKDEve8lUScAU8Q2FsbY4VaxjdgKzx5tvvrqisn0lGb5OgGkh4pMNkRqdkwjf0eQYmQwZ94W_eRKklPYr3OraLbTXc0v7Tz6ougnCOxFEAO3UuReCMIR3Fq021nYtNS0DsNyxr76iYtLhiwyssKAOJpHzMwUySRsiae1QX9JFZ8DoKPOxUro3FaCZcR8AppRyyVRqiw7PbpVt0wxczBQSVRHPkDSxdUmpAFbLMcd-kU_prDwmWmRrJcQz')"></div>
+</div>
+<div class="px-1">
+<h4 class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Knitwear</h4>
+<p class="text-sm font-bold text-on-surface">Cashmere Cloud</p>
+<p class="text-primary text-sm font-bold mt-0.5">€520</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="space-y-3 mt-6">
+<div class="relative w-full aspect-[4/5] rounded-glacier overflow-hidden glass-card border border-white/5">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A pair of minimalist black luxury sunglasses with reflective blue lenses that catch the light. The product is floating in a dark, cold environment with tiny floating ice particles and soft blue light rays. The style is ultra-modern and high-fashion, aligned with the dark navy Glacier theme." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-j6uKwBpeWfFKI1Pz_1T5zaXzs4vGQ_YJyXwfGCp7NFw5-aFHX8ahrvbfnXACsmAvj6cobpZvE9G9FA3RmGYq4bMnmIlAiY4YJ4rX17_X3zD64qX7uquIhOVfUAmom1WDvOrTsj7A50DQ5BcbXgmHtBoBCTfh03orzP-rjdA7-ew7Xja8E5of3_JznsBN0w4iAqifzaMkjGVUdupBtARO8gSIc2s-S_3s5zYGxqyYBJwFSFSs9H7vHTVDHylSYXuOmAzewcI4WR-z')"></div>
+</div>
+<div class="px-1">
+<h4 class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Accessories</h4>
+<p class="text-sm font-bold text-on-surface">Onyx Horizon</p>
+<p class="text-primary text-sm font-bold mt-0.5">€310</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="space-y-3">
+<div class="relative w-full aspect-[4/5] rounded-glacier overflow-hidden glass-card border border-white/5">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A premium silver-toned puffer vest with high-gloss finish, displayed on a minimalist translucent mannequin. The lighting highlights the sculptural puffiness and technical fabric. The background is deep navy black with subtle frosty textures at the edges, embodying luxury winter fashion." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJ5RBziYEhy55IA1NSPIRwSY21Ngn7frec5lyGvtMXInG7PqoMvZ_B-Zi1j096IPp7dVXAy4iITxd5NPhw5dTIMdqxeZj8Vx5mshtqR012igNQMQ1pQ_PQqrmveCYjDZ5cFKTxYoD8rzKSpPWAWD5ESVaXuS8uAXGSCndWNyAqcHArljoGbl1teaAVhtxo2uBm0vEsVJsnHv8GERdoF4exXEhJVBk7yTPZW775f4Pm17xC8n-jTi1noBAbQ3Otj_wDcFkw6yTDOCbp')"></div>
+</div>
+<div class="px-1">
+<h4 class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Outerwear</h4>
+<p class="text-sm font-bold text-on-surface">Quicksilver Vest</p>
+<p class="text-primary text-sm font-bold mt-0.5">€640</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="space-y-3 mt-6">
+<div class="relative w-full aspect-[4/5] rounded-glacier overflow-hidden glass-card border border-white/5">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="High-fashion close-up of a structured black leather belt with a minimalist silver buckle that looks like a shard of ice. The leather has a subtle pebbled texture. The lighting is high-contrast, moody, and premium, highlighting the sharp edges of the buckle." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDRbuhdtqxztC81Y2vOre_yar1EKs02F4HqiHxiRpRQt3GtbNE1m_DYqlYTeg3wz5p5Actw-JXCICz9kVplI50QBXIE7U3J-mMgIOcsfhP9oiDViaLcCMBg3sss7TOMUGQ1rIWYQ68KF4mADc6wBNdvwYaZbddJeQhU--oyYsV_7iDvWp9Sy9AABT976RMAUyt_Ez-_UT0pfsY_LzE7J75JPyFjveJWQKV69h9a6B3hH4FgYlfWq7kVAmZgR-EscZI4ORtlbi_sOl3q')"></div>
+</div>
+<div class="px-1">
+<h4 class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Leather</h4>
+<p class="text-sm font-bold text-on-surface">Frost Edge Belt</p>
+<p class="text-primary text-sm font-bold mt-0.5">€180</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-8 pt-2 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 rounded-t-xl">
+<!-- Storefront (Active) -->
+<a class="flex flex-col items-center gap-1" href="#">
+<div class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(123,209,250,0.3)] active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">storefront</span>
+</div>
+</a>
+<!-- Bag -->
+<a class="flex flex-col items-center gap-1 group" href="#">
+<div class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">local_mall</span>
+</div>
+</a>
+<!-- Wishlist -->
+<a class="flex flex-col items-center gap-1 group" href="#">
+<div class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">favorite</span>
+</div>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center gap-1 group" href="#">
+<div class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">person</span>
+</div>
+</a>
+</nav>
+<!-- Atmospheric Glow Effects (Lightweight Script for Micro-interactions) -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card, .glass-card-elevated');
+            
+            cards.forEach(card => {
+                card.addEventListener('touchstart', () => {
+                    card.style.borderColor = 'rgba(125, 211, 252, 0.4)';
+                    card.style.boxShadow = '0 0 20px rgba(125, 211, 252, 0.15)';
+                });
+                card.addEventListener('touchend', () => {
+                    card.style.borderColor = '';
+                    card.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
+</body></html>

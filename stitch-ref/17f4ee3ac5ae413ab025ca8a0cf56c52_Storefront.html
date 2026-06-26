@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ELITE Storefront</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#fcba5e",
+                    "inverse-on-surface": "#283044",
+                    "on-tertiary-fixed": "#2a1800",
+                    "surface-variant": "#2d3449",
+                    "on-tertiary": "#452b00",
+                    "on-secondary-fixed": "#001e2c",
+                    "outline": "#899298",
+                    "surface": "#0b1326",
+                    "surface-container-highest": "#2d3449",
+                    "on-primary-fixed-variant": "#004d66",
+                    "tertiary": "#ffdfba",
+                    "on-surface-variant": "#bec8ce",
+                    "tertiary-fixed": "#ffddb5",
+                    "on-secondary-fixed-variant": "#004c69",
+                    "on-primary-container": "#005b78",
+                    "surface-container-lowest": "#060e20",
+                    "on-background": "#dae2fd",
+                    "primary-fixed": "#c0e8ff",
+                    "inverse-surface": "#dae2fd",
+                    "on-tertiary-fixed-variant": "#633f00",
+                    "primary-container": "#7dd3fc",
+                    "on-tertiary-container": "#754b00",
+                    "surface-container": "#171f33",
+                    "on-primary-fixed": "#001e2b",
+                    "inverse-primary": "#006686",
+                    "secondary-fixed": "#c4e7ff",
+                    "surface-container-high": "#222a3d",
+                    "tertiary-container": "#febc60",
+                    "surface-bright": "#31394d",
+                    "on-secondary-container": "#00374d",
+                    "on-error": "#690005",
+                    "secondary-container": "#00a6e0",
+                    "on-secondary": "#00354a",
+                    "primary": "#c5eaff",
+                    "background": "#0b1326",
+                    "surface-dim": "#0b1326",
+                    "primary-fixed-dim": "#7bd1fa",
+                    "secondary": "#7bd0ff",
+                    "outline-variant": "#3f484e",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-low": "#131b2e",
+                    "on-surface": "#dae2fd",
+                    "error-container": "#93000a",
+                    "surface-tint": "#7bd1fa",
+                    "error": "#ffb4ab",
+                    "on-primary": "#003547",
+                    "secondary-fixed-dim": "#7bd0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "gutter": "16px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-base": ["Inter"],
+                    "label-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-base": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .luminous-glow {
+            position: relative;
+        }
+        .luminous-glow::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: radial-gradient(circle at top left, rgba(197, 234, 255, 0.15), transparent 70%);
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-base antialiased overflow-x-hidden min-h-screen">
+<!-- Background Shader -->
+<!-- STITCH_SHADER_START:ANIMATION_8 class="fixed inset-0 w-full h-full z-0 opacity-40" -->
+<div class="fixed inset-0 w-full h-full z-0 opacity-40" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_8" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_8');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = v_texCoord;
+    float time = u_time * 0.2;
+    
+    // Create organic movement using sine waves
+    float noise = sin(uv.x * 3.0 + time) * cos(uv.y * 2.0 - time);
+    noise += sin(uv.y * 5.0 + time * 1.5) * 0.5;
+    
+    // Base dark blue/black
+    vec3 color1 = vec3(0.02, 0.05, 0.1); 
+    // Icy blue highlight
+    vec3 color2 = vec3(0.49, 0.83, 0.99);
+    
+    vec3 finalColor = mix(color1, color2, noise * 0.15 + 0.1);
+    
+    // Add a slight vignette
+    float vignette = 1.0 - length(uv - 0.5) * 0.7;
+    
+    gl_FragColor = vec4(finalColor * vignette, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_8 -->
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-[60] bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-container-padding h-16">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-primary">ELITE</span>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</header>
+<main class="relative z-10 pt-20 pb-32 px-container-padding space-y-stack-lg">
+<!-- Page Title -->
+<div class="animate-fade-in-up">
+<h1 class="font-headline-md text-headline-md text-on-surface opacity-60">Storefront</h1>
+</div>
+<!-- Hero Section -->
+<section class="animate-fade-in-up delay-100 relative h-[420px] rounded-2xl overflow-hidden group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A high-fashion editorial photo of a model wearing high-end white technical winter gear, standing in a serene arctic landscape with soft blue and silver lighting. The atmosphere is cold and luxurious, reflecting the Glacier aesthetic of the brand. The lighting is diffused and professional, creating subtle shadows and highlights on the fabrics." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBVf7y414SXHjsBjZMsbIfb6QmPdvDbytQgNfypSZuklUin1vuAvWgELU8TdINGY9ZsbAtZnQW5dBHhx19ABsjlhrqRuIL_dZXy5hSZKEvnxS3rU42SHB-J1lAzBg9sYyi94zoserkIyaP8MaeHbT4RJ9uKnsBhVvG8oJOj2GJy_4IsHCzRBIyHl2AMyPm5yD9jbvr7rbImZyp-M_BcW5meouccOuk1vVIBVBd-QTwvRv0NoQnPQuzveVbbtvyIM1tRL42P_GRjSc_O')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6 glass-panel p-6 rounded-xl luminous-glow">
+<p class="font-label-sm text-label-sm text-primary tracking-widest uppercase mb-1">Winter Collection</p>
+<h2 class="font-display-lg-mobile text-display-lg-mobile text-on-surface mb-4">NEW SEASON</h2>
+<button class="w-full bg-primary text-on-primary py-3 rounded-full font-label-sm text-label-sm hover:opacity-90 transition-all active:scale-95">
+                    EXPLORE NOW
+                </button>
+</div>
+</section>
+<!-- Featured Products Section -->
+<section class="space-y-gutter">
+<div class="flex justify-between items-end animate-fade-in-up delay-200">
+<h3 class="font-headline-md text-headline-md">Essentials</h3>
+<a class="text-primary font-label-sm text-label-sm border-b border-primary/30" href="#">View All</a>
+</div>
+<!-- Bento-ish Grid -->
+<div class="grid grid-cols-1 gap-gutter">
+<!-- Product Card 1 -->
+<div class="animate-fade-in-up delay-200 group">
+<div class="relative h-[320px] rounded-2xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A minimalist studio shot of a high-end glacier-blue puffer parka, hanging in a void with cinematic cool lighting. The texture of the technical fabric is highly detailed, with subtle reflections and frost-like sheen. The background is a deep navy gradient consistent with the brand's luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBft9mB_aY0rl5LT2Ow0lLPcJF2dh6URIMlK_Y4R8rVxF46LFyj5rhlZK7pokl_DMDgvobyRREn_aeEyB9kNSpY4mpXkJr6tGLt35ugbrrDJi6uroQCHR6pG-CZYvewHCCo4lZdiiV9ozReWISRXf6Sq0NFOTGjzSiX-9vN7Vl8OjYZxH6xPR2jgD3PN3D1rSNrwCtc76pEJMqGEa9801_NSZKOCJk1nSXCPuKkLICCzQnGspcsiivUkm0ObtKeBw3wJ6S0GbVqIbgZ"/>
+<div class="absolute inset-x-4 bottom-4 glass-card p-4 rounded-xl flex justify-between items-center">
+<div>
+<p class="font-headline-md text-headline-md text-on-surface text-base">Glacier Parka</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">$1,250</p>
+</div>
+<button class="bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="animate-fade-in-up delay-300 group">
+<div class="relative h-[320px] rounded-2xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A close-up artistic shot of a sheer silk scarf with abstract ice-fractal patterns in shades of white, silver, and ice blue. The scarf is draped elegantly over a crystalline structure, with soft studio lighting highlighting the delicate translucency and high-end weave of the silk. The mood is sophisticated and ethereal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8Vzdioyxj7ted8JmzYDcD_fCJXG7-aKDI5wd2Jw9EO2dUhucuZ07b51nDB-YyzJoqpnGLPbg65bCwZ8YUlp-P4PyUhBKBTIkGllR8UqYuxDN-KWewST8pFPmg-XGkyWioSICTIcHL5W-whHwY-v5vSk5g6Mub6uWHZn-cZ18EgPWQqT1FxST5oVwn3rth5DkfsGd5kcoazktCrx4imppj49QSRq7JUjGcBWZIac7yEQMBOBmh6KKLN8s7AypXivkNZHINWRO1D0fc"/>
+<div class="absolute inset-x-4 bottom-4 glass-card p-4 rounded-xl flex justify-between items-center">
+<div>
+<p class="font-headline-md text-headline-md text-on-surface text-base">Silk Scarf</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">$450</p>
+</div>
+<button class="bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter / Join -->
+<section class="animate-fade-in-up delay-300 py-stack-lg">
+<div class="glass-card p-8 rounded-2xl text-center luminous-glow">
+<h4 class="font-headline-md text-headline-md mb-2">Join the Inner Circle</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-6">Early access to limited drops and exclusive arctic experiences.</p>
+<div class="flex flex-col gap-3">
+<input class="bg-white/5 border border-white/10 rounded-full px-6 py-3 text-on-surface focus:ring-1 focus:ring-primary focus:outline-none transition-all" placeholder="Email Address" type="email"/>
+<button class="bg-primary text-on-primary py-3 rounded-full font-label-sm text-label-sm font-semibold">SUBSCRIBE</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-6 pt-2 bg-surface-container/30 backdrop-blur-2xl border-t border-white/10 rounded-t-xl">
+<!-- Storefront (Active) -->
+<a class="flex items-center justify-center bg-primary text-on-primary rounded-full w-12 h-12 shadow-[0_0_15px_rgba(123,209,250,0.3)] active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">storefront</span>
+</a>
+<!-- Local Mall -->
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">local_mall</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center justify-center text-on-surface-variant w-12 h-12 hover:text-primary active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+</a>
+</nav>
+<script>
+        // Simple entrance observer for additional dynamism
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(el => observer.observe(el));
+    </script>
+</body></html>

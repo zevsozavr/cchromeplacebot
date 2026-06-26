@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Details - Glacier Parka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#fcba5e",
+                    "inverse-on-surface": "#283044",
+                    "on-tertiary-fixed": "#2a1800",
+                    "surface-variant": "#2d3449",
+                    "on-tertiary": "#452b00",
+                    "on-secondary-fixed": "#001e2c",
+                    "outline": "#899298",
+                    "surface": "#0b1326",
+                    "surface-container-highest": "#2d3449",
+                    "on-primary-fixed-variant": "#004d66",
+                    "tertiary": "#ffdfba",
+                    "on-surface-variant": "#bec8ce",
+                    "tertiary-fixed": "#ffddb5",
+                    "on-secondary-fixed-variant": "#004c69",
+                    "on-primary-container": "#005b78",
+                    "surface-container-lowest": "#060e20",
+                    "on-background": "#dae2fd",
+                    "primary-fixed": "#c0e8ff",
+                    "inverse-surface": "#dae2fd",
+                    "on-tertiary-fixed-variant": "#633f00",
+                    "primary-container": "#7dd3fc",
+                    "on-primary-container": "#005b78",
+                    "surface-container": "#171f33",
+                    "on-primary-fixed": "#001e2b",
+                    "inverse-primary": "#006686",
+                    "secondary-fixed": "#c4e7ff",
+                    "surface-container-high": "#222a3d",
+                    "tertiary-container": "#febc60",
+                    "surface-bright": "#31394d",
+                    "on-secondary-container": "#00374d",
+                    "on-error": "#690005",
+                    "secondary-container": "#00a6e0",
+                    "on-secondary": "#00354a",
+                    "primary": "#c5eaff",
+                    "background": "#0b1326",
+                    "surface-dim": "#0b1326",
+                    "primary-fixed-dim": "#7bd1fa",
+                    "secondary": "#7bd0ff",
+                    "outline-variant": "#3f484e",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-low": "#131b2e",
+                    "on-surface": "#dae2fd",
+                    "error-container": "#93000a",
+                    "surface-tint": "#7bd1fa",
+                    "error": "#ffb4ab",
+                    "on-primary": "#003547",
+                    "secondary-fixed-dim": "#7bd0ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "gutter": "16px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "body-base": ["Inter"],
+                    "label-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-base": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+        .glass-button {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-button:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .ice-glow {
+            box-shadow: 0 0 20px rgba(123, 209, 250, 0.4);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .product-image-container {
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- Background Shader -->
+<!-- STITCH_SHADER_START:ANIMATION_8 class="fixed inset-0 w-full h-full z-0 opacity-40" -->
+<div class="fixed inset-0 w-full h-full z-0 opacity-40" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_8" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_8');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = v_texCoord;
+    float time = u_time * 0.2;
+    
+    // Create organic movement using sine waves
+    float noise = sin(uv.x * 3.0 + time) * cos(uv.y * 2.0 - time);
+    noise += sin(uv.y * 5.0 + time * 1.5) * 0.5;
+    
+    // Base dark blue/black
+    vec3 color1 = vec3(0.02, 0.05, 0.1); 
+    // Icy blue highlight
+    vec3 color2 = vec3(0.49, 0.83, 0.99);
+    
+    vec3 finalColor = mix(color1, color2, noise * 0.15 + 0.1);
+    
+    // Add a slight vignette
+    float vignette = 1.0 - length(uv - 0.5) * 0.7;
+    
+    gl_FragColor = vec4(finalColor * vignette, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_8 -->
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/40 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-container-padding h-16">
+<button class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary">ELITE</h1>
+<button class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-16 pb-32 z-10 relative">
+<!-- Hero Product Image -->
+<section class="flex flex-col items-center justify-center py-8 product-image-container">
+<div class="relative w-full max-w-[320px] aspect-[3/4] group">
+<!-- Radial Glow Background -->
+<div class="absolute inset-0 bg-primary/10 blur-[60px] rounded-full scale-75 opacity-50"></div>
+<img class="relative z-10 w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700" data-alt="A high-end cinematic product shot of the 'Glacier Parka', a futuristic high-tech winter jacket made of iridescent silver and deep charcoal materials. The jacket features subtle glowing blue fiber-optic accents along the seams. It is presented in a minimalist, arctic-themed digital studio with soft, diffused cool lighting and floating crystalline particles. The overall mood is luxurious, technological, and cold." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn0wcXLzseNpoQLXBejIbd-ZuApkywMxKlzE0Y5Mec9dFlr0B_v3Zn6bsGcz-5od551q0i1N3zsZBn0bZqUcT8hatijC3fQzUJiQVzz7EgcOVqgUJG7T4Zp3hU3Ycwduyf-_M7TCUH200tms-Z00orOOXGddHCOIJnFcdPmxr3KacFRffqYJyk-E7l4mq2jossuF5aSSN2Or4p154VNUQFMTUvdMGZ8bNaNt85hYobQ7FhXFdBVnwmRO8-qHHbOEsi7T9ER7Wy_bLW"/>
+</div>
+</section>
+<!-- Product Details Card -->
+<section class="px-container-padding -mt-12">
+<div class="glass-panel rounded-[32px] p-8 space-y-6">
+<!-- Header Info -->
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">Premium Outerwear</span>
+<h2 class="font-display-lg-mobile text-display-lg-mobile text-on-surface mt-1">Glacier Parka</h2>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-primary">$1,200</p>
+</div>
+</div>
+<!-- Description -->
+<p class="font-body-base text-body-base text-on-surface-variant leading-relaxed">
+                    Engineered for the modern explorer. Featuring aerospace-grade thermal insulation and a crystalline-infused outer shell that repels extreme elements while maintaining peak breathability. 
+                </p>
+<!-- Size Selector -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<h3 class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Select Size</h3>
+<span class="font-label-sm text-label-sm text-primary">Size Guide</span>
+</div>
+<div class="flex gap-3">
+<button class="glass-button w-12 h-12 rounded-xl flex items-center justify-center font-body-base text-on-surface border-primary shadow-[0_0_10px_rgba(197,234,255,0.2)]">S</button>
+<button class="glass-button w-12 h-12 rounded-xl flex items-center justify-center font-body-base text-on-surface-variant">M</button>
+<button class="glass-button w-12 h-12 rounded-xl flex items-center justify-center font-body-base text-on-surface-variant">L</button>
+<button class="glass-button w-12 h-12 rounded-xl flex items-center justify-center font-body-base text-on-surface-variant">XL</button>
+</div>
+</div>
+<!-- CTAs -->
+<div class="flex flex-col gap-3 pt-2">
+<button class="bg-primary text-on-primary h-14 rounded-2xl font-headline-md text-[18px] flex items-center justify-center gap-2 ice-glow active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+                        Chat with Seller
+                    </button>
+<button class="glass-button h-14 rounded-2xl font-headline-md text-[18px] text-on-surface flex items-center justify-center active:scale-95 transition-all">
+                        Add to Bag
+                    </button>
+</div>
+</div>
+</section>
+<!-- Technical Specs / Upsell -->
+<section class="px-container-padding mt-8 pb-12">
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-[0.2em] mb-4">Core Technology</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-panel p-4 rounded-2xl">
+<span class="material-symbols-outlined text-primary mb-2">ac_unit</span>
+<h4 class="font-label-sm text-label-sm text-on-surface font-bold">Sub-Zero Tech</h4>
+<p class="text-[10px] text-on-surface-variant mt-1">Rated for -40°C arctic conditions.</p>
+</div>
+<div class="glass-panel p-4 rounded-2xl">
+<span class="material-symbols-outlined text-primary mb-2">water_drop</span>
+<h4 class="font-label-sm text-label-sm text-on-surface font-bold">Hydro-Shield</h4>
+<p class="text-[10px] text-on-surface-variant mt-1">100% molecular water resistance.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Hidden for focus but technically mapped in shell logic) -->
+<!-- Suppressed due to task-focused/details intent per system instructions -->
+<script>
+        // Micro-interaction for size selection
+        const sizeButtons = document.querySelectorAll('.glass-button.w-12');
+        sizeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sizeButtons.forEach(b => {
+                    b.classList.remove('border-primary', 'shadow-[0_0_10px_rgba(197,234,255,0.2)]', 'text-on-surface');
+                    b.classList.add('text-on-surface-variant');
+                });
+                btn.classList.add('border-primary', 'shadow-[0_0_10px_rgba(197,234,255,0.2)]', 'text-on-surface');
+                btn.classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Parallax effect on product image
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const img = document.querySelector('img[data-alt]');
+            if (img) {
+                img.style.transform = `translateY(${scrolled * 0.15}px) scale(${1 + scrolled * 0.0002})`;
+            }
+        });
+    </script>
+</body></html>
