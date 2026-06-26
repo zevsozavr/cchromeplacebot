@@ -1,4 +1,4 @@
-import { getOrders, saveOrder, deleteOrder } from '../lib/db.js';
+import { getOrders, saveOrder, deleteOrder, edgeWrite } from '../lib/db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,8 +15,6 @@ export default async function handler(req, res) {
 
     if (req.method === 'PUT') {
       const orders = Array.isArray(req.body) ? req.body : [];
-      // Replace all orders — clear cache then write each
-      const { edgeWrite } = await import('../lib/db.js');
       await edgeWrite('orders', orders);
       return res.json({ ok: true });
     }
@@ -26,7 +24,6 @@ export default async function handler(req, res) {
       const { status } = req.body;
       const orders = await getOrders();
       const updated = orders.map((o) => o.id === id ? { ...o, status } : o);
-      const { edgeWrite } = await import('../lib/db.js');
       await edgeWrite('orders', updated);
       return res.json({ ok: true });
     }

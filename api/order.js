@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { initDb, saveOrder, getOrders } from '../lib/db.js';
+import { initDb, saveOrder, getOrders, saveUser } from '../lib/db.js';
 
 const BOT_TOKEN = process.env.BOT_TOKEN || '8649366560:AAE_Resk8hYpJUFKaLguojKkgRyH54OQbyo';
 const NOTIFY_CHAT_ID = process.env.NOTIFY_CHAT_ID || '822479618';
@@ -49,6 +49,9 @@ export default async function handler(req, res) {
       date: order.date || new Date().toISOString(),
     };
     await saveOrder(orderWithUser);
+    if (user.id) {
+      await saveUser(user);
+    }
   } catch (dbErr) {
     console.error('Failed to save order to DB:', dbErr);
   }
@@ -61,20 +64,20 @@ export default async function handler(req, res) {
   const ttnText = order.ttn ? `📦 *ТТН:* ${order.ttn}` : '';
 
   const message = [
-    `🛍 *New Order — cchrome place*`,
+    `🛍 *Нове замовлення — cchrome place*`,
     ``,
-    `*Order ID:* #${order.id}`,
-    `*Name:* ${order.name}`,
-    `*Phone:* ${order.phone}`,
-    `*Address:* ${order.address}`,
-    `*Payment:* ${prepayText}`,
+    `*Номер:* #${order.id}`,
+    `*Ім'я:* ${order.name}`,
+    `*Телефон:* ${order.phone}`,
+    `*Адреса:* ${order.address}`,
+    `*Оплата:* ${prepayText}`,
     ttnText,
     `*TG:* ${user.first_name || ''} ${user.last_name || ''} @${user.username || ''}`,
     ``,
-    `*Items:*`,
+    `*Товари:*`,
     itemsList,
     ``,
-    `*Total:* ${order.total}₴`,
+    `*Сума:* ${order.total}₴`,
   ].filter(Boolean).join('\n');
 
   await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
