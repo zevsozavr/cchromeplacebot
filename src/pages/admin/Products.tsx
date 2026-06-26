@@ -27,6 +27,7 @@ export function AdminProducts() {
   const [sizesInput, setSizesInput] = useState('S, M, L');
   const [colorsInput, setColorsInput] = useState('Default:#000000');
   const [inCollection, setInCollection] = useState(false);
+  const [collectionsInput, setCollectionsInput] = useState('');
   const [stock, setStock] = useState('5');
 
   if (!isAdmin) return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}><p>{t('admin.access.denied')}</p></div>;
@@ -42,7 +43,7 @@ export function AdminProducts() {
   const resetForm = () => {
     setName(''); setCategory(''); setNewCategory(''); setPrice('');
     setImageDataUrl(''); setImageUrl(''); setDescription(''); setCondition('New');
-    setSizesInput('S, M, L'); setColorsInput('Default:#000000'); setInCollection(false); setStock('5');
+    setSizesInput('S, M, L'); setColorsInput('Default:#000000'); setInCollection(false); setCollectionsInput(''); setStock('5');
     setEditingId(null); setShowForm(false);
   };
 
@@ -54,6 +55,7 @@ export function AdminProducts() {
     setSizesInput(p.sizes.join(', '));
     setColorsInput(p.colors.map((c) => `${c.name}:${c.hex}`).join(', '));
     setInCollection(p.inCollection || false);
+    setCollectionsInput(p.collections ? p.collections.join(', ') : '');
     setStock(String(p.stock ?? 5));
     setShowForm(true);
   };
@@ -77,6 +79,7 @@ export function AdminProducts() {
       sizes: parsedSizes.length > 0 ? parsedSizes : ['One Size'],
       colors: parsedColors,
       inCollection,
+      collections: collectionsInput.split(',').map((s) => s.trim()).filter(Boolean),
       stock: Number(stock),
     };
     if (editingId) {
@@ -152,6 +155,9 @@ export function AdminProducts() {
             <input placeholder={t('admin.product.colors')} value={colorsInput} onChange={(e) => setColorsInput(e.target.value)}
               style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
 
+            <input placeholder={t('admin.product.collections')} value={collectionsInput} onChange={(e) => setCollectionsInput(e.target.value)}
+              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
+
             <textarea placeholder={t('admin.product.description')} value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
               style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)', resize: 'vertical' }} />
             <label style={{ display: 'flex', alignItems: 'center', gap: 8, font: 'var(--font-body)', color: 'var(--on-surface)', cursor: 'pointer' }}>
@@ -177,7 +183,11 @@ export function AdminProducts() {
                   {t('categories.' + p.category)} — {p.price.toLocaleString()}₴
                   <span style={{ marginLeft: 8, padding: '1px 6px', borderRadius: 'var(--radius-full)', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>{t('product.condition.' + p.condition.toLowerCase().replace(/\s+/g, '_'))}</span>
                 </p>
+                <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{p.colors.map((c) => c.name).join(', ')}</p>
                 {p.description && <p style={{ font: 'var(--font-body)', fontSize: 12, color: 'var(--on-surface-variant)', marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 200 }}>{p.description}</p>}
+                {p.collections && p.collections.length > 0 && (
+                  <p style={{ fontSize: 11, color: '#22c55e', marginTop: 2 }}>{p.collections.join(', ')}</p>
+                )}
               </div>
               <button onClick={(e) => { e.stopPropagation(); deleteProduct(p.id); }} style={{ color: 'var(--error)', cursor: 'pointer', padding: 4 }}>
                 <Icon name="delete" />

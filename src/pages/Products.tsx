@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router-dom'
 import { useData } from '../context/DataContext'
 import { useFavorites } from '../context/FavoritesContext'
 import { useLang } from '../context/LangContext'
+import { useMiniCart } from '../context/MiniCartContext'
 import { BottomBar } from '../components/BottomBar'
 
 export function Products() {
   const navigate = useNavigate()
+  const { openCart } = useMiniCart()
   const { products } = useData()
   const { isFavorite, toggleFavorite } = useFavorites()
   const { t } = useLang()
@@ -33,7 +35,7 @@ export function Products() {
           <span className="material-symbols-outlined" style={{ fontSize: 28 }}>arrow_back</span>
         </button>
         <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#22c55e' }}>{t('products.title')}</h1>
-        <button onClick={() => navigate('/cart')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
+        <button onClick={openCart} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
           <span className="material-symbols-outlined" style={{ fontSize: 28 }}>shopping_bag</span>
         </button>
       </header>

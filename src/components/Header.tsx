@@ -1,4 +1,5 @@
 import type { ReactNode, CSSProperties } from 'react'
+import { useMiniCart } from '../context/MiniCartContext'
 
 interface HeaderProps {
   left?: ReactNode
@@ -7,9 +8,11 @@ interface HeaderProps {
   title?: string
   showBack?: boolean
   onBack?: () => void
+  onRightClick?: () => void
 }
 
-export function Header({ left, center, right, title, showBack, onBack }: HeaderProps) {
+export function Header({ left, center, right, title, showBack, onBack, onRightClick }: HeaderProps) {
+  const { openCart } = useMiniCart()
   const base: CSSProperties = {
     position: 'fixed',
     top: 0,
@@ -51,7 +54,7 @@ export function Header({ left, center, right, title, showBack, onBack }: HeaderP
         <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#22c55e' }}>CCHROME PLACE</h1>
       ))}
       {right || (
-        <button style={{ color: '#22c55e', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+        <button onClick={onRightClick ?? openCart} style={{ color: '#22c55e', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
           <span className="material-symbols-outlined" style={{ fontSize: 28 }}>{title ? 'more_vert' : 'shopping_bag'}</span>
         </button>
       )}

@@ -1,0 +1,105 @@
+import { useState, useEffect } from 'react';
+import { Header } from '../../components/Header';
+import { Glass } from '../../components/Glass';
+import { useAuth } from '../../context/AuthContext';
+import { useLang } from '../../context/LangContext';
+import type { Order } from '../../types';
+
+const ORDERS_KEY = 'plugstreet_orders';
+
+export function AdminOrders() {
+  const { isAdmin } = useAuth();
+  const { t } = useLang();
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(ORDERS_KEY);
+      if (raw) setOrders(JSON.parse(raw));
+    } catch {}
+  }, []);
+
+  const updateStatus = (id: string, status: Order['status']) => {
+    const updated = orders.map((o) => o.id === id ? { ...o, status } : o);
+    setOrders(updated);
+    localStorage.setItem(ORDERS_KEY, JSON.stringify(updated));
+  };
+
+  const deleteOrder = (id: string) => {
+    const filtered = orders.filter((o) => o.id !== id);
+    setOrders(filtered);
+    localStorage.setItem(ORDERS_KEY, JSON.stringify(filtered));
+  };
+
+  if (!isAdmin) {
+    return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}>
+      <p>{t('admin.access.denied')}</p>
+    </div>;
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
+      <Header showBack title={t('admin.orders')} onBack={() => window.history.back()} />
+      <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)', position: 'relative', zIndex: 10 }}>
+        <h2 style={{ font: 'var(--font-headline)', marginBottom: 20 }}>{t('admin.orders')} ({orders.length})</h2>
+        {orders.length === 0 && (
+          <p style={{ color: 'var(--on-surface-variant)', textAlign: 'center', paddingTop: 40 }}>{t('settings.no.orders')}</p>
+        )}
+        {[...orders].reverse().map((o) => (
+          <Glass key={o.id} style={{ borderRadius: 'var(--rounded-lg)', padding: 16, marginBottom: 12 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+              <span style={{ color: '#22c55e', fontWeight: 700, fontSize: 14 }}>#{o.id}</span>
+              <span style={{ fontSize: 12, color: 'var(--on-surface-variant)' }}>
+                {new Date(o.date).toLocaleDateString()} {new Date(o.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+            </div>
+            <div style={{ fontSize: 13, color: 'var(--on-surface-variant)', marginBottom: 8 }}>
+              <div>{o.name} — {o.phone}</div>
+              <div>{o.address}</div>
+            </div>
+            <div style={{ fontSize: 13, marginBottom: 8 }}>
+              {o.items.map((item) => (
+                <div key={item.name + item.selectedSize} style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--on-surface)', marginBottom: 2 }}>
+                  <span>{item.name} x{item.quantity} ({item.selectedSize})</span>
+                  <span>₴{(item.price * item.quantity).toLocaleString()}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 8, marginBottom: 12 }}>
+              <span style={{ fontWeight: 600, color: 'var(--on-surface)' }}>{t('cart.total')}</span>
+              <span style={{ fontWeight: 700, color: '#22c55e' }}>₴{o.total.toLocaleString()}</span>
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <select
+                value={o.status}
+                onChange={(e) => updateStatus(o.id, e.target.value as Order['status'])}
+                style={{
+                  flex: 1, padding: '8px 12px', borderRadius: 9999,
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: '#e0e8f0', fontSize: 12, outline: 'none', cursor: 'pointer',
+                }}
+              >
+                <option value="new">{t('order.step.confirmed')}</option>
+                <option value="processing">{t('order.step.processing')}</option>
+                <option value="shipped">{t('order.step.shipped')}</option>
+                <option value="delivered">{t('order.step.delivered')}</option>
+              </select>
+              <button
+                onClick={() => deleteOrder(o.id)}
+                style={{
+                  padding: '8px 16px', borderRadius: 9999,
+                  background: 'rgba(255, 107, 107, 0.15)',
+                  border: '1px solid rgba(255, 107, 107, 0.3)',
+                  color: '#ff6b6b', fontSize: 12, cursor: 'pointer',
+                }}
+              >
+                {t('admin.order.delete')}
+              </button>
+            </div>
+          </Glass>
+        ))}
+      </main>
+    </div>
+  );
+}

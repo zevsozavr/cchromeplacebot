@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
+import { useMiniCart } from '../context/MiniCartContext'
 
 import { BottomBar } from '../components/BottomBar'
 
@@ -16,6 +17,7 @@ export function Settings() {
   const navigate = useNavigate()
   const { isAdmin } = useAuth()
   const { lang, setLang, t } = useLang()
+  const { openCart } = useMiniCart()
   const [orders, setOrders] = useState<Order[]>([])
   const [showOrders, setShowOrders] = useState(false)
 
@@ -69,7 +71,7 @@ export function Settings() {
       >
         <div style={{ width: 24 }} />
         <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#22c55e' }}>CCHROME PLACE</h1>
-        <span className="material-symbols-outlined" style={{ color: '#22c55e', cursor: 'pointer' }} onClick={() => navigate('/cart')}>shopping_bag</span>
+        <span className="material-symbols-outlined" style={{ color: '#22c55e', cursor: 'pointer' }} onClick={openCart}>shopping_bag</span>
       </header>
 
       <main style={{ paddingTop: 96, paddingLeft: 24, paddingRight: 24 }}>

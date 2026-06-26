@@ -1,33 +1,39 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { useData } from '../context/DataContext'
 import { useLang } from '../context/LangContext'
 
 export function Checkout() {
   const navigate = useNavigate()
   const { items, totalPrice, clearCart } = useCart()
+  const { shipping: shippingConfig } = useData()
   const { t } = useLang()
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [warehouse, setWarehouse] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
   const subtotal = totalPrice
-  const shipping = subtotal >= 20000 ? 0 : 500
+  const shipping = subtotal >= shippingConfig.freeShippingThreshold ? 0 : shippingConfig.novaPoshtaPrice
   const total = subtotal + shipping
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
 
+    const address = `${city}, ${t('checkout.np_warehouse')} ${warehouse}`
     const order = {
       id: Date.now().toString(36).toUpperCase(),
       items: [...items],
       total,
+      shipping,
       date: new Date().toISOString(),
       name,
       phone,
       address,
+      status: 'new',
     }
 
     try {
@@ -141,7 +147,7 @@ export function Checkout() {
             </div>
           </section>
 
-          {/* Delivery */}
+          {/* Delivery — Nova Poshta */}
           <section
             style={{
               background: 'rgba(15, 21, 36, 0.6)',
@@ -153,24 +159,34 @@ export function Checkout() {
             }}
           >
             <h3 style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0', marginBottom: 16 }}>{t('checkout.delivery')}</h3>
-            <textarea
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder={t('checkout.placeholder.address')}
-              required
-              rows={3}
-              style={{
-                width: '100%',
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 16,
-                padding: 12,
-                color: '#e0e8f0',
-                fontSize: 14,
-                outline: 'none',
-                resize: 'vertical',
-              }}
-            />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <input
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder={t('checkout.placeholder.city')}
+                required
+                style={{
+                  width: '100%', height: 48,
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 16, padding: '0 16px',
+                  color: '#e0e8f0', fontSize: 14, outline: 'none',
+                }}
+              />
+              <input
+                value={warehouse}
+                onChange={(e) => setWarehouse(e.target.value)}
+                placeholder={t('checkout.placeholder.warehouse')}
+                required
+                style={{
+                  width: '100%', height: 48,
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 16, padding: '0 16px',
+                  color: '#e0e8f0', fontSize: 14, outline: 'none',
+                }}
+              />
+            </div>
           </section>
 
           {/* Order Summary */}

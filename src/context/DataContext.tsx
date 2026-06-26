@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { Product, Category, Collection } from '../types';
+import type { Product, Category, Collection, ShippingConfig } from '../types';
 
 const STORAGE_KEY = 'cchrome_data';
 
 interface StoredData {
   products: Product[];
   collection: Collection;
+  shipping?: ShippingConfig;
 }
 
 interface DataContextValue {
@@ -17,6 +18,8 @@ interface DataContextValue {
   addCategory: (name: string) => void;
   collection: Collection;
   setCollection: (c: Collection) => void;
+  shipping: ShippingConfig;
+  setShipping: (s: ShippingConfig) => void;
 }
 
 const defaultCategories: Category[] = [
@@ -48,6 +51,11 @@ const defaultCollection: Collection = {
   tag: 'Магазин',
 };
 
+const defaultShipping: ShippingConfig = {
+  novaPoshtaPrice: 100,
+  freeShippingThreshold: 3000,
+};
+
 function loadData(): StoredData | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -70,6 +78,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const [products, setProducts] = useState<Product[]>(saved?.products || defaultProducts);
   const [collection, setCollectionState] = useState<Collection>(saved?.collection || defaultCollection);
+  const [shipping, setShippingState] = useState<ShippingConfig>(saved?.shipping || defaultShipping);
 
   const [categories, setCategories] = useState<Category[]>(() => {
     const existingNames = new Set(saved?.products.map((p) => p.category) || defaultProducts.map((p) => p.category));
@@ -83,7 +92,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    saveData({ products, collection });
+    saveData({ products, collection, shipping });
   }, [products, collection]);
 
   const addProduct = (p: Product) => {
@@ -104,8 +113,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
   };
 
   const setCollection = (c: Collection) => setCollectionState(c);
+  const setShipping = (s: ShippingConfig) => setShippingState(s);
 
-  return <DataContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, categories, addCategory, collection, setCollection }}>{children}</DataContext.Provider>;
+  return <DataContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, categories, addCategory, collection, setCollection, shipping, setShipping }}>{children}</DataContext.Provider>;
 }
 
 export function useData() {

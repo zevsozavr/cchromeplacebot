@@ -85,7 +85,7 @@ export function OrderConfirmed() {
 
         <button
           onClick={() => {
-            const chatLink = `https://t.me/user?id=1335203493`
+            const chatLink = `https://t.me/cchromeplacee`
             window.open(chatLink, '_blank')
           }}
           style={{

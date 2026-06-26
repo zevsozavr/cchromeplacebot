@@ -4,7 +4,6 @@ import { useCart } from '../context/CartContext'
 import { useLang } from '../context/LangContext'
 import { Header } from '../components/Header'
 import { BottomBar } from '../components/BottomBar'
-import { ProductCardHorizontal } from '../components/ProductCard'
 
 export function Storefront() {
   const navigate = useNavigate()
@@ -12,9 +11,8 @@ export function Storefront() {
   const { addItem } = useCart()
   const { t } = useLang()
 
-  const collectionProducts = products.filter((p) => p.inCollection)
-  const newArrivals = collectionProducts.length > 0 ? collectionProducts : products.slice(0, 3)
-  const masonry = products
+  const masonry = products.filter((p) => p.inCollection)
+  const gridProducts = masonry.length > 0 ? masonry : products
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 128 }}>
@@ -126,27 +124,6 @@ export function Storefront() {
           ))}
         </section>
 
-        {/* New Arrivals (Horizontal Scroll) */}
-        <section style={{ paddingTop: 40, paddingBottom: 40 }}>
-          <div style={{ padding: '0 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
-            <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: '#e0e8f0' }}>{t('store.new.arrivals')}</h3>
-            <button onClick={() => navigate('/products')} style={{ color: '#22c55e', fontSize: 14, fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>
-              {t('store.view.all')}
-            </button>
-          </div>
-          <div style={{ display: 'flex', overflowX: 'auto', gap: 24, padding: '0 24px' }} className="hide-scrollbar">
-            {newArrivals.map((p) => (
-              <ProductCardHorizontal
-                key={p.id}
-                image={p.image}
-                name={p.name}
-                price={`₴${p.price.toLocaleString()}`}
-                onAddToCart={() => addItem(p, p.sizes[0], p.colors[0].name)}
-              />
-            ))}
-          </div>
-        </section>
-
         {/* Highlight Card */}
         {collection.enabled && <section style={{ padding: '0 24px', marginBottom: 48 }}>
           <div
@@ -209,7 +186,7 @@ export function Storefront() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'flex-start' }}>
             {/* Col 1 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-              {masonry.filter((_, i) => i % 2 === 0).map((p) => (
+              {gridProducts.filter((_, i) => i % 2 === 0).map((p) => (
                 <div key={p.id} className="group" onClick={() => navigate(`/product/${p.id}`)} style={{ cursor: 'pointer' }}>
                   <div
                     style={{
@@ -274,7 +251,7 @@ export function Storefront() {
             </div>
             {/* Col 2 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingTop: 48 }}>
-              {masonry.filter((_, i) => i % 2 === 1).map((p) => {
+              {gridProducts.filter((_, i) => i % 2 === 1).map((p) => {
                 const aspectRatios = ['4/5', '3/4', '1/1']
                 const ar = aspectRatios[p.id.length % 3]
                 return (

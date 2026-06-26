@@ -21,8 +21,10 @@ export function AdminDashboard() {
   }
 
   const cards = [
-    { label: t('admin.products'), value: products.length, icon: 'inventory_2', path: '/admin/products', color: 'var(--primary)' },
-    { label: t('admin.collection'), value: '', icon: 'auto_awesome', path: '/admin/collection', color: 'var(--primary)' },
+    { label: t('admin.products'), value: products.length, icon: 'inventory_2', path: '/admin/products', color: '#22c55e' },
+    { label: t('admin.collection'), value: '', icon: 'auto_awesome', path: '/admin/collection', color: '#22c55e' },
+    { label: t('admin.orders'), value: '', icon: 'receipt_long', path: '/admin/orders', color: '#22c55e' },
+    { label: t('admin.shipping'), value: '', icon: 'local_shipping', path: '/admin/shipping', color: '#22c55e' },
   ];
 
   return (

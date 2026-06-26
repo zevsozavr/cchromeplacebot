@@ -113,8 +113,14 @@ export function Cart() {
                     <p style={{ fontSize: 12, color: '#a0b4c4', marginTop: 2 }}>
                       {item.colors.find((c) => c.name === item.selectedColor)?.hex ? (
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                          <span style={{ width: 10, height: 10, borderRadius: '50%', background: item.colors.find((c) => c.name === item.selectedColor)?.hex, display: 'inline-block' }} />
-                          {item.selectedColor}
+                          <span style={{
+                            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                            padding: '1px 5px', borderRadius: 4, fontSize: 10, fontWeight: 700,
+                            background: item.colors.find((c) => c.name === item.selectedColor)?.hex,
+                            color: '#fff', lineHeight: '14px',
+                          }}>
+                            {item.selectedColor}
+                          </span>
                         </span>
                       ) : item.selectedColor}
                       {' '}• {t('cart.size')} {item.selectedSize}

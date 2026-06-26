@@ -199,30 +199,22 @@ export function ProductDetail() {
               <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#a0b4c4', marginBottom: 12 }}>
                 {t('product.color')}
               </h3>
-              <div style={{ display: 'flex', gap: 12 }}>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {product.colors.map((c, i) => (
                   <button
                     key={c.name}
                     onClick={() => setSelectedColorIdx(i)}
                     style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: '50%',
-                      border: i === selectedColorIdx ? '2px solid #22c55e' : '1px solid rgba(255,255,255,0.1)',
-                      padding: 2,
-                      background: 'transparent',
+                      padding: '6px 14px',
+                      borderRadius: 9999,
+                      border: i === selectedColorIdx ? '1.5px solid #22c55e' : '1px solid rgba(255,255,255,0.1)',
+                      background: i === selectedColorIdx ? 'rgba(34,197,94,0.1)' : 'transparent',
+                      color: '#e0e8f0',
+                      fontSize: 13,
                       cursor: 'pointer',
                     }}
                   >
-                    <div
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
-                        background: c.hex,
-                        boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.3)',
-                      }}
-                    />
+                    {c.name}
                   </button>
                 ))}
               </div>
@@ -230,14 +222,9 @@ export function ProductDetail() {
 
             {/* Size Selector */}
             <div style={{ marginTop: 32 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#a0b4c4' }}>
-                  {t('product.size')}
-                </h3>
-                <button style={{ fontSize: 12, color: '#22c55e', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer' }}>
-                  {t('product.size.guide')}
-                </button>
-              </div>
+              <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#a0b4c4', marginBottom: 12 }}>
+                {t('product.size')}
+              </h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
                 {product.sizes.map((s) => {
                   const active = s === selectedSize
