@@ -9,6 +9,7 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
       const data = await getAppData();
       if (!data) return res.status(503).json({ error: 'Database not configured' });
       return res.json(data);
@@ -17,7 +18,10 @@ export default async function handler(req, res) {
     if (req.method === 'PUT') {
       const saved = await saveAppData(req.body);
       if (!saved) return res.status(503).json({ error: 'Database not configured' });
-      return res.json({ ok: true });
+
+      // Re-fetch and return the saved data so client stays in sync
+      const fresh = await getAppData();
+      return res.json({ ok: true, data: fresh });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

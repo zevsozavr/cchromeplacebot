@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 
 const translations = {
   UA: {
@@ -16,6 +16,9 @@ const translations = {
     'checkout.placeholder.city': 'Місто',
     'checkout.placeholder.warehouse': 'Номер відділення Нової Пошти',
     'checkout.np_warehouse': 'Нова Пошта, відділення',
+    'checkout.city': 'Місто',
+    'checkout.prepay': 'Передплата на картку',
+    'checkout.prepay.hint': 'Оплачуйте замовлення відразу на картку для економії на післяплаті Нової Пошти',
     'cart.title': 'Кошик',
     'cart.view': 'Переглянути кошик',
     'cart.empty': 'Кошик порожній',
@@ -98,8 +101,7 @@ const translations = {
     'categories.Accessories': 'Аксесуари',
     'categories.Tops': 'Верх',
     'categories.Bottoms': 'Низ',
-    'categories.Dresses': 'Сукні',
-    'categories.Premium Outerwear': 'Преміум верхній одяг',
+    'categories.Shoes': 'Взуття',
     'categories.General': 'Загальне',
     'cart.item.one': 'товар',
     'cart.item.few': 'товари',
@@ -118,6 +120,16 @@ const translations = {
     'admin.data.danger.desc': 'Це видалить всі товари, замовлення та скине налаштування. Дія незворотна.',
     'admin.data.confirm': 'Так, видалити все',
     'admin.no.users': 'Ще немає користувачів',
+    'admin.np.title': 'Nova Poshta налаштування',
+    'admin.np.hint': 'Отримайте ці дані в особистому кабінеті Nova Poshta (API → Налаштування відправника). Обов\'язкові для автоматичного створення ТТН.',
+    'admin.np.sender_ref': 'Sender Ref (Counterparty)',
+    'admin.np.sender_address_ref': 'Sender Address Ref',
+    'admin.np.contact_sender_ref': 'Contact Sender Ref',
+    'admin.np.city_sender_ref': 'City Sender Ref',
+    'admin.np.sender_phone': 'Sender Phone',
+    'admin.np.save': 'Зберегти',
+    'admin.np.saving': 'Збереження...',
+    'admin.np.saved': 'Збережено!',
     'admin.collection.title': 'Назва колекції',
     'admin.collection.subtitle': 'Підзаголовок',
     'admin.collection.tag': 'Тег',
@@ -133,6 +145,7 @@ const translations = {
     'admin.product.in_collection': 'Показувати в колекції',
     'admin.product.stock': 'Кількість',
     'product.out_of_stock': 'Немає в наявності',
+    'product.out_of_stock_short': 'Немає',
     'product.stock': 'В наявності',
     'product.condition.new': 'Новий',
     'product.condition.like_new': 'Як новий',
@@ -200,10 +213,7 @@ const translations = {
     'store.cat.accessories': 'Аксесуари',
     'store.cat.tops': 'Верх',
     'store.cat.bottoms': 'Низ',
-    'store.cat.dresses': 'Сукні',
-    'store.cat.premium outerwear': 'Преміум верхній одяг',
-    'store.cat.knitwear': 'Трикотаж',
-    'store.cat.footwear': 'Взуття',
+    'store.cat.shoes': 'Взуття',
     'product.size.text': 'Розмір',
     'order.shipping.text': 'Доставка',
     'order.total.text': 'Всього',
@@ -211,6 +221,25 @@ const translations = {
     'order.continue.shopping': 'ПРОДОВЖИТИ',
     'order.message.seller': 'НАПИСАТИ ПРОДАВЦЮ',
     'settings.version.suffix': '-ГЛЯЦІЙ',
+    'admin.product.subcategory': 'Підкатегорія',
+    'admin.product.photos': 'Фото',
+    'admin.form.basic_info': 'Основна інформація',
+    'admin.form.pricing': 'Ціна та кількість',
+    'admin.form.details': 'Деталі',
+    'admin.form.upload': 'Завантажити',
+    'admin.form.url': 'Посилання',
+    'admin.form.first_is_primary': 'перше фото — головне',
+    'admin.form.add_photo': 'Додати ще фото',
+    'admin.no.products': 'Товарів ще немає',
+    'products.empty.category': 'У цій категорії ще немає товарів',
+    'products.empty.hint': 'Спробуйте іншу категорію або завітайте пізніше',
+    'admin.product.sizes_label': 'Розміри (натисніть, щоб обрати)',
+    'admin.product.colors_label': 'Кольори',
+    'admin.product.collections_label': 'Колекції',
+    'admin.form.custom_size': 'Свій розмір',
+    'admin.form.custom_collection': 'Нова колекція',
+    'admin.form.color_name': 'Назва кольору',
+    'admin.form.add': 'Додати',
   },
   RU: {
     'checkout.name': 'Имя',
@@ -224,9 +253,12 @@ const translations = {
     'checkout.placeholder.name': 'Ваше имя',
     'checkout.placeholder.phone': '+38 (0XX) XXX-XX-XX',
     'checkout.placeholder.address': 'Город, улица, дом',
-    'checkout.placeholder.city': 'Город',
-    'checkout.placeholder.warehouse': 'Номер отделения Новой Почты',
-    'checkout.np_warehouse': 'Новая Почта, отделение',
+    'checkout.placeholder.city': 'Выберите город',
+    'checkout.placeholder.warehouse': 'Выберите отделение',
+    'checkout.np_warehouse': 'Отделение',
+    'checkout.city': 'Город',
+    'checkout.prepay': 'Предоплата',
+    'checkout.prepay.hint': 'Оплата картой сейчас. Товары отправляются после оплаты.',
     'cart.title': 'Корзина',
     'cart.view': 'Посмотреть корзину',
     'cart.empty': 'Корзина пуста',
@@ -309,8 +341,7 @@ const translations = {
     'categories.Accessories': 'Аксессуары',
     'categories.Tops': 'Верх',
     'categories.Bottoms': 'Низ',
-    'categories.Dresses': 'Платья',
-    'categories.Premium Outerwear': 'Премиум верхняя одежда',
+    'categories.Shoes': 'Обувь',
     'categories.General': 'Общее',
     'cart.item.one': 'товар',
     'cart.item.few': 'товара',
@@ -329,6 +360,16 @@ const translations = {
     'admin.data.danger.desc': 'Это удалит все товары, заказы и сбросит настройки. Действие необратимо.',
     'admin.data.confirm': 'Да, удалить все',
     'admin.no.users': 'Еще нет пользователей',
+    'admin.np.title': 'Настройки Nova Poshta',
+    'admin.np.hint': 'Получите эти данные в личном кабинете Nova Poshta (API → Настройки отправителя). Обязательны для автоматического создания ТТН.',
+    'admin.np.sender_ref': 'Sender Ref (Контрагент)',
+    'admin.np.sender_address_ref': 'Sender Address Ref',
+    'admin.np.contact_sender_ref': 'Contact Sender Ref',
+    'admin.np.city_sender_ref': 'City Sender Ref',
+    'admin.np.sender_phone': 'Телефон отправителя',
+    'admin.np.save': 'Сохранить',
+    'admin.np.saving': 'Сохранение...',
+    'admin.np.saved': 'Сохранено!',
     'admin.collection.title': 'Название коллекции',
     'admin.collection.subtitle': 'Подзаголовок',
     'admin.collection.tag': 'Тег',
@@ -344,6 +385,7 @@ const translations = {
     'admin.product.in_collection': 'Показывать в коллекции',
     'admin.product.stock': 'Количество',
     'product.out_of_stock': 'Нет в наличии',
+    'product.out_of_stock_short': 'Нет',
     'product.stock': 'В наличии',
     'product.condition.new': 'Новый',
     'product.condition.like_new': 'Как новый',
@@ -411,10 +453,7 @@ const translations = {
     'store.cat.accessories': 'Аксессуары',
     'store.cat.tops': 'Верх',
     'store.cat.bottoms': 'Низ',
-    'store.cat.dresses': 'Платья',
-    'store.cat.premium outerwear': 'Премиум верхняя одежда',
-    'store.cat.knitwear': 'Трикотаж',
-    'store.cat.footwear': 'Обувь',
+    'store.cat.shoes': 'Обувь',
     'product.size.text': 'Размер',
     'order.shipping.text': 'Доставка',
     'order.total.text': 'Итого',
@@ -422,6 +461,25 @@ const translations = {
     'order.continue.shopping': 'ПРОДОЛЖИТЬ',
     'order.message.seller': 'НАПИСАТЬ ПРОДАВЦУ',
     'settings.version.suffix': '-ГЛЯЦИЙ',
+    'admin.product.subcategory': 'Подкатегория',
+    'admin.product.photos': 'Фото',
+    'admin.form.basic_info': 'Основная информация',
+    'admin.form.pricing': 'Цена и количество',
+    'admin.form.details': 'Детали',
+    'admin.form.upload': 'Загрузить',
+    'admin.form.url': 'Ссылка',
+    'admin.form.first_is_primary': 'первое фото — главное',
+    'admin.form.add_photo': 'Добавить еще фото',
+    'admin.no.products': 'Товаров еще нет',
+    'products.empty.category': 'В этой категории еще нет товаров',
+    'products.empty.hint': 'Попробуйте другую категорию или загляните позже',
+    'admin.product.sizes_label': 'Размеры (нажмите, чтобы выбрать)',
+    'admin.product.colors_label': 'Цвета',
+    'admin.product.collections_label': 'Коллекции',
+    'admin.form.custom_size': 'Свой размер',
+    'admin.form.custom_collection': 'Новая коллекция',
+    'admin.form.color_name': 'Название цвета',
+    'admin.form.add': 'Добавить',
   },
 };
 
@@ -436,8 +494,45 @@ interface LangContextValue {
 
 const LangContext = createContext<LangContextValue | null>(null);
 
+const LANG_STORAGE_KEY = 'cchrome_lang';
+
+function loadLang(): Lang {
+  try { const v = localStorage.getItem(LANG_STORAGE_KEY); if (v === 'UA' || v === 'RU') return v; } catch {}
+  return 'UA';
+}
+
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>('UA');
+  const [lang, setLangState] = useState<Lang>(loadLang);
+
+  useEffect(() => {
+    const tg = (window as any).Telegram?.WebApp;
+    const chatId = tg?.initDataUnsafe?.user?.id;
+    if (chatId) {
+      fetch(`/api/user-lang?chatId=${chatId}`).then(r => r.json()).then(d => {
+        if (d.lang && (d.lang === 'UA' || d.lang === 'RU')) {
+          const stored = loadLang();
+          if (!stored) {
+            setLangState(d.lang);
+            try { localStorage.setItem(LANG_STORAGE_KEY, d.lang); } catch {}
+          }
+        }
+      }).catch(() => {});
+    }
+  }, []);
+
+  const setLang = useCallback((l: Lang) => {
+    setLangState(l);
+    try { localStorage.setItem(LANG_STORAGE_KEY, l); } catch {}
+    const tg = (window as any).Telegram?.WebApp;
+    const chatId = tg?.initDataUnsafe?.user?.id;
+    if (chatId) {
+      fetch('/api/user-lang', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chatId, lang: l }),
+      }).catch(() => {});
+    }
+  }, []);
 
   const t = (key: string): string => {
     return (translations[lang] as Record<string, string>)[key] || key;

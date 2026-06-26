@@ -7,76 +7,17 @@ import { BottomBar } from '../components/BottomBar'
 
 export function Storefront() {
   const navigate = useNavigate()
-  const { products, collection, categories } = useData()
+  const { products, categories } = useData()
   const { addItem } = useCart()
   const { t } = useLang()
 
-  const masonry = products.filter((p) => p.inCollection)
-  const gridProducts = masonry.length > 0 ? masonry : products
+  const gridProducts = products
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 128 }}>
       <Header left={<div style={{ width: 28 }} />} />
 
       <main style={{ paddingTop: 64 }}>
-        {/* Hero Section */}
-        {collection.enabled && <section
-          style={{
-            position: 'relative',
-            width: '100%',
-            height: 618,
-            display: 'flex',
-            alignItems: 'flex-end',
-            padding: '0 24px 48px',
-            overflow: 'hidden',
-          }}
-        >
-          <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundImage: `url(${collection.enabled ? collection.image : 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80'})`,
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to top, #0a0e1a, rgba(10,14,26,0.2), transparent)',
-              }}
-            />
-          </div>
-          <div style={{ position: 'relative', zIndex: 10, maxWidth: 576 }}>
-            <h2 style={{ fontSize: 48, fontWeight: 800, letterSpacing: '-0.03em', marginBottom: 16, color: '#e0e8f0' }}>
-              {collection.enabled ? collection.title : t('store.hero.title')}
-            </h2>
-            <p style={{ color: '#a0b4c4', fontSize: 18, marginBottom: 32, maxWidth: 448 }}>
-              {collection.enabled ? collection.subtitle : t('store.hero.text')}
-            </p>
-            <button
-              onClick={() => navigate('/products')}
-              style={{
-                background: 'rgba(34, 197, 94, 0.2)',
-                backdropFilter: 'blur(12px)',
-                border: '1px solid rgba(34, 197, 94, 0.3)',
-                color: '#22c55e',
-                padding: '16px 32px',
-                borderRadius: 9999,
-                fontWeight: 600,
-                cursor: 'pointer',
-                fontSize: 14,
-                transition: 'all 0.2s',
-              }}
-              className="glow-hover"
-            >
-              {t('store.view.collection')}
-            </button>
-          </div>
-        </section>}
-
         {/* Category Chips */}
         <section
           style={{
@@ -124,102 +65,38 @@ export function Storefront() {
           ))}
         </section>
 
-        {/* Highlight Card */}
-        {collection.enabled && <section style={{ padding: '0 24px', marginBottom: 48 }}>
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: 320,
-              borderRadius: 24,
-              overflow: 'hidden',
-              background: 'rgba(15, 21, 36, 0.6)',
-              backdropFilter: 'blur(16px)',
-              border: '1px solid rgba(34, 197, 94, 0.2)',
-            }}
-            className="group"
-          >
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #0a0e1a, transparent)', zIndex: 10 }} />
-            <img
-              src={collection.enabled ? collection.image : 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80'}
-              alt="Featured"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                transition: 'transform 1s',
-              }}
-              className="group-hover:scale-105"
-            />
-            <div style={{ position: 'relative', zIndex: 20, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 40px', maxWidth: 448 }}>
-              <span style={{ color: '#22c55e', fontWeight: 700, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>
-                {collection.enabled ? collection.tag : t('store.highlight.tag')}
-              </span>
-              <h3 style={{ fontSize: 32, fontWeight: 700, marginBottom: 16, lineHeight: 1.2, color: '#e0e8f0' }}>
-                {collection.enabled ? collection.title.toUpperCase() : 'THE ALPINE COLLECTION'}
-              </h3>
-              <button
-                onClick={() => navigate('/products')}
-                style={{
-                  width: 'fit-content',
-                  padding: '8px 24px',
-                  borderRadius: 9999,
-                  background: 'white',
-                  color: 'black',
-                  border: 'none',
-                  fontWeight: 600,
-                  fontSize: 14,
-                  cursor: 'pointer',
-                }}
-              >
-                {t('store.view.collection')}
-              </button>
-            </div>
-          </div>
-        </section>}
-
-        {/* Curated Selection (Masonry Grid) */}
+        {/* Curated Selection */}
         <section style={{ padding: '0 24px 80px' }}>
           <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 32, color: '#e0e8f0' }}>{t('store.featured')}</h3>
+          {gridProducts.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: '#9ca3af' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 48, color: '#4b5563', marginBottom: 12 }}>inventory_2</span>
+              <p style={{ fontSize: 16, fontWeight: 600, marginBottom: 4, color: '#d1d5db' }}>{t('products.empty.category')}</p>
+              <p style={{ fontSize: 13 }}>{t('products.empty.hint')}</p>
+            </div>
+          ) : (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'flex-start' }}>
-            {/* Col 1 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               {gridProducts.filter((_, i) => i % 2 === 0).map((p) => (
                 <div key={p.id} className="group" onClick={() => navigate(`/product/${p.id}`)} style={{ cursor: 'pointer' }}>
                   <div
                     style={{
-                      position: 'relative',
-                      aspectRatio: '3/4',
-                      borderRadius: 16,
-                      overflow: 'hidden',
-                      background: 'rgba(15, 21, 36, 0.6)',
-                      backdropFilter: 'blur(16px)',
-                      border: '1px solid rgba(34, 197, 94, 0.1)',
-                      marginBottom: 12,
+                      position: 'relative', aspectRatio: '3/4',
+                      borderRadius: 16, overflow: 'hidden',
+                      background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
+                      border: '1px solid rgba(34, 197, 94, 0.1)', marginBottom: 12,
                     }}
                   >
                     <img
-                      src={p.image}
+                      src={p.images?.[0] || p.image}
                       alt={p.name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.5s',
-                      }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
                       className="group-hover:scale-110"
                     />
                     <div
                       style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: 'rgba(34, 197, 94, 0.1)',
-                        opacity: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        position: 'absolute', inset: 0, background: 'rgba(34, 197, 94, 0.1)',
+                        opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'opacity 0.3s',
                       }}
                       className="group-hover:opacity-100"
@@ -227,15 +104,9 @@ export function Storefront() {
                       <button
                         onClick={(e) => { e.stopPropagation(); addItem(p, p.sizes[0], p.colors[0].name) }}
                         style={{
-                          padding: '8px 16px',
-                          background: '#22c55e',
-                          color: '#001f2e',
-                          border: 'none',
-                          borderRadius: 9999,
-                          fontSize: 12,
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                          boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                          padding: '8px 16px', background: '#22c55e', color: '#001f2e',
+                          border: 'none', borderRadius: 9999, fontSize: 12, fontWeight: 700,
+                          cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
                         }}
                       >
                         {t('product.add').toUpperCase()}
@@ -246,10 +117,12 @@ export function Storefront() {
                     <span style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0' }}>{p.name}</span>
                     <span style={{ fontSize: 14, color: '#22c55e' }}>₴{p.price.toLocaleString()}</span>
                   </div>
+                  {p.subcategory && (
+                    <span style={{ fontSize: 11, color: '#9ca3af', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
+                  )}
                 </div>
               ))}
             </div>
-            {/* Col 2 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingTop: 48 }}>
               {gridProducts.filter((_, i) => i % 2 === 1).map((p) => {
                 const aspectRatios = ['4/5', '3/4', '1/1']
@@ -258,36 +131,22 @@ export function Storefront() {
                   <div key={p.id} className="group" onClick={() => navigate(`/product/${p.id}`)} style={{ cursor: 'pointer' }}>
                     <div
                       style={{
-                        position: 'relative',
-                        aspectRatio: ar,
-                        borderRadius: 16,
-                        overflow: 'hidden',
-                        background: 'rgba(15, 21, 36, 0.6)',
-                        backdropFilter: 'blur(16px)',
-                        border: '1px solid rgba(34, 197, 94, 0.1)',
-                        marginBottom: 12,
+                        position: 'relative', aspectRatio: ar,
+                        borderRadius: 16, overflow: 'hidden',
+                        background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
+                        border: '1px solid rgba(34, 197, 94, 0.1)', marginBottom: 12,
                       }}
                     >
                       <img
-                        src={p.image}
+                        src={p.images?.[0] || p.image}
                         alt={p.name}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          transition: 'transform 0.5s',
-                        }}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
                         className="group-hover:scale-110"
                       />
                       <div
                         style={{
-                          position: 'absolute',
-                          inset: 0,
-                          background: 'rgba(34, 197, 94, 0.1)',
-                          opacity: 0,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
+                          position: 'absolute', inset: 0, background: 'rgba(34, 197, 94, 0.1)',
+                          opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                           transition: 'opacity 0.3s',
                         }}
                         className="group-hover:opacity-100"
@@ -295,15 +154,9 @@ export function Storefront() {
                         <button
                           onClick={(e) => { e.stopPropagation(); addItem(p, p.sizes[0], p.colors[0].name) }}
                           style={{
-                            padding: '8px 16px',
-                            background: '#22c55e',
-                            color: '#001f2e',
-                            border: 'none',
-                            borderRadius: 9999,
-                            fontSize: 12,
-                            fontWeight: 700,
-                            cursor: 'pointer',
-                            boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                            padding: '8px 16px', background: '#22c55e', color: '#001f2e',
+                            border: 'none', borderRadius: 9999, fontSize: 12, fontWeight: 700,
+                            cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
                           }}
                         >
                           {t('product.add').toUpperCase()}
@@ -314,11 +167,15 @@ export function Storefront() {
                       <span style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0' }}>{p.name}</span>
                       <span style={{ fontSize: 14, color: '#22c55e' }}>₴{p.price.toLocaleString()}</span>
                     </div>
+                    {p.subcategory && (
+                      <span style={{ fontSize: 11, color: '#9ca3af', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
+                    )}
                   </div>
                 )
               })}
             </div>
           </div>
+          )}
         </section>
       </main>
 

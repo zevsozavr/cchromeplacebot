@@ -2,16 +2,18 @@ export interface Product {
   id: string;
   name: string;
   category: string;
+  subcategory?: string;
   price: number;
   originalPrice?: number;
   image: string;
+  images?: string[];
   description: string;
   condition: string;
   sizes: string[];
   colors: { name: string; hex: string; image?: string }[];
   inCollection?: boolean;
-  collections?: string[];
   stock?: number;
+  sizeStock?: Record<string, number>;
 }
 
 export interface CartItem extends Product {
@@ -27,11 +29,13 @@ export interface Category {
 }
 
 export interface Collection {
-  enabled: boolean;
-  image: string;
-  title: string;
-  subtitle: string;
-  tag: string;
+  npConfig?: {
+    senderRef: string;
+    senderAddressRef: string;
+    contactSenderRef: string;
+    citySenderRef: string;
+    senderPhone: string;
+  };
 }
 
 export interface Order {
@@ -44,4 +48,8 @@ export interface Order {
   phone: string;
   address: string;
   status: 'new' | 'processing' | 'shipped' | 'delivered';
+  ttn?: string;
+  prepay?: boolean;
+  npCity?: string;
+  npWarehouse?: string;
 }

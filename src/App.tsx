@@ -20,7 +20,7 @@ import { AdminUsers } from './pages/admin/Users';
 import { AdminData } from './pages/admin/Data';
 import { AdminProducts } from './pages/admin/Products';
 import { AdminPhotos } from './pages/admin/Photos';
-import { AdminCollection } from './pages/admin/Collection';
+import { AdminNovaPoshta } from './pages/admin/NovaPoshta';
 
 export default function App() {
   return (
@@ -43,10 +43,10 @@ export default function App() {
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/admin/products" element={<AdminProducts />} />
                 <Route path="/admin/photos" element={<AdminPhotos />} />
-                <Route path="/admin/collection" element={<AdminCollection />} />
                 <Route path="/admin/orders" element={<AdminOrders />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
                 <Route path="/admin/data" element={<AdminData />} />
+                <Route path="/admin/nova-poshta" element={<AdminNovaPoshta />} />
               </Routes>
               <MiniCart />
             </LangProvider>

@@ -1,3 +1,5 @@
+import { connectToDatabase } from '../lib/db.js';
+
 const BOT_TOKEN = process.env.BOT_TOKEN || '8962788106:AAHRlKbCNCHe4nW47PmKJkQeMzDIc7GpDZ0';
 const APP_URL = 'https://cchromeplacebot.vercel.app';
 
@@ -14,15 +16,11 @@ async function setMenuButton() {
   } catch {}
 }
 
-// Run once on cold start
 setMenuButton();
 
-// Simple in-memory user lang store (note: resets on Vercel cold start)
-let userLangs = {};
-
 function t(lang) {
-  if (lang === 'lang_ua') return { welcome: 'Ласкаво просимо!', btn: 'Відкрити' }
-  if (lang === 'lang_ru') return { welcome: 'Добро пожаловать!', btn: 'Открыть' }
+  if (lang === 'lang_ua' || lang === 'ua') return { welcome: 'Ласкаво просимо!', btn: 'Відкрити' }
+  if (lang === 'lang_ru' || lang === 'ru') return { welcome: 'Добро пожаловать!', btn: 'Открыть' }
   return { welcome: 'Welcome', btn: 'Open' }
 }
 
@@ -42,6 +40,34 @@ async function tgAnswerCb(id) {
   });
 }
 
+// Save language to DB
+async function saveUserLang(chatId, lang) {
+  try {
+    const db = await connectToDatabase();
+    if (!db) return;
+    await db.collection('user_langs').updateOne(
+      { chatId: String(chatId) },
+      { $set: { lang, updatedAt: new Date().toISOString() } },
+      { upsert: true }
+    );
+  } catch (err) {
+    console.error('Failed to save user lang to DB:', err);
+  }
+}
+
+// Load language from DB
+async function loadUserLang(chatId) {
+  try {
+    const db = await connectToDatabase();
+    if (!db) return null;
+    const doc = await db.collection('user_langs').findOne({ chatId: String(chatId) });
+    return doc ? doc.lang : null;
+  } catch (err) {
+    console.error('Failed to load user lang from DB:', err);
+    return null;
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     return res.status(200).json({ ok: true, message: 'Webhook active' });
@@ -57,10 +83,11 @@ export default async function handler(req, res) {
     await tgAnswerCb(id);
 
     if (data === 'lang_ua' || data === 'lang_ru') {
-      userLangs[chatId] = data;
+      await saveUserLang(chatId, data);
     }
 
-    const texts = t(userLangs[chatId]);
+    const userLang = await loadUserLang(chatId) || userLangs[chatId] || 'lang_ua';
+    const texts = t(userLang);
     await tgSend({
       chat_id: chatId,
       text: texts.welcome,
@@ -80,7 +107,8 @@ export default async function handler(req, res) {
   const text = message.text || '';
 
   if (text.startsWith('/start')) {
-    if (!userLangs[chatId]) {
+    const userLang = await loadUserLang(chatId);
+    if (!userLang) {
       await tgSend({
         chat_id: chatId,
         text: 'Welcome! Choose your language:',
@@ -92,7 +120,7 @@ export default async function handler(req, res) {
         }
       });
     } else {
-      const texts = t(userLangs[chatId]);
+      const texts = t(userLang);
       await tgSend({
         chat_id: chatId,
         text: texts.welcome,
@@ -107,3 +135,6 @@ export default async function handler(req, res) {
 
   res.json({ ok: true });
 }
+
+// Fallback in-memory store (for cold starts before DB loads)
+let userLangs = {};

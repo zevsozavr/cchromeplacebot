@@ -13,39 +13,70 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
       const registeredUsers = data.users || [];
+      const orders = data.orders || [];
+      const deals = data.deals || [];
 
-      // Also derive from orders
-      const orderMap = {};
-      for (const order of (data.orders || [])) {
-        const key = order.phone || order.name;
-        if (!orderMap[key]) orderMap[key] = { name: order.name, phone: order.phone, orders: [], totalSpent: 0 };
-        orderMap[key].orders.push(order);
-        orderMap[key].totalSpent += order.total;
-      }
-      const orderUsers = Object.values(orderMap);
-
-      // Merge: registered users + order users, keyed by phone
-      const merged = {};
+      // Map of registered users by their TG ID
+      const userMap = {};
       for (const u of registeredUsers) {
-        const key = u.username || `tg_${u.id}`;
-        merged[key] = { ...u, orders: [], totalSpent: 0, deal: null };
+        userMap[String(u.id)] = {
+          id: u.id,
+          first_name: u.first_name || '',
+          last_name: u.last_name || '',
+          username: u.username || '',
+          language_code: u.language_code || '',
+          lastSeen: u.lastSeen || '',
+          phone: '',
+          orders: [],
+          totalSpent: 0,
+          deal: null
+        };
       }
-      for (const u of orderUsers) {
-        const key = u.phone || u.name;
-        if (merged[key]) {
-          merged[key].orders = u.orders;
-          merged[key].totalSpent = u.totalSpent;
-          merged[key].phone = u.phone;
+
+      // Group orders and match with registered users
+      const guestMap = {};
+      for (const o of orders) {
+        const orderUserId = o.userId ? String(o.userId) : null;
+        if (orderUserId && userMap[orderUserId]) {
+          // Registered user order
+          userMap[orderUserId].orders.push(o);
+          userMap[orderUserId].totalSpent += Number(o.total) || 0;
+          if (o.phone) {
+            userMap[orderUserId].phone = o.phone;
+          }
         } else {
-          merged[key] = { ...u, id: null, first_name: '', last_name: '', username: '', lastSeen: '', deal: null };
+          // Guest order, group by phone (or name if phone missing)
+          const key = o.phone || o.name || 'Unknown';
+          if (!guestMap[key]) {
+            guestMap[key] = {
+              id: null,
+              first_name: o.name || '',
+              last_name: '',
+              username: '',
+              lastSeen: o.date || '',
+              phone: o.phone || '',
+              orders: [],
+              totalSpent: 0,
+              deal: null
+            };
+          }
+          guestMap[key].orders.push(o);
+          guestMap[key].totalSpent += Number(o.total) || 0;
         }
       }
 
-      const deals = data.deals || [];
-      const result = Object.values(merged).map((u) => ({
-        ...u,
-        deal: deals.find((d) => d.phone === u.phone || d.phone === u.username) || null,
-      }));
+      const combined = [...Object.values(userMap), ...Object.values(guestMap)];
+
+      // Attach deals/discounts
+      const result = combined.map((u) => {
+        const deal = deals.find(
+          (d) =>
+            (u.phone && d.phone === u.phone) ||
+            (u.username && d.phone === u.username) ||
+            (u.id && String(d.phone) === String(u.id))
+        ) || null;
+        return { ...u, deal };
+      });
 
       return res.json(result);
     }

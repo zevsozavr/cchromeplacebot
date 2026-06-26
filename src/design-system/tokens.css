@@ -115,3 +115,33 @@ body {
   --surface-low: #111828;
   --surface-highest: #202c42;
 }
+
+/* Group Hover utility styles */
+.group-hover\:opacity-100,
+.group-hover\:translate-y-0 {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.group:hover .group-hover\:opacity-100 {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.group:hover .group-hover\:translate-y-0 {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+}
+
+.group:hover .group-hover\:scale-105 {
+  transform: scale(1.05);
+}

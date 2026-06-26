@@ -45,9 +45,10 @@ export function ProductDetail() {
     )
   }
 
-  const images = [product.image, ...product.colors.map((c) => c.image || product.image).slice(0, 2)]
+  const images = product.images && product.images.length > 0 ? product.images : [product.image]
   const fav = isFavorite(product.id)
-  const outOfStock = (product.stock ?? 5) <= 0
+  const getSizeStock = (size: string) => product.sizeStock?.[size] ?? product.stock ?? 5
+  const outOfStockAll = product.sizes.every((s) => getSizeStock(s) <= 0)
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 140 }}>
@@ -181,16 +182,12 @@ export function ProductDetail() {
                   {product.name.toUpperCase()}
                 </h1>
                 <p style={{ color: '#a0b4c4', fontWeight: 500, marginTop: 4 }}>{product.condition}</p>
-                <p style={{ fontSize: 12, color: outOfStock ? '#ff6b6b' : '#22c55e', marginTop: 2 }}>
-                  {outOfStock ? t('product.out_of_stock') : `${t('product.stock')}: ${product.stock ?? 5}`}
+                <p style={{ fontSize: 12, color: outOfStockAll ? '#ff6b6b' : '#22c55e', marginTop: 2 }}>
+                  {outOfStockAll ? t('product.out_of_stock') : `${t('product.stock')}: ${getSizeStock(selectedSize)}`}
                 </p>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <span style={{ fontSize: 24, fontWeight: 700, color: '#22c55e' }}>₴{product.price.toLocaleString()}</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4, justifyContent: 'flex-end' }}>
-                  <span className="material-symbols-outlined" style={{ color: '#9ca3af', fontSize: 14, fontVariationSettings: "'FILL' 1" }}>star</span>
-                  <span style={{ fontSize: 14, fontWeight: 500, color: '#e0e8f0' }}>4.9</span>
-                </div>
               </div>
             </div>
 
@@ -228,24 +225,29 @@ export function ProductDetail() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
                 {product.sizes.map((s) => {
                   const active = s === selectedSize
+                  const stock = getSizeStock(s)
+                  const soldOut = stock <= 0
                   return (
                     <button
                       key={s}
-                      onClick={() => setSelectedSize(s)}
+                      onClick={() => { if (!soldOut) setSelectedSize(s) }}
                       style={{
                         height: 48,
                         borderRadius: 16,
-                        cursor: 'pointer',
+                        cursor: soldOut ? 'not-allowed' : 'pointer',
                         fontSize: 14,
                         fontWeight: 500,
                         background: active ? '#22c55e' : 'rgba(15, 21, 36, 0.6)',
                         backdropFilter: active ? 'none' : 'blur(16px)',
                         border: active ? 'none' : '1px solid rgba(34, 197, 94, 0.1)',
-                        color: active ? '#001f2e' : '#e0e8f0',
+                        color: soldOut ? '#6b7280' : active ? '#001f2e' : '#e0e8f0',
                         boxShadow: active ? '0 0 15px rgba(123,209,250,0.3)' : 'none',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1,
                       }}
                     >
-                      {s}
+                      <span>{s}</span>
+                      {soldOut && <span style={{ fontSize: 9, color: '#ef4444' }}>{t('product.out_of_stock_short')}</span>}
+                      {!soldOut && stock <= 3 && <span style={{ fontSize: 8, color: '#9ca3af' }}>{stock}</span>}
                     </button>
                   )
                 })}
@@ -335,27 +337,27 @@ export function ProductDetail() {
           </button>
           <button
             onClick={() => { addItem(product, selectedSize, product.colors[selectedColorIdx].name); navigate('/cart'); }}
-            disabled={outOfStock}
+            disabled={getSizeStock(selectedSize) <= 0}
             style={{
               flex: 1,
               height: 56,
-              background: outOfStock ? 'rgba(255,255,255,0.1)' : '#22c55e',
-              color: outOfStock ? '#a0b4c4' : '#001f2e',
+              background: getSizeStock(selectedSize) <= 0 ? 'rgba(255,255,255,0.1)' : '#22c55e',
+              color: getSizeStock(selectedSize) <= 0 ? '#a0b4c4' : '#001f2e',
               border: 'none',
               borderRadius: 24,
               fontWeight: 700,
               letterSpacing: '-0.02em',
-              cursor: outOfStock ? 'not-allowed' : 'pointer',
+              cursor: getSizeStock(selectedSize) <= 0 ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: 8,
-              boxShadow: outOfStock ? 'none' : '0 0 20px rgba(34, 197, 94,0.4)',
+              boxShadow: getSizeStock(selectedSize) <= 0 ? 'none' : '0 0 20px rgba(34, 197, 94,0.4)',
             }}
             className="glow-hover"
           >
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>local_mall</span>
-            {outOfStock ? t('product.out_of_stock') : t('product.add')}
+            {getSizeStock(selectedSize) <= 0 ? t('product.out_of_stock') : t('product.add')}
           </button>
         </div>
       </div>

@@ -8,6 +8,49 @@ import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
 import { useLang } from '../../context/LangContext';
 
+const commonSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'One Size'];
+
+const commonColorPresets = [
+  { name: 'Black', hex: '#000000' },
+  { name: 'White', hex: '#ffffff' },
+  { name: 'Gray', hex: '#9ca3af' },
+  { name: 'Red', hex: '#ef4444' },
+  { name: 'Blue', hex: '#3b82f6' },
+  { name: 'Green', hex: '#22c55e' },
+  { name: 'Yellow', hex: '#eab308' },
+  { name: 'Beige', hex: '#f5e6d3' },
+];
+
+const sectionStyle: React.CSSProperties = {
+  marginBottom: 16,
+};
+const labelStyle: React.CSSProperties = {
+  font: 'var(--font-label)', color: '#9ca3af', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, display: 'block',
+};
+const inputStyle: React.CSSProperties = {
+  width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)',
+  background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)',
+  boxSizing: 'border-box',
+};
+const selectStyle: React.CSSProperties = {
+  ...inputStyle,
+  appearance: 'none',
+  backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%239ca3af\' stroke-width=\'2\'%3e%3cpath d=\'M6 9l6 6 6-6\'/%3e%3c/svg%3e")',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right 12px center',
+  paddingRight: 36,
+};
+const chipStyle = (active: boolean): React.CSSProperties => ({
+  padding: '6px 14px', borderRadius: 9999, cursor: 'pointer', fontSize: 13, fontWeight: 500,
+  border: active ? '1.5px solid #22c55e' : '1px solid rgba(255,255,255,0.1)',
+  background: active ? 'rgba(34,197,94,0.15)' : 'transparent',
+  color: active ? '#22c55e' : '#a0b4c4',
+  transition: 'all 0.12s',
+});
+const chipGroupStyle: React.CSSProperties = {
+  display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8,
+};
+
 export function AdminProducts() {
   const navigate = useNavigate();
   const { products, categories, addProduct, updateProduct, deleteProduct } = useData();
@@ -19,68 +62,141 @@ export function AdminProducts() {
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [newCategory, setNewCategory] = useState('');
+  const [subcategory, setSubcategory] = useState('');
   const [price, setPrice] = useState('');
-  const [imageDataUrl, setImageDataUrl] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageDataUrls, setImageDataUrls] = useState<string[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>(['']);
   const [description, setDescription] = useState('');
   const [condition, setCondition] = useState('New');
-  const [sizesInput, setSizesInput] = useState('S, M, L');
-  const [colorsInput, setColorsInput] = useState('Default:#000000');
-  const [inCollection, setInCollection] = useState(false);
-  const [collectionsInput, setCollectionsInput] = useState('');
-  const [stock, setStock] = useState('5');
+  const [selectedSizes, setSelectedSizes] = useState<string[]>(['S', 'M', 'L']);
+  const [customSize, setCustomSize] = useState('');
+  const [colors, setColors] = useState<{ name: string; hex: string }[]>([{ name: 'Default', hex: '#000000' }]);
+  const [colorNameInput, setColorNameInput] = useState('');
+  const [colorHexInput, setColorHexInput] = useState('#000000');
+  const [sizeStock, setSizeStock] = useState<Record<string, number>>({ 'S': 5, 'M': 5, 'L': 5 });
+  const [activeImageTab, setActiveImageTab] = useState<'upload' | 'url'>('upload');
 
   if (!isAdmin) return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}><p>{t('admin.access.denied')}</p></div>;
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setImageDataUrl(reader.result as string);
-    reader.readAsDataURL(file);
+  const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const readerPromises: Promise<string>[] = [];
+    for (let i = 0; i < files.length; i++) {
+      readerPromises.push(new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(files[i]);
+      }));
+    }
+    Promise.all(readerPromises).then((results) => {
+      setImageDataUrls((prev) => [...prev, ...results]);
+    });
+  };
+
+  const removeImageDataUrl = (index: number) => {
+    setImageDataUrls((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const addUrlField = () => {
+    setImageUrls((prev) => [...prev, '']);
+  };
+
+  const updateUrlField = (index: number, value: string) => {
+    setImageUrls((prev) => {
+      const next = [...prev];
+      next[index] = value;
+      return next;
+    });
+  };
+
+  const removeUrlField = (index: number) => {
+    setImageUrls((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const toggleSize = (size: string) => {
+    setSelectedSizes((prev) => {
+      if (prev.includes(size)) {
+        const newStock = { ...sizeStock };
+        delete newStock[size];
+        setSizeStock(newStock);
+        return prev.filter((s) => s !== size);
+      }
+      setSizeStock((s) => ({ ...s, [size]: 5 }));
+      return [...prev, size];
+    });
+  };
+
+  const addCustomSize = () => {
+    const s = customSize.trim();
+    if (s && !selectedSizes.includes(s)) {
+      setSelectedSizes((prev) => [...prev, s]);
+      setSizeStock((prev) => ({ ...prev, [s]: 5 }));
+    }
+    setCustomSize('');
+  };
+
+  const addColor = () => {
+    const name = colorNameInput.trim();
+    const hex = colorHexInput.trim() || '#000000';
+    if (name && !colors.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
+      setColors((prev) => [...prev, { name, hex }]);
+    }
+    setColorNameInput('');
+    setColorHexInput('#000000');
+  };
+
+  const removeColor = (index: number) => {
+    setColors((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const addColorPreset = (preset: typeof commonColorPresets[0]) => {
+    if (!colors.some((c) => c.name.toLowerCase() === preset.name.toLowerCase())) {
+      setColors((prev) => [...prev, { name: preset.name, hex: preset.hex }]);
+    }
   };
 
   const resetForm = () => {
-    setName(''); setCategory(''); setNewCategory(''); setPrice('');
-    setImageDataUrl(''); setImageUrl(''); setDescription(''); setCondition('New');
-    setSizesInput('S, M, L'); setColorsInput('Default:#000000'); setInCollection(false); setCollectionsInput(''); setStock('5');
+    setName(''); setCategory(''); setNewCategory(''); setSubcategory(''); setPrice('');
+    setImageDataUrls([]); setImageUrls(['']); setDescription(''); setCondition('New');
+    setSelectedSizes(['S', 'M', 'L']); setCustomSize('');
+    setColors([{ name: 'Default', hex: '#000000' }]); setColorNameInput(''); setColorHexInput('#000000');
+    setSizeStock({ 'S': 5, 'M': 5, 'L': 5 });
+    setActiveImageTab('upload');
     setEditingId(null); setShowForm(false);
   };
 
   const openEdit = (p: typeof products[0]) => {
     setEditingId(p.id);
     setName(p.name); setCategory(p.category); setPrice(String(p.price));
-    setImageUrl(p.image); setImageDataUrl(''); setDescription(p.description);
+    setSubcategory(p.subcategory || '');
+    setImageDataUrls([]);
+    setImageUrls(p.images && p.images.length > 0 ? p.images : [p.image]);
+    setDescription(p.description);
     setCondition(p.condition);
-    setSizesInput(p.sizes.join(', '));
-    setColorsInput(p.colors.map((c) => `${c.name}:${c.hex}`).join(', '));
-    setInCollection(p.inCollection || false);
-    setCollectionsInput(p.collections ? p.collections.join(', ') : '');
-    setStock(String(p.stock ?? 5));
+    setSelectedSizes(p.sizes);
+    setColors(p.colors.map((c) => ({ name: c.name, hex: c.hex })));
+    setSizeStock(p.sizeStock || Object.fromEntries(p.sizes.map((s) => [s, p.stock ?? 5])));
     setShowForm(true);
   };
 
-  const parseColors = (input: string) => {
-    return input.split(',').map((c) => {
-      const parts = c.trim().split(':');
-      return { name: parts[0]?.trim() || 'Default', hex: parts[1]?.trim() || '#000000' };
-    });
+  const getFinalImages = (): string[] => {
+    const urls = imageUrls.filter(Boolean);
+    return [...imageDataUrls, ...urls];
   };
 
   const handleAdd = () => {
     if (!name || !price) return;
     const cat = category || newCategory || 'General';
-    const parsedSizes = sizesInput.split(',').map((s) => s.trim()).filter(Boolean);
-    const parsedColors = parseColors(colorsInput);
     const productData = {
-      name, category: cat, price: Number(price),
-      image: imageDataUrl || imageUrl || 'https://images.unsplash.com/photo-1434389677669-e08b4cda3a11?w=400&q=80',
+      name, category: cat, subcategory: subcategory || undefined,
+      price: Number(price),
+      image: getFinalImages()[0] || 'https://images.unsplash.com/photo-1434389677669-e08b4cda3a11?w=400&q=80',
+      images: getFinalImages().length > 0 ? getFinalImages() : undefined,
       description: description || '', condition,
-      sizes: parsedSizes.length > 0 ? parsedSizes : ['One Size'],
-      colors: parsedColors,
-      inCollection,
-      collections: collectionsInput.split(',').map((s) => s.trim()).filter(Boolean),
-      stock: Number(stock),
+      sizes: selectedSizes.length > 0 ? selectedSizes : ['One Size'],
+      colors: colors,
+      sizeStock,
     };
     if (editingId) {
       updateProduct(editingId, productData);
@@ -104,74 +220,198 @@ export function AdminProducts() {
         </div>
 
         {showForm && (
-          <Glass card glow style={{ borderRadius: 'var(--rounded-lg)', padding: 20, marginBottom: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <span style={{ fontWeight: 600, color: '#22c55e', fontSize: 14 }}>{editingId ? t('admin.product.save') : t('admin.add.product')}</span>
+          <Glass card glow style={{ borderRadius: 'var(--rounded-lg)', padding: 20, marginBottom: 20, display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <span style={{ fontWeight: 600, color: '#22c55e', fontSize: 14 }}>
+                <Icon name={editingId ? 'edit' : 'add'} style={{ fontSize: 16, verticalAlign: 'middle', marginRight: 6 }} />
+                {editingId ? t('admin.product.save') : t('admin.add.product')}
+              </span>
               <button onClick={resetForm} style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer' }}>
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
-            <input placeholder={t('admin.product.name')} value={name} onChange={(e) => setName(e.target.value)}
-              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
 
-            <select value={category} onChange={(e) => { setCategory(e.target.value); if (e.target.value !== '__new__') setNewCategory(''); }}
-              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }}>
-              <option value="">— {t('admin.product.category')} —</option>
-              {categories.filter((c) => c.name !== 'All').map((c) => (
-                <option key={c.id} value={c.name}>{c.name}</option>
-              ))}
-              <option value="__new__">+ {t('admin.product.category')}...</option>
-            </select>
-
-            {category === '__new__' && (
-              <input placeholder={t('admin.product.category')} value={newCategory} onChange={(e) => setNewCategory(e.target.value)}
-                style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
-            )}
-
-            <div style={{ display: 'flex', gap: 12 }}>
-              <input placeholder={t('admin.product.price')} type="number" value={price} onChange={(e) => setPrice(e.target.value)}
-                style={{ flex: 1, padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
-              <input placeholder={t('admin.product.stock')} type="number" value={stock} onChange={(e) => setStock(e.target.value)}
-                style={{ width: 80, padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
-            </div>
-
-            <div>
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange}
-                style={{ width: '100%', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
-              {!imageDataUrl && (
-                <input placeholder={t('admin.product.photo.placeholder')} value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}
-                  style={{ width: '100%', marginTop: 8, padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
-              )}
-              {imageDataUrl && (
-                <div style={{ marginTop: 8, width: 80, height: 100, borderRadius: 'var(--rounded-md)', overflow: 'hidden', border: '1px solid var(--glass-border)' }}>
-                  <img src={imageDataUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            {/* Section: Basic Info */}
+            <div style={sectionStyle}>
+              <span style={labelStyle}>{t('admin.form.basic_info')}</span>
+              <input placeholder={t('admin.product.name')} value={name} onChange={(e) => setName(e.target.value)}
+                style={{ ...inputStyle, marginBottom: 8 }} />
+              <div style={{ display: 'flex', gap: 8 }}>
+                <select value={category} onChange={(e) => { setCategory(e.target.value); if (e.target.value !== '__new__') setNewCategory(''); }}
+                  style={{ ...selectStyle, flex: 1 }}>
+                  <option value="">— {t('admin.product.category')} —</option>
+                  {categories.filter((c) => c.name !== 'All').map((c) => (
+                    <option key={c.id} value={c.name}>{t('categories.' + c.name) || c.name}</option>
+                  ))}
+                  <option value="__new__">+ {t('admin.product.category')}...</option>
+                </select>
+                {category && category !== '__new__' && (
+                  <input placeholder={t('admin.product.subcategory')} value={subcategory} onChange={(e) => setSubcategory(e.target.value)}
+                    style={{ ...inputStyle, flex: 1 }} />
+                )}
+              </div>
+              {category === '__new__' && (
+                <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                  <input placeholder={t('admin.product.category')} value={newCategory} onChange={(e) => setNewCategory(e.target.value)}
+                    style={{ ...inputStyle, flex: 1 }} />
+                  <input placeholder={t('admin.product.subcategory')} value={subcategory} onChange={(e) => setSubcategory(e.target.value)}
+                    style={{ ...inputStyle, flex: 1 }} />
                 </div>
               )}
             </div>
 
-            <select value={condition} onChange={(e) => setCondition(e.target.value)}
-              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }}>
-              <option value="New">{t('product.condition.new')}</option>
-              <option value="Like New">{t('product.condition.like_new')}</option>
-              <option value="Good">{t('product.condition.good')}</option>
-              <option value="Fair">{t('product.condition.fair')}</option>
-            </select>
+            {/* Section: Pricing & Stock */}
+            <div style={sectionStyle}>
+              <span style={labelStyle}>{t('admin.form.pricing')}</span>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                <input placeholder={t('admin.product.price')} type="number" value={price} onChange={(e) => setPrice(e.target.value)}
+                  style={{ ...inputStyle, flex: 1 }} />
+              </div>
+            </div>
 
-            <input placeholder={t('admin.product.sizes')} value={sizesInput} onChange={(e) => setSizesInput(e.target.value)}
-              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
+            {/* Section: Photos */}
+            <div style={sectionStyle}>
+              <span style={labelStyle}>{t('admin.product.photos')} <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>({t('admin.form.first_is_primary')})</span></span>
 
-            <input placeholder={t('admin.product.colors')} value={colorsInput} onChange={(e) => setColorsInput(e.target.value)}
-              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
+              <div style={{ display: 'flex', gap: 0, marginBottom: 8 }}>
+                <button onClick={() => setActiveImageTab('upload')} style={{
+                  padding: '6px 16px', fontSize: 12, cursor: 'pointer', border: '1px solid var(--glass-border)',
+                  background: activeImageTab === 'upload' ? '#22c55e' : 'var(--glass-bg)', color: activeImageTab === 'upload' ? '#001f2e' : '#9ca3af',
+                  borderRadius: 'var(--rounded-md) 0 0 var(--rounded-md)', fontWeight: 600, transition: 'all 0.15s',
+                }}>{t('admin.form.upload')}</button>
+                <button onClick={() => setActiveImageTab('url')} style={{
+                  padding: '6px 16px', fontSize: 12, cursor: 'pointer', border: '1px solid var(--glass-border)',
+                  background: activeImageTab === 'url' ? '#22c55e' : 'var(--glass-bg)', color: activeImageTab === 'url' ? '#001f2e' : '#9ca3af',
+                  borderRadius: '0 var(--rounded-md) var(--rounded-md) 0', fontWeight: 600, transition: 'all 0.15s',
+                }}>{t('admin.form.url')}</button>
+              </div>
 
-            <input placeholder={t('admin.product.collections')} value={collectionsInput} onChange={(e) => setCollectionsInput(e.target.value)}
-              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
+              {activeImageTab === 'upload' && (
+                <div>
+                  <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFilesChange}
+                    style={{ width: '100%', font: 'var(--font-body)', marginBottom: 8 }} />
+                  {imageDataUrls.length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                      {imageDataUrls.map((url, i) => (
+                        <div key={i} style={{ position: 'relative', width: 64, height: 80, borderRadius: 'var(--rounded-md)', overflow: 'hidden', border: i === 0 ? '2px solid #22c55e' : '1px solid var(--glass-border)' }}>
+                          <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <button onClick={() => removeImageDataUrl(i)} style={{ position: 'absolute', top: 2, right: 2, width: 18, height: 18, borderRadius: '50%', background: 'rgba(0,0,0,0.6)', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, fontSize: 12, lineHeight: 1 }}>×</button>
+                          {i === 0 && <span style={{ position: 'absolute', bottom: 2, left: 2, fontSize: 8, background: '#22c55e', color: '#001f2e', padding: '0 4px', borderRadius: 4, fontWeight: 700 }}>1st</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
-            <textarea placeholder={t('admin.product.description')} value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
-              style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)', resize: 'vertical' }} />
-            <label style={{ display: 'flex', alignItems: 'center', gap: 8, font: 'var(--font-body)', color: 'var(--on-surface)', cursor: 'pointer' }}>
-              <input type="checkbox" checked={inCollection} onChange={(e) => setInCollection(e.target.checked)} style={{ width: 18, height: 18, accentColor: 'var(--primary)' }} />
-              {t('admin.product.in_collection')}
-            </label>
+              {activeImageTab === 'url' && (
+                <div>
+                  {imageUrls.map((url, i) => (
+                    <div key={i} style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
+                      <input placeholder={`${t('admin.product.photo.placeholder')} #${i + 1}`} value={url} onChange={(e) => updateUrlField(i, e.target.value)}
+                        style={{ ...inputStyle, flex: 1 }} />
+                      {imageUrls.length > 1 && (
+                        <button onClick={() => removeUrlField(i)} style={{ color: '#ef4444', cursor: 'pointer', background: 'none', border: 'none', padding: '0 4px' }}>
+                          <Icon name="delete" style={{ fontSize: 18 }} />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button onClick={addUrlField} style={{ background: 'none', border: '1px dashed var(--glass-border)', color: '#22c55e', cursor: 'pointer', padding: '6px 12px', borderRadius: 'var(--rounded-md)', fontSize: 12, width: '100%', marginTop: 4 }}>
+                    + {t('admin.form.add_photo')}
+                  </button>
+                  {imageUrls.filter(Boolean).length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+                      {imageUrls.filter(Boolean).map((url, i) => (
+                        <div key={i} style={{ position: 'relative', width: 48, height: 60, borderRadius: 'var(--rounded-md)', overflow: 'hidden', border: i === 0 && imageDataUrls.length === 0 ? '2px solid #22c55e' : '1px solid var(--glass-border)' }}>
+                          <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Section: Details */}
+            <div style={sectionStyle}>
+              <span style={labelStyle}>{t('admin.form.details')}</span>
+
+              <select value={condition} onChange={(e) => setCondition(e.target.value)}
+                style={{ ...selectStyle, marginBottom: 12 }}>
+                <option value="New">{t('product.condition.new')}</option>
+                <option value="Like New">{t('product.condition.like_new')}</option>
+                <option value="Good">{t('product.condition.good')}</option>
+                <option value="Fair">{t('product.condition.fair')}</option>
+              </select>
+
+              {/* Sizes as toggle chips */}
+              <span style={{ ...labelStyle, marginTop: 8 }}>{t('admin.product.sizes_label')}</span>
+              <div style={chipGroupStyle}>
+                {commonSizes.map((s) => (
+                  <button key={s} onClick={() => toggleSize(s)} style={chipStyle(selectedSizes.includes(s))}>
+                    {selectedSizes.includes(s) && <span style={{ marginRight: 4 }}>✓</span>}{s}
+                  </button>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
+                <input placeholder={t('admin.form.custom_size')} value={customSize} onChange={(e) => setCustomSize(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addCustomSize(); } }}
+                  style={{ ...inputStyle, flex: 1, padding: '8px 12px', fontSize: 13 }} />
+                <button onClick={addCustomSize} style={{ padding: '8px 14px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', color: '#22c55e', cursor: 'pointer', fontSize: 13, whiteSpace: 'nowrap' }}>{t('admin.form.add')}</button>
+              </div>
+
+              {/* Per-size stock */}
+              {selectedSizes.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
+                  {selectedSizes.map((s) => (
+                    <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'var(--glass-bg)', border: '1px solid var(--glass-border)', borderRadius: 'var(--rounded-md)', padding: '4px 8px' }}>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: '#e0e8f0', minWidth: 24 }}>{s}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+                        <button onClick={() => setSizeStock((prev) => ({ ...prev, [s]: Math.max(0, (prev[s] ?? 5) - 1) }))} style={{ width: 24, height: 28, border: 'none', background: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, fontSize: 14 }}>−</button>
+                        <input type="number" value={sizeStock[s] ?? 5} onChange={(e) => setSizeStock((prev) => ({ ...prev, [s]: Math.max(0, Number(e.target.value)) }))} style={{ width: 36, textAlign: 'center', border: 'none', background: 'transparent', color: '#e0e8f0', fontSize: 13, fontWeight: 600, padding: 0, outline: 'none', MozAppearance: 'textfield' }} />
+                        <button onClick={() => setSizeStock((prev) => ({ ...prev, [s]: (prev[s] ?? 5) + 1 }))} style={{ width: 24, height: 28, border: 'none', background: 'none', color: '#9ca3af', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, fontSize: 14 }}>+</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Colors */}
+              <span style={{ ...labelStyle, marginTop: 8 }}>{t('admin.product.colors_label')}</span>
+              <div style={chipGroupStyle}>
+                {colors.map((c, i) => (
+                  <button key={i} onClick={() => removeColor(i)} style={{
+                    ...chipStyle(true), display: 'flex', alignItems: 'center', gap: 6,
+                  }}>
+                    <span style={{ width: 12, height: 12, borderRadius: '50%', background: c.hex, border: '1px solid rgba(255,255,255,0.15)', flexShrink: 0 }} />
+                    {c.name}
+                    <span style={{ fontSize: 12, color: '#6b7280', marginLeft: 2 }}>×</span>
+                  </button>
+                ))}
+              </div>
+              {/* Quick color presets */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 6 }}>
+                {commonColorPresets.map((p) => (
+                  <button key={p.name} onClick={() => addColorPreset(p)} style={{
+                    width: 28, height: 28, borderRadius: '50%', cursor: 'pointer', border: '2px solid rgba(255,255,255,0.1)',
+                    background: p.hex, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    opacity: colors.some((c) => c.name.toLowerCase() === p.name.toLowerCase()) ? 0.4 : 1,
+                  }} title={p.name} />
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
+                <input placeholder={t('admin.form.color_name')} value={colorNameInput} onChange={(e) => setColorNameInput(e.target.value)}
+                  style={{ ...inputStyle, flex: 1, padding: '8px 12px', fontSize: 13 }} />
+                <input type="color" value={colorHexInput} onChange={(e) => setColorHexInput(e.target.value)}
+                  style={{ width: 42, height: 42, borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', cursor: 'pointer', padding: 2 }} />
+                <button onClick={addColor} style={{ padding: '8px 14px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', color: '#22c55e', cursor: 'pointer', fontSize: 13, whiteSpace: 'nowrap' }}>{t('admin.form.add')}</button>
+              </div>
+
+              <textarea placeholder={t('admin.product.description')} value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
+                style={{ ...inputStyle, resize: 'vertical', marginBottom: 4 }} />
+            </div>
+
             <Button fullWidth glow variant="primary" onClick={handleAdd}>
               {editingId ? t('admin.product.save') : t('admin.product.add')}
             </Button>
@@ -182,29 +422,35 @@ export function AdminProducts() {
           {products.map((p) => (
             <Glass key={p.id} style={{ borderRadius: 'var(--rounded-lg)', padding: 16, display: 'flex', gap: 12, alignItems: 'center', cursor: 'pointer' }}
               onClick={() => openEdit(p)}>
-              <div style={{ width: 56, height: 72, borderRadius: 'var(--rounded-md)', overflow: 'hidden', flexShrink: 0, background: 'var(--surface-low)' }}>
-                <img src={p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ width: 56, height: 72, borderRadius: 'var(--rounded-md)', overflow: 'hidden', flexShrink: 0, background: 'var(--surface-low)', position: 'relative' }}>
+                <img src={p.images?.[0] || p.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                {p.images && p.images.length > 1 && (
+                  <span style={{ position: 'absolute', bottom: 2, right: 2, fontSize: 9, background: 'rgba(0,0,0,0.6)', color: '#fff', padding: '0 4px', borderRadius: 4 }}>
+                    +{p.images.length - 1}
+                  </span>
+                )}
               </div>
               <div style={{ flex: 1 }}>
                 <p style={{ font: 'var(--font-body)', fontWeight: 600 }}>{p.name}</p>
                 <p style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)', fontSize: 12 }}>
-                  {t('categories.' + p.category)} — {p.price.toLocaleString()}₴
+                  {t('categories.' + p.category) || p.category} {p.subcategory && `› ${p.subcategory}`} — {p.price.toLocaleString()}₴
                   <span style={{ marginLeft: 8, padding: '1px 6px', borderRadius: 'var(--radius-full)', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>{t('product.condition.' + p.condition.toLowerCase().replace(/\s+/g, '_'))}</span>
                 </p>
                 <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{p.colors.map((c) => c.name).join(', ')}</p>
                 {p.description && <p style={{ font: 'var(--font-body)', fontSize: 12, color: 'var(--on-surface-variant)', marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 200 }}>{p.description}</p>}
-                {p.collections && p.collections.length > 0 && (
-                  <p style={{ fontSize: 11, color: '#22c55e', marginTop: 2 }}>{p.collections.join(', ')}</p>
-                )}
               </div>
               <button onClick={(e) => { e.stopPropagation(); deleteProduct(p.id); }} style={{ color: 'var(--error)', cursor: 'pointer', padding: 4 }}>
                 <Icon name="delete" />
               </button>
             </Glass>
           ))}
+          {products.length === 0 && (
+            <div style={{ textAlign: 'center', padding: 40, color: '#9ca3af' }}>
+              <p style={{ fontSize: 14 }}>{t('admin.no.products')}</p>
+            </div>
+          )}
         </div>
 
-        {/* Floating Add Button */}
         {!showForm && (
           <button
             onClick={() => { resetForm(); setShowForm(true); }}

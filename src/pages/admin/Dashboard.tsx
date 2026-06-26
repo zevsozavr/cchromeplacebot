@@ -22,7 +22,7 @@ export function AdminDashboard() {
 
   const cards = [
     { label: t('admin.products'), value: products.length, icon: 'inventory_2', path: '/admin/products', color: '#22c55e' },
-    { label: t('admin.collection'), value: '', icon: 'auto_awesome', path: '/admin/collection', color: '#22c55e' },
+    { label: t('admin.np.title'), value: '', icon: 'local_shipping', path: '/admin/nova-poshta', color: '#06b6d4' },
     { label: t('admin.orders'), value: '', icon: 'receipt_long', path: '/admin/orders', color: '#22c55e' },
     { label: t('admin.users'), value: '', icon: 'people', path: '/admin/users', color: '#22c55e' },
     { label: t('admin.data'), value: '', icon: 'delete_sweep', path: '/admin/data', color: '#ff6b6b' },
@@ -33,7 +33,6 @@ export function AdminDashboard() {
       <Header showBack title={t('admin.title')} onBack={() => navigate('/settings')} />
       <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)', position: 'relative', zIndex: 10 }}>
         <h2 style={{ font: 'var(--font-headline)', marginBottom: 20 }}>{t('admin.dashboard')}</h2>
-
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
           {cards.map((card) => (
             <Glass key={card.path} glow style={{ borderRadius: 'var(--rounded-lg)', padding: 20, cursor: 'pointer' }}

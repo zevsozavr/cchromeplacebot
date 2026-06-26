@@ -2,13 +2,16 @@ import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useLang } from '../context/LangContext'
 import { BottomBar } from '../components/BottomBar'
+import { getNovaPoshtaPrice, estimateWeight } from '../lib/pricing'
 
 export function Cart() {
   const navigate = useNavigate()
   const { items, removeItem, updateQuantity, totalPrice } = useCart()
   const { t } = useLang()
   const subtotal = totalPrice
-  const total = subtotal
+  const weight = estimateWeight(items.length)
+  const shipping = getNovaPoshtaPrice(weight)
+  const total = subtotal + shipping
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 196 }}>
@@ -186,7 +189,9 @@ export function Cart() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, fontSize: 14 }}>
                 <span style={{ color: '#a0b4c4' }}>{t('cart.shipping')}</span>
-                <span style={{ color: '#22c55e', fontWeight: 500 }}>{t('cart.shipping.free')}</span>
+                <span style={{ color: shipping === 0 ? '#22c55e' : '#e0e8f0', fontWeight: 500 }}>
+                  ₴{shipping.toLocaleString()}
+                </span>
               </div>
               <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', width: '100%', marginTop: 8, marginBottom: 12 }} />
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
