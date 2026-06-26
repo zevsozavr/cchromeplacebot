@@ -2,7 +2,7 @@ import { getAppData, saveAppData } from '../lib/db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, PATCH, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -13,6 +13,12 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
       return res.json(data.orders || []);
+    }
+
+    if (req.method === 'PUT') {
+      const orders = Array.isArray(req.body) ? req.body : [];
+      await saveAppData({ ...data, orders });
+      return res.json({ ok: true });
     }
 
     if (req.method === 'PATCH') {

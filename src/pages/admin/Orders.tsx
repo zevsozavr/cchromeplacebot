@@ -5,30 +5,43 @@ import { useAuth } from '../../context/AuthContext';
 import { useLang } from '../../context/LangContext';
 import type { Order } from '../../types';
 
-const ORDERS_KEY = 'plugstreet_orders';
-
 export function AdminOrders() {
   const { isAdmin } = useAuth();
   const { t } = useLang();
   const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(ORDERS_KEY);
-      if (raw) setOrders(JSON.parse(raw));
-    } catch {}
+    (async () => {
+      try {
+        const res = await fetch('/api/orders');
+        if (res.ok) {
+          const data = await res.json();
+          setOrders(Array.isArray(data) ? data : []);
+        }
+      } catch {}
+      setLoading(false);
+    })();
   }, []);
 
-  const updateStatus = (id: string, status: Order['status']) => {
+  const updateStatus = async (id: string, status: Order['status']) => {
     const updated = orders.map((o) => o.id === id ? { ...o, status } : o);
     setOrders(updated);
-    localStorage.setItem(ORDERS_KEY, JSON.stringify(updated));
+    try {
+      await fetch('/api/orders', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated),
+      });
+    } catch {}
   };
 
-  const deleteOrder = (id: string) => {
+  const deleteOrder = async (id: string) => {
     const filtered = orders.filter((o) => o.id !== id);
     setOrders(filtered);
-    localStorage.setItem(ORDERS_KEY, JSON.stringify(filtered));
+    try {
+      await fetch(`/api/orders?id=${id}`, { method: 'DELETE' });
+    } catch {}
   };
 
   if (!isAdmin) {
@@ -42,7 +55,8 @@ export function AdminOrders() {
       <Header showBack title={t('admin.orders')} onBack={() => window.history.back()} />
       <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)', position: 'relative', zIndex: 10 }}>
         <h2 style={{ font: 'var(--font-headline)', marginBottom: 20 }}>{t('admin.orders')} ({orders.length})</h2>
-        {orders.length === 0 && (
+        {loading && <p style={{ textAlign: 'center', color: '#9ca3af', paddingTop: 40 }}>{t('checkout.processing')}</p>}
+        {!loading && orders.length === 0 && (
           <p style={{ color: 'var(--on-surface-variant)', textAlign: 'center', paddingTop: 40 }}>{t('settings.no.orders')}</p>
         )}
         {[...orders].reverse().map((o) => (
@@ -69,6 +83,11 @@ export function AdminOrders() {
               <span style={{ fontWeight: 600, color: 'var(--on-surface)' }}>{t('cart.total')}</span>
               <span style={{ fontWeight: 700, color: '#22c55e' }}>₴{o.total.toLocaleString()}</span>
             </div>
+            {o.ttn && (
+              <div style={{ marginBottom: 8, fontSize: 12, color: '#22c55e', fontWeight: 600 }}>
+                📦 TTN: {o.ttn}
+              </div>
+            )}
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <select
                 value={o.status}
