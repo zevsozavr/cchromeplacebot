@@ -2,8 +2,6 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import type { Product, Category } from '../types';
 
 const STORAGE_KEY = 'cchrome_data';
-const DATA_VERSION = 2;
-const VERSION_KEY = 'cchrome_data_v';
 const API_BASE = typeof window !== 'undefined' ? window.location.origin + '/api' : '/api';
 
 interface StoredData {
@@ -44,13 +42,10 @@ const defaultProducts: Product[] = [];
 
 function loadData(): StoredData | null {
   try {
-    if (localStorage.getItem(VERSION_KEY) !== String(DATA_VERSION)) {
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.setItem(VERSION_KEY, String(DATA_VERSION));
-      return null;
-    }
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    return data;
   } catch { return null; }
 }
 
