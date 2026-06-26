@@ -1,6 +1,6 @@
 import { initDb, saveUserLang, getUserLang } from '../lib/db.js';
 
-const BOT_TOKEN = process.env.BOT_TOKEN || '8962788106:AAHRlKbCNCHe4nW47PmKJkQeMzDIc7GpDZ0';
+const BOT_TOKEN = process.env.BOT_TOKEN || '8649366560:AAE_Resk8hYpJUFKaLguojKkgRyH54OQbyo';
 const APP_URL = 'https://cchromeplacebot.vercel.app';
 
 // Set native Telegram Mini App button (left of message input)
@@ -19,9 +19,8 @@ async function setMenuButton() {
 setMenuButton();
 
 function t(lang) {
-  if (lang === 'lang_ua' || lang === 'ua') return { welcome: 'Ласкаво просимо!', btn: 'Відкрити' }
   if (lang === 'lang_ru' || lang === 'ru') return { welcome: 'Добро пожаловать!', btn: 'Открыть' }
-  return { welcome: 'Welcome', btn: 'Open' }
+  return { welcome: 'Ласкаво просимо!', btn: 'Відкрити' }
 }
 
 async function tgSend(params) {
@@ -104,7 +103,7 @@ export default async function handler(req, res) {
     if (!userLang) {
       await tgSend({
         chat_id: chatId,
-        text: 'Welcome! Choose your language:',
+        text: 'Оберіть мову:',
         reply_markup: {
           inline_keyboard: [
             [{ text: 'Українська', callback_data: 'lang_ua' }],
