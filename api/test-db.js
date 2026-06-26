@@ -1,12 +1,15 @@
 import { initDb, getAppData } from '../lib/db.js';
 
 export default async function handler(req, res) {
-  const hasUrl = !!(process.env.POSTGRES_URL || process.env.DATABASE_URL);
+  const ec = process.env.EDGE_CONFIG || '';
   const ok = await initDb();
   const data = ok ? await getAppData() : null;
+
   res.json({
-    db_configured: hasUrl,
+    edge_config_exists: !!ec,
+    has_id: !!ec.match(/ecfg_/),
     db_connected: ok,
     has_data: !!data,
+    products_count: data?.products?.length || 0,
   });
 }
