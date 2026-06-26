@@ -10,23 +10,26 @@ export default async function handler(req, res) {
 
   const initOk = await initDb();
 
-  let writeOk = false;
+  let writeStatus = null;
+  let writeBody = null;
   try {
     const r = await fetch(`${supaUrl}/rest/v1/kv_store`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': supaKey, 'Authorization': `Bearer ${supaKey}`, 'Prefer': 'resolution=merge-duplicates' },
       body: JSON.stringify({ key: '_ping', value: { t: Date.now() } }),
     });
-    writeOk = r.ok || r.status === 201;
-  } catch {}
+    writeStatus = r.status;
+    try { writeBody = await r.text(); } catch {}
+  } catch (e) { writeBody = e.message; }
 
   let readVal = null;
+  let readStatus = null;
   try {
     const r = await fetch(`${supaUrl}/rest/v1/kv_store?key=eq._ping&select=value`, {
       headers: { 'Accept': 'application/json', 'apikey': supaKey, 'Authorization': `Bearer ${supaKey}` },
     });
-    const rows = await r.json();
-    readVal = rows.length > 0 ? rows[0].value : null;
+    readStatus = r.status;
+    if (r.ok) { const rows = await r.json(); readVal = rows.length > 0 ? rows[0].value : null; }
   } catch {}
 
   try {
@@ -36,5 +39,5 @@ export default async function handler(req, res) {
     });
   } catch {}
 
-  res.json({ supa_url: !!supaUrl, supa_key: !!supaKey, initDb: initOk, write: writeOk, read: readVal });
+  res.json({ supa_url: !!supaUrl, supa_key: !!supaKey, initDb: initOk, writeStatus, writeBody, readStatus, readVal });
 }
