@@ -25,7 +25,6 @@ interface DataContextValue {
   npConfig: StoredData['npConfig'];
   setNpConfig: (c: StoredData['npConfig']) => void;
   dbReady: boolean;
-  loading: boolean;
   clearProducts: () => void;
   clearAllData: () => void;
 }
@@ -54,12 +53,11 @@ function getNextCategoryId(): string {
 const DataContext = createContext<DataContextValue | null>(null);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [dbReady, setDbReady] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const saved = !dbReady ? loadData() : null;
+  const saved = loadData();
 
   const [products, setProducts] = useState<Product[]>(saved?.products || defaultProducts);
   const [npConfig, setNpConfigState] = useState<StoredData['npConfig']>(saved?.npConfig || undefined);
+  const [dbReady, setDbReady] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>(() => {
     const existingNames = new Set(saved?.products.map((p) => p.category) || defaultProducts.map((p) => p.category));
@@ -88,8 +86,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
           if (local.products) setProducts(local.products);
           if (local.npConfig) setNpConfigState(local.npConfig);
         }
-      } finally {
-        setLoading(false);
       }
     })();
   }, []);
@@ -145,40 +141,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  if (loading) {
-    return (
-      <div style={{
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        height: '100vh', width: '100vw', background: '#0a0e1a',
-        position: 'fixed', top: 0, left: 0, zIndex: 9999
-      }}>
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          width: 250, height: 250, background: 'rgba(34, 197, 94, 0.08)', borderRadius: '50%', filter: 'blur(80px)',
-        }} />
-        <div style={{
-          width: 48, height: 48, border: '3px solid rgba(34, 197, 94, 0.1)', borderTop: '3px solid #22c55e',
-          borderRadius: '50%', animation: 'spin 0.8s linear infinite', marginBottom: 20, zIndex: 1,
-        }} />
-        <style>{`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}</style>
-        <h2 style={{ fontSize: 16, fontWeight: 700, letterSpacing: '0.2em', color: '#22c55e', textTransform: 'uppercase', zIndex: 1 }}>
-          CCHROME PLACE
-        </h2>
-      </div>
-    );
-  }
-
   return (
     <DataContext.Provider value={{
       products, addProduct, updateProduct, deleteProduct,
       categories, addCategory,
       npConfig, setNpConfig,
-      dbReady, loading, clearProducts, clearAllData,
+      dbReady, clearProducts, clearAllData,
     }}>
       {children}
     </DataContext.Provider>

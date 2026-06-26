@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../lib/db.js';
+import { initDb, saveUserLang, getUserLang } from '../lib/db.js';
 
 const BOT_TOKEN = process.env.BOT_TOKEN || '8962788106:AAHRlKbCNCHe4nW47PmKJkQeMzDIc7GpDZ0';
 const APP_URL = 'https://cchromeplacebot.vercel.app';
@@ -41,27 +41,18 @@ async function tgAnswerCb(id) {
 }
 
 // Save language to DB
-async function saveUserLang(chatId, lang) {
+async function saveUserLangToDB(chatId, lang) {
   try {
-    const db = await connectToDatabase();
-    if (!db) return;
-    await db.collection('user_langs').updateOne(
-      { chatId: String(chatId) },
-      { $set: { lang, updatedAt: new Date().toISOString() } },
-      { upsert: true }
-    );
+    await saveUserLang(String(chatId), lang);
   } catch (err) {
     console.error('Failed to save user lang to DB:', err);
   }
 }
 
 // Load language from DB
-async function loadUserLang(chatId) {
+async function loadUserLangFromDB(chatId) {
   try {
-    const db = await connectToDatabase();
-    if (!db) return null;
-    const doc = await db.collection('user_langs').findOne({ chatId: String(chatId) });
-    return doc ? doc.lang : null;
+    return await getUserLang(String(chatId));
   } catch (err) {
     console.error('Failed to load user lang from DB:', err);
     return null;
@@ -81,12 +72,13 @@ export default async function handler(req, res) {
     const { data, from, id } = callback_query;
     const chatId = from.id;
     await tgAnswerCb(id);
+    await initDb();
 
     if (data === 'lang_ua' || data === 'lang_ru') {
-      await saveUserLang(chatId, data);
+      await saveUserLangToDB(chatId, data);
     }
 
-    const userLang = await loadUserLang(chatId) || userLangs[chatId] || 'lang_ua';
+    const userLang = await loadUserLangFromDB(chatId) || userLangs[chatId] || 'lang_ua';
     const texts = t(userLang);
     await tgSend({
       chat_id: chatId,
@@ -107,7 +99,8 @@ export default async function handler(req, res) {
   const text = message.text || '';
 
   if (text.startsWith('/start')) {
-    const userLang = await loadUserLang(chatId);
+    await initDb();
+    const userLang = await loadUserLangFromDB(chatId);
     if (!userLang) {
       await tgSend({
         chat_id: chatId,

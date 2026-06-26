@@ -1,4 +1,4 @@
-import { getAppData, saveAppData } from '../lib/db.js';
+import { initDb, getAppData, saveAppData } from '../lib/db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -6,6 +6,8 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
+
+  await initDb();
 
   try {
     if (req.method === 'GET') {
@@ -18,8 +20,6 @@ export default async function handler(req, res) {
     if (req.method === 'PUT') {
       const saved = await saveAppData(req.body);
       if (!saved) return res.status(503).json({ error: 'Database not configured' });
-
-      // Re-fetch and return the saved data so client stays in sync
       const fresh = await getAppData();
       return res.json({ ok: true, data: fresh });
     }

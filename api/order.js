@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { getAppData, saveAppData } from '../lib/db.js';
+import { initDb, saveOrder, getOrders } from '../lib/db.js';
 
 const BOT_TOKEN = process.env.BOT_TOKEN || '8649366560:AAE_Resk8hYpJUFKaLguojKkgRyH54OQbyo';
 const NOTIFY_CHAT_ID = process.env.NOTIFY_CHAT_ID || '822479618';
@@ -22,6 +22,13 @@ function validateTelegramData(initData) {
 }
 
 export default async function handler(req, res) {
+  await initDb();
+
+  if (req.method === 'GET') {
+    const orders = await getOrders();
+    return res.json(orders);
+  }
+
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { initData, order } = req.body;
@@ -32,19 +39,13 @@ export default async function handler(req, res) {
   const urlParams = new URLSearchParams(initData);
   const user = JSON.parse(urlParams.get('user') || '{}');
 
-  // Save order to MongoDB securely on the backend
   try {
-    const data = await getAppData();
-    if (data) {
-      const orders = data.orders || [];
-      const orderWithUser = {
-        ...order,
-        userId: user.id || null,
-        date: order.date || new Date().toISOString(),
-      };
-      orders.push(orderWithUser);
-      await saveAppData({ ...data, orders });
-    }
+    const orderWithUser = {
+      ...order,
+      userId: user.id || null,
+      date: order.date || new Date().toISOString(),
+    };
+    await saveOrder(orderWithUser);
   } catch (dbErr) {
     console.error('Failed to save order to DB:', dbErr);
   }

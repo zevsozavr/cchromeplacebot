@@ -1,36 +1,25 @@
-import { connectToDatabase } from '../lib/db.js';
+import { initDb, saveUserLang, getUserLang } from '../lib/db.js';
 
 export default async function handler(req, res) {
+  await initDb();
+
   if (req.method === 'GET') {
     const { chatId } = req.query;
     if (!chatId) return res.json({ lang: null });
-
     try {
-      const db = await connectToDatabase();
-      if (db) {
-        const doc = await db.collection('user_langs').findOne({ chatId: String(chatId) });
-        if (doc) return res.json({ lang: doc.lang });
-      }
-    } catch {}
-
-    return res.json({ lang: null });
+      const lang = await getUserLang(String(chatId));
+      return res.json({ lang: lang || null });
+    } catch {
+      return res.json({ lang: null });
+    }
   }
 
   if (req.method === 'POST') {
     const { chatId, lang } = req.body;
     if (!chatId || !lang) return res.status(400).json({ error: 'Missing chatId or lang' });
-
     try {
-      const db = await connectToDatabase();
-      if (db) {
-        await db.collection('user_langs').updateOne(
-          { chatId: String(chatId) },
-          { $set: { lang, updatedAt: new Date().toISOString() } },
-          { upsert: true }
-        );
-      }
+      await saveUserLang(String(chatId), lang);
     } catch {}
-
     return res.json({ ok: true });
   }
 
