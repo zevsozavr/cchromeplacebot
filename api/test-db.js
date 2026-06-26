@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   res.json({
     edge_config_exists: !!ec,
     has_id: !!ec.match(/ecfg_/),
+    has_token: !!process.env.VERCEL_API_TOKEN,
     db_connected: ok,
     has_data: !!data,
     products_count: data?.products?.length || 0,

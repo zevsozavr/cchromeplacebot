@@ -172,11 +172,11 @@ export function AdminProducts() {
     setSubcategory(p.subcategory || '');
     setImageDataUrls([]);
     setImageUrls(p.images && p.images.length > 0 ? p.images : [p.image]);
-    setDescription(p.description);
-    setCondition(p.condition);
-    setSelectedSizes(p.sizes);
-    setColors(p.colors.map((c) => ({ name: c.name, hex: c.hex })));
-    setSizeStock(p.sizeStock || Object.fromEntries(p.sizes.map((s) => [s, p.stock ?? 5])));
+    setDescription(p.description || '');
+    setCondition(p.condition || 'New');
+    setSelectedSizes(p.sizes || ['One Size']);
+    setColors(p.colors?.map((c) => ({ name: c.name, hex: c.hex })) || [{ name: 'Default', hex: '#000000' }]);
+    setSizeStock(p.sizeStock || Object.fromEntries((p.sizes || ['One Size']).map((s) => [s, p.stock ?? 5])));
     setShowForm(true);
   };
 
@@ -436,7 +436,7 @@ export function AdminProducts() {
                   {t('categories.' + p.category) || p.category} {p.subcategory && `› ${p.subcategory}`} — {p.price.toLocaleString()}₴
                   <span style={{ marginLeft: 8, padding: '1px 6px', borderRadius: 'var(--radius-full)', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>{t('product.condition.' + p.condition.toLowerCase().replace(/\s+/g, '_'))}</span>
                 </p>
-                <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{p.colors.map((c) => c.name).join(', ')}</p>
+                <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{p.colors?.map((c) => c.name).join(', ') || ''}</p>
                 {p.description && <p style={{ font: 'var(--font-body)', fontSize: 12, color: 'var(--on-surface-variant)', marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 200 }}>{p.description}</p>}
               </div>
               <button onClick={(e) => { e.stopPropagation(); deleteProduct(p.id); }} style={{ color: 'var(--error)', cursor: 'pointer', padding: 4 }}>

@@ -2,6 +2,8 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import type { Product, Category } from '../types';
 
 const STORAGE_KEY = 'cchrome_data';
+const DATA_VERSION = 1;
+const VERSION_KEY = 'cchrome_data_v';
 const API_BASE = '/api';
 
 interface StoredData {
@@ -42,6 +44,11 @@ const defaultProducts: Product[] = [];
 
 function loadData(): StoredData | null {
   try {
+    if (localStorage.getItem(VERSION_KEY) !== String(DATA_VERSION)) {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.setItem(VERSION_KEY, String(DATA_VERSION));
+      return null;
+    }
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : null;
   } catch { return null; }
@@ -97,13 +104,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const persist = useCallback(async (data: StoredData) => {
+    saveData(data);
     try {
       const res = await fetch(`${API_BASE}/data`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      if (!res.ok) saveData(data);
     } catch {
       saveData(data);
     }
