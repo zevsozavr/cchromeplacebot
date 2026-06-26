@@ -1,4 +1,5 @@
 import { getDeliveryCost } from '../lib/np.js';
+import { getAppData } from '../lib/db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -8,11 +9,16 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { citySenderRef, cityRecipientRef, weight, declaredCost } = req.body;
+    const { cityRecipientRef, weight, declaredCost } = req.body;
     if (!cityRecipientRef) return res.status(400).json({ error: 'cityRecipientRef required' });
 
+    // Load sender config from Edge Config
+    const data = await getAppData();
+    const config = data?.npConfig;
+    const citySenderRef = config?.citySenderRef || '';
+
     const cost = await getDeliveryCost(
-      citySenderRef || '',
+      citySenderRef,
       cityRecipientRef,
       weight || 0.5,
       declaredCost || 1000

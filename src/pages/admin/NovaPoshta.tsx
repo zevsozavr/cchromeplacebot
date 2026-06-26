@@ -45,8 +45,8 @@ export function AdminNovaPoshta() {
   useEffect(() => {
     if (npConfig?.citySenderRef && npConfig?.senderAddressRef) {
       // Ref values already set — show placeholder text
-      setCityQuery(t('admin.np.configured') || 'Configured');
-      setWarehouseQuery(t('admin.np.configured') || 'Configured');
+      setCityQuery(t('admin.np.configured'));
+      setWarehouseQuery(t('admin.np.configured'));
     }
   }, []);
 
@@ -145,7 +145,7 @@ export function AdminNovaPoshta() {
           <input value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)}
             placeholder="+380XXXXXXXXX" style={inputStyle} />
 
-          <div style={labelStyle}>{t('admin.np.city')}</div>
+            <div style={labelStyle}>{t('admin.np.city') || 'City'}</div>
           <div style={{ position: 'relative' }}>
             <input
               value={cityQuery}
@@ -171,7 +171,7 @@ export function AdminNovaPoshta() {
             )}
           </div>
 
-          <div style={labelStyle}>{t('admin.np.warehouse')}</div>
+            <div style={labelStyle}>{t('admin.np.warehouse') || 'Warehouse'}</div>
           <div style={{ position: 'relative' }}>
             <input
               value={warehouseQuery}
@@ -202,7 +202,7 @@ export function AdminNovaPoshta() {
             <Button fullWidth glow variant="primary" onClick={handleSave} disabled={saving}>
               {saving ? t('admin.np.saving') : saved ? t('admin.np.saved') : t('admin.np.save')}
             </Button>
-            <Button fullWidth variant="glass" onClick={handleTest}>{t('admin.np.test') || 'Test'}</Button>
+            <Button fullWidth variant="glass" onClick={handleTest}>{t('admin.np.test')}</Button>
             <Button fullWidth variant="glass" onClick={() => navigate('/admin')}>{t('admin.cancel')}</Button>
           </div>
 
