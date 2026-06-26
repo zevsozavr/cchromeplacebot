@@ -14,14 +14,14 @@ export function ProductDetail() {
   const { t } = useLang()
 
   const product = products.find((p) => p.id === id)
-  const [selectedSize, setSelectedSize] = useState(product?.sizes[0] || '')
+  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || '')
   const [selectedColorIdx, setSelectedColorIdx] = useState(0)
   const [currentImage, setCurrentImage] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!product) return
-    setSelectedSize(product.sizes[0])
+    setSelectedSize(product.sizes?.[0] || '')
     setSelectedColorIdx(0)
     setCurrentImage(0)
   }, [product])
@@ -45,10 +45,10 @@ export function ProductDetail() {
     )
   }
 
-  const images = product.images && product.images.length > 0 ? product.images : [product.image]
+  const images = product.images?.length ? product.images : (product.image ? [product.image] : [])
   const fav = isFavorite(product.id)
   const getSizeStock = (size: string) => product.sizeStock?.[size] ?? product.stock ?? 5
-  const outOfStockAll = product.sizes.every((s) => getSizeStock(s) <= 0)
+  const outOfStockAll = product.sizes?.every((s) => getSizeStock(s) <= 0) ?? true
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 140 }}>
@@ -197,7 +197,7 @@ export function ProductDetail() {
                 {t('product.color')}
               </h3>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                {product.colors.map((c, i) => (
+                {(product.colors || []).map((c, i) => (
                   <button
                     key={c.name}
                     onClick={() => setSelectedColorIdx(i)}
@@ -223,7 +223,7 @@ export function ProductDetail() {
                 {t('product.size')}
               </h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
-                {product.sizes.map((s) => {
+                {(product.sizes || []).map((s) => {
                   const active = s === selectedSize
                   const stock = getSizeStock(s)
                   const soldOut = stock <= 0
