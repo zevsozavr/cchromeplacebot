@@ -101,7 +101,7 @@ export function Storefront() {
                       className="group-hover:opacity-100"
                     >
                       <button
-                        onClick={(e) => { e.stopPropagation(); addItem(p, p.sizes[0], p.colors[0].name) }}
+                        onClick={(e) => { e.stopPropagation(); addItem(p, p.sizes?.[0] || '', p.colors?.[0]?.name || '') }}
                         style={{
                           padding: '8px 16px', background: '#22c55e', color: '#001f2e',
                           border: 'none', borderRadius: 9999, fontSize: 12, fontWeight: 700,
@@ -151,7 +151,7 @@ export function Storefront() {
                         className="group-hover:opacity-100"
                       >
                         <button
-                          onClick={(e) => { e.stopPropagation(); addItem(p, p.sizes[0], p.colors[0].name) }}
+                          onClick={(e) => { e.stopPropagation(); addItem(p, p.sizes?.[0] || '', p.colors?.[0]?.name || '') }}
                           style={{
                             padding: '8px 16px', background: '#22c55e', color: '#001f2e',
                             border: 'none', borderRadius: 9999, fontSize: 12, fontWeight: 700,
