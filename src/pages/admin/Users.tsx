@@ -36,6 +36,11 @@ export function AdminUsers() {
     fetchUsers();
   };
 
+  const deleteUser = async (tgId: number) => {
+    await fetch(`/api/users?tgId=${tgId}`, { method: 'DELETE' });
+    fetchUsers();
+  };
+
   if (!isAdmin) {
     return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}>
       <p>{t('admin.access.denied')}</p>
@@ -48,16 +53,29 @@ export function AdminUsers() {
       <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)', position: 'relative', zIndex: 10 }}>
         <h2 style={{ font: 'var(--font-headline)', marginBottom: 20 }}>{t('admin.users')} ({users.length})</h2>
         {users.length === 0 && (
-          <p style={{ color: 'var(--on-surface-variant)', textAlign: 'center', paddingTop: 40 }}>{t('settings.no.orders')}</p>
+          <p style={{ color: 'var(--on-surface-variant)', textAlign: 'center', paddingTop: 40 }}>{t('admin.no.users')}</p>
         )}
         {users.map((u) => (
-          <Glass key={u.phone} style={{ borderRadius: 'var(--rounded-lg)', padding: 16, marginBottom: 12 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-              <span style={{ fontWeight: 700, color: '#22c55e', fontSize: 14 }}>{u.name}</span>
-              <span style={{ fontSize: 12, color: 'var(--on-surface-variant)' }}>{u.phone}</span>
+          <Glass key={u.username || u.phone || u.id} style={{ borderRadius: 'var(--rounded-lg)', padding: 16, marginBottom: 12 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+              <span style={{ fontWeight: 700, color: '#22c55e', fontSize: 14 }}>
+                {u.first_name || u.name || '—'} {u.last_name || ''}
+              </span>
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <span style={{ fontSize: 12, color: 'var(--on-surface-variant)' }}>{u.phone || ''}</span>
+                {u.id && (
+                  <button onClick={() => deleteUser(u.id)} style={{ background: 'none', border: 'none', color: '#ff6b6b', cursor: 'pointer', padding: 2, fontSize: 12, textDecoration: 'underline' }}>
+                    {t('admin.order.delete')}
+                  </button>
+                )}
+              </div>
             </div>
-            <div style={{ fontSize: 13, color: 'var(--on-surface-variant)', marginBottom: 8 }}>
+            {u.username && <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 4 }}>@{u.username}</p>}
+            <div style={{ fontSize: 13, color: 'var(--on-surface-variant)', marginBottom: 4 }}>
               <span>{t('admin.orders')}: {u.orders.length} | {t('cart.total')}: ₴{u.totalSpent.toLocaleString()}</span>
+              {Object.keys(u).filter((k) => k.startsWith('tg_') || k === 'phone').length > 1 && u.lastSeen && (
+                <span style={{ marginLeft: 8, fontSize: 11, opacity: 0.7 }}>{new Date(u.lastSeen).toLocaleDateString()}</span>
+              )}
             </div>
             <div style={{ fontSize: 12, marginBottom: 8, maxHeight: 100, overflow: 'auto' }}>
               {u.orders.map((o: any) => (
@@ -86,7 +104,7 @@ export function AdminUsers() {
                   </button>
                 </div>
               ) : (
-                <button onClick={() => { setSelectedPhone(u.phone); setDiscount(''); setNote(''); }} style={{ padding: '4px 12px', borderRadius: 999, background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e', fontSize: 12, cursor: 'pointer' }}>
+                <button onClick={() => { setSelectedPhone(u.phone || u.username); setDiscount(''); setNote(''); }} style={{ padding: '4px 12px', borderRadius: 999, background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e', fontSize: 12, cursor: 'pointer' }}>
                   {t('admin.deal.add')}
                 </button>
               )}

@@ -9,6 +9,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const BOT_TOKEN = process.env.BOT_TOKEN || '8962788106:AAHRlKbCNCHe4nW47PmKJkQeMzDIc7GpDZ0';
 const NOTIFY_CHAT_ID = process.env.NOTIFY_CHAT_ID || '822479618';
+const APP_URL = process.env.PUBLIC_URL || 'https://cchromeplacebot.vercel.app';
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -72,7 +73,6 @@ async function tgAnswerCb(id) {
 
 app.post('/api/webhook', async (req, res) => {
   const { message, callback_query } = req.body;
-  const publicUrl = process.env.PUBLIC_URL || `http://localhost:${PORT}`;
 
   if (callback_query) {
     const { data, from, id } = callback_query;
@@ -122,7 +122,7 @@ app.post('/api/webhook', async (req, res) => {
         text: texts.welcome,
         reply_markup: {
           inline_keyboard: [[
-            { text: texts.btn, web_app: { url: publicUrl } }
+          { text: texts.btn, web_app: { url: APP_URL } }
           ]]
         }
       });

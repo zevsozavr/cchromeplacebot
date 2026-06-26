@@ -93,16 +93,24 @@ export function AdminProducts() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg)' }}>
       <Header showBack title={t('admin.products')} onBack={() => navigate('/admin')} />
-      <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)', position: 'relative', zIndex: 10, paddingBottom: 96 }}>
+      <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)', position: 'relative', zIndex: 10, paddingBottom: 100 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
           <span style={{ font: 'var(--font-label)', color: 'var(--on-surface-variant)' }}>{products.length} {t('products.count')}</span>
-          <Button variant="glass" onClick={() => { resetForm(); setShowForm(!showForm); }} style={{ padding: '8px 16px' }}>
-            <Icon name="add" style={{ fontSize: 16 }} /> {t('admin.add.product')}
-          </Button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Button variant="glass" onClick={() => { resetForm(); setShowForm(!showForm); }} style={{ padding: '10px 20px', fontWeight: 600 }}>
+              <Icon name="add" style={{ fontSize: 18 }} /> {t('admin.add.product')}
+            </Button>
+          </div>
         </div>
 
         {showForm && (
           <Glass card glow style={{ borderRadius: 'var(--rounded-lg)', padding: 20, marginBottom: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+              <span style={{ fontWeight: 600, color: '#22c55e', fontSize: 14 }}>{editingId ? t('admin.product.save') : t('admin.add.product')}</span>
+              <button onClick={resetForm} style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer' }}>
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
             <input placeholder={t('admin.product.name')} value={name} onChange={(e) => setName(e.target.value)}
               style={{ width: '100%', padding: '12px 16px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(8px)', font: 'var(--font-body)', color: 'var(--on-surface)' }} />
 
@@ -195,6 +203,23 @@ export function AdminProducts() {
             </Glass>
           ))}
         </div>
+
+        {/* Floating Add Button */}
+        {!showForm && (
+          <button
+            onClick={() => { resetForm(); setShowForm(true); }}
+            style={{
+              position: 'fixed', bottom: 88, right: 24,
+              width: 56, height: 56, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+              border: 'none', color: '#fff', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              zIndex: 50, boxShadow: '0 4px 20px rgba(34,197,94,0.4)',
+            }}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 28 }}>add</span>
+          </button>
+        )}
       </main>
     </div>
   );

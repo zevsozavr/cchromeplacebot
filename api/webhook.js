@@ -1,4 +1,21 @@
 const BOT_TOKEN = process.env.BOT_TOKEN || '8962788106:AAHRlKbCNCHe4nW47PmKJkQeMzDIc7GpDZ0';
+const APP_URL = 'https://cchromeplacebot.vercel.app';
+
+// Set native Telegram Mini App button (left of message input)
+async function setMenuButton() {
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setChatMenuButton`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        menu_button: { type: 'web_app', text: 'CCHROME PLACE', web_app: { url: APP_URL } }
+      }),
+    });
+  } catch {}
+}
+
+// Run once on cold start
+setMenuButton();
 
 // Simple in-memory user lang store (note: resets on Vercel cold start)
 let userLangs = {};
@@ -33,9 +50,6 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { message, callback_query } = req.body;
-  const webAppUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'https://cchromeplacebot.vercel.app';
 
   if (callback_query) {
     const { data, from, id } = callback_query;
@@ -52,7 +66,7 @@ export default async function handler(req, res) {
       text: texts.welcome,
       reply_markup: {
         inline_keyboard: [[
-          { text: texts.btn, web_app: { url: webAppUrl } }
+          { text: texts.btn, web_app: { url: APP_URL } }
         ]]
       }
     });
@@ -84,7 +98,7 @@ export default async function handler(req, res) {
         text: texts.welcome,
         reply_markup: {
           inline_keyboard: [[
-            { text: texts.btn, web_app: { url: webAppUrl } }
+          { text: texts.btn, web_app: { url: APP_URL } }
           ]]
         }
       });

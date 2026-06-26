@@ -12,7 +12,9 @@ export default async function handler(req, res) {
     if (!data) return res.status(503).json({ error: 'Database not configured' });
 
     if (req.method === 'GET') {
-      // Derive users from orders
+      const registeredUsers = data.users || [];
+
+      // Also derive from orders
       const orderMap = {};
       for (const order of (data.orders || [])) {
         const key = order.phone || order.name;
@@ -20,20 +22,35 @@ export default async function handler(req, res) {
         orderMap[key].orders.push(order);
         orderMap[key].totalSpent += order.total;
       }
-      const users = Object.values(orderMap);
+      const orderUsers = Object.values(orderMap);
 
-      // Attach deals
+      // Merge: registered users + order users, keyed by phone
+      const merged = {};
+      for (const u of registeredUsers) {
+        const key = u.username || `tg_${u.id}`;
+        merged[key] = { ...u, orders: [], totalSpent: 0, deal: null };
+      }
+      for (const u of orderUsers) {
+        const key = u.phone || u.name;
+        if (merged[key]) {
+          merged[key].orders = u.orders;
+          merged[key].totalSpent = u.totalSpent;
+          merged[key].phone = u.phone;
+        } else {
+          merged[key] = { ...u, id: null, first_name: '', last_name: '', username: '', lastSeen: '', deal: null };
+        }
+      }
+
       const deals = data.deals || [];
-      const usersWithDeals = users.map((u) => ({
+      const result = Object.values(merged).map((u) => ({
         ...u,
-        deal: deals.find((d) => d.phone === u.phone) || null,
+        deal: deals.find((d) => d.phone === u.phone || d.phone === u.username) || null,
       }));
 
-      return res.json(usersWithDeals);
+      return res.json(result);
     }
 
     if (req.method === 'POST') {
-      // Create/update a private deal for a user
       const { phone, discountPercent, note } = req.body;
       const deals = (data.deals || []).filter((d) => d.phone !== phone);
       deals.push({ phone, discountPercent: Number(discountPercent) || 0, note: note || '', createdAt: new Date().toISOString() });
@@ -42,9 +59,15 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'DELETE') {
-      const { phone } = req.query;
-      const deals = (data.deals || []).filter((d) => d.phone !== phone);
-      await saveAppData({ ...data, deals });
+      const { phone, tgId } = req.query;
+      if (phone) {
+        const deals = (data.deals || []).filter((d) => d.phone !== phone);
+        await saveAppData({ ...data, deals });
+      }
+      if (tgId) {
+        const users = (data.users || []).filter((u) => u.id !== Number(tgId));
+        await saveAppData({ ...data, users });
+      }
       return res.json({ ok: true });
     }
 

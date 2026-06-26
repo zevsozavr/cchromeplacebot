@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, type ReactNode } from 'react';
 
 const ADMIN_IDS = [7264276513, 822479618];
 
@@ -11,8 +11,26 @@ const AuthContext = createContext<AuthContextValue>({ userId: null, isAdmin: fal
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const tg = window.Telegram?.WebApp;
-  const userId = tg?.initDataUnsafe?.user?.id ?? null;
+  const user = tg?.initDataUnsafe?.user;
+  const userId = user?.id ?? null;
   const isAdmin = userId !== null && ADMIN_IDS.includes(userId);
+
+  // Auto-register user on mount
+  useEffect(() => {
+    if (user) {
+      fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          username: user.username,
+          language_code: (user as any).language_code,
+        }),
+      }).catch(() => {});
+    }
+  }, []);
 
   return <AuthContext.Provider value={{ userId, isAdmin }}>{children}</AuthContext.Provider>;
 }
