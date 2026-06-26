@@ -61,7 +61,7 @@ export default async function handler(req, res) {
   const ttnText = order.ttn ? `📦 *ТТН:* ${order.ttn}` : '';
 
   const message = [
-    `🛍 *New Order — Trippie*`,
+    `🛍 *New Order — cchrome place*`,
     ``,
     `*Order ID:* #${order.id}`,
     `*Name:* ${order.name}`,

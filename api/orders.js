@@ -1,4 +1,4 @@
-import { getAppData, saveAppData } from '../lib/db.js';
+import { getOrders, saveOrder, deleteOrder } from '../lib/db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -8,31 +8,32 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
-    const data = await getAppData();
-    if (!data) return res.status(503).json({ error: 'Database not configured' });
-
     if (req.method === 'GET') {
-      return res.json(data.orders || []);
+      const orders = await getOrders();
+      return res.json(orders);
     }
 
     if (req.method === 'PUT') {
       const orders = Array.isArray(req.body) ? req.body : [];
-      await saveAppData({ ...data, orders });
+      // Replace all orders — clear cache then write each
+      const { edgeWrite } = await import('../lib/db.js');
+      await edgeWrite('orders', orders);
       return res.json({ ok: true });
     }
 
     if (req.method === 'PATCH') {
       const { id } = req.query;
       const { status } = req.body;
-      const orders = (data.orders || []).map((o) => o.id === id ? { ...o, status } : o);
-      await saveAppData({ ...data, orders });
+      const orders = await getOrders();
+      const updated = orders.map((o) => o.id === id ? { ...o, status } : o);
+      const { edgeWrite } = await import('../lib/db.js');
+      await edgeWrite('orders', updated);
       return res.json({ ok: true });
     }
 
     if (req.method === 'DELETE') {
       const { id } = req.query;
-      const orders = (data.orders || []).filter((o) => o.id !== id);
-      await saveAppData({ ...data, orders });
+      await deleteOrder(id);
       return res.json({ ok: true });
     }
 
