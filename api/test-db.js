@@ -39,5 +39,12 @@ export default async function handler(req, res) {
     });
   } catch {}
 
-  res.json({ supa_url: !!supaUrl, supa_key: !!supaKey, initDb: initOk, writeStatus, writeBody, readStatus, readVal });
+  let keyRole = null;
+  if (supaKey) {
+    try {
+      const payload = JSON.parse(Buffer.from(supaKey.split('.')[1], 'base64url').toString());
+      keyRole = payload?.role || payload?.key_type || 'unknown';
+    } catch {}
+  }
+  res.json({ supa_url: !!supaUrl, supa_key: !!supaKey, keyRole, initDb: initOk, writeStatus, writeBody, readStatus, readVal });
 }
