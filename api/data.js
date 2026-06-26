@@ -20,8 +20,7 @@ export default async function handler(req, res) {
     if (req.method === 'PUT') {
       const saved = await saveAppData(req.body);
       if (!saved) return res.status(503).json({ error: 'Database not configured' });
-      const fresh = await getAppData();
-      return res.json({ ok: true, data: fresh });
+      return res.json({ ok: true, data: req.body });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });
