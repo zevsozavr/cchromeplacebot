@@ -65,14 +65,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [dbReady, setDbReady] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>(() => {
-    const existingNames = new Set(saved?.products.map((p) => p.category) || defaultProducts.map((p) => p.category));
-    const extra = defaultCategories.filter((c) => c.name === 'All' || existingNames.has(c.name));
+    const result = [...defaultCategories];
+    const existingNames = new Set(result.map((c) => c.name));
     saved?.products.forEach((p) => {
-      if (!extra.find((c) => c.name === p.category)) {
-        extra.push({ id: getNextCategoryId(), name: p.category, image: '' });
+      if (!existingNames.has(p.category)) {
+        result.push({ id: getNextCategoryId(), name: p.category, image: '' });
+        existingNames.add(p.category);
       }
     });
-    return extra.length > 0 ? extra : defaultCategories;
+    return result;
   });
 
   useEffect(() => {
