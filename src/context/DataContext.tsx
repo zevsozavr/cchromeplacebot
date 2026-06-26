@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import type { Product, Category } from '../types';
 
 const STORAGE_KEY = 'cchrome_data';
-const DATA_VERSION = 1;
+const DATA_VERSION = 2;
 const VERSION_KEY = 'cchrome_data_v';
 const API_BASE = '/api';
 
