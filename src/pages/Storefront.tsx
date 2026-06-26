@@ -67,7 +67,6 @@ export function Storefront() {
 
         {/* Curated Selection */}
         <section style={{ padding: '0 24px 80px' }}>
-          <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 32, color: '#e0e8f0' }}>{t('store.featured')}</h3>
           {gridProducts.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: '#9ca3af' }}>
               <span className="material-symbols-outlined" style={{ fontSize: 48, color: '#4b5563', marginBottom: 12 }}>inventory_2</span>

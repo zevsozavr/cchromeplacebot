@@ -31,6 +31,11 @@ interface DataContextValue {
 
 const defaultCategories: Category[] = [
   { id: 'c1', name: 'All', image: '' },
+  { id: 'c2', name: 'Outerwear', image: '' },
+  { id: 'c3', name: 'Accessories', image: '' },
+  { id: 'c4', name: 'Tops', image: '' },
+  { id: 'c5', name: 'Bottoms', image: '' },
+  { id: 'c6', name: 'Shoes', image: '' },
 ];
 
 const defaultProducts: Product[] = [];
@@ -76,14 +81,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const res = await fetch(`${API_BASE}/data`);
         if (!res.ok) throw new Error('DB not available');
         const dbData = await res.json();
-        if (dbData.products) setProducts(dbData.products);
+        if (dbData.products && dbData.products.length > 0) setProducts(dbData.products);
         if (dbData.npConfig) setNpConfigState(dbData.npConfig);
         setDbReady(true);
       } catch {
         setDbReady(false);
         const local = loadData();
         if (local) {
-          if (local.products) setProducts(local.products);
+          if (local.products && local.products.length > 0) setProducts(local.products);
           if (local.npConfig) setNpConfigState(local.npConfig);
         }
       }
