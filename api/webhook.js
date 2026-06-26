@@ -143,11 +143,13 @@ export default async function handler(req, res) {
       sizeStock: Object.fromEntries(sizes.map((s) => [s, 999])),
     };
 
-    await saveProduct(product);
+    const saved = await saveProduct(product);
 
     await tgSend({
       chat_id: message.chat.id,
-      text: `✅ Товар "${name}" створено (₴${price})`,
+      text: saved
+        ? `✅ Товар "${name}" створено (₴${price})`
+        : `❌ Помилка: товар "${name}" не збережено — база даних недоступна`,
     });
     return res.json({ ok: true, parsed: true });
   }
