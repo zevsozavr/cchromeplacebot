@@ -7,6 +7,7 @@ import { Icon } from '../../components/Icon';
 import { useData } from '../../context/DataContext';
 import { useAuth } from '../../context/AuthContext';
 import { useLang } from '../../context/LangContext';
+import { processAndUploadImage } from '../../lib/image';
 
 const commonSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'One Size'];
 
@@ -73,23 +74,23 @@ export function AdminProducts() {
   const [colorNameInput, setColorNameInput] = useState('');
   const [colorHexInput, setColorHexInput] = useState('#000000');
   const [sizeStock, setSizeStock] = useState<Record<string, number>>({ 'S': 5, 'M': 5, 'L': 5 });
+  const [uploading, setUploading] = useState(false);
 
   if (!isAdmin) return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}><p>{t('admin.access.denied')}</p></div>;
 
-  const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-    const readerPromises: Promise<string>[] = [];
-    for (let i = 0; i < files.length; i++) {
-      readerPromises.push(new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.readAsDataURL(files[i]);
-      }));
+    setUploading(true);
+    try {
+      // Compress + upload each photo to storage; store the returned hosted URLs
+      // (not base64) so the saved product stays small and persists reliably.
+      const urls = await Promise.all(Array.from(files).map((f) => processAndUploadImage(f)));
+      setImageDataUrls((prev) => [...prev, ...urls.filter(Boolean)]);
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
-    Promise.all(readerPromises).then((results) => {
-      setImageDataUrls((prev) => [...prev, ...results]);
-    });
   };
 
   const removeImageDataUrl = (index: number) => {
@@ -163,7 +164,7 @@ export function AdminProducts() {
   const getFinalImages = (): string[] => imageDataUrls.filter(Boolean);
 
   const handleAdd = async () => {
-    if (!name || !price || saving) return;
+    if (!name || !price || saving || uploading) return;
     const cat = category || newCategory || 'General';
     const productData = {
       name, category: cat, subcategory: subcategory || undefined,
@@ -268,8 +269,8 @@ export function AdminProducts() {
                 onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(34,197,94,0.03)'}
               >
                 <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFilesChange} style={{ display: 'none' }} />
-                <span className="material-symbols-outlined" style={{ fontSize: 36, color: '#22c55e', marginBottom: 8, display: 'block' }}>add_photo_alternate</span>
-                <p style={{ fontSize: 14, fontWeight: 600, color: '#22c55e', margin: 0 }}>{t('admin.form.upload')}</p>
+                <span className="material-symbols-outlined" style={{ fontSize: 36, color: '#22c55e', marginBottom: 8, display: 'block' }}>{uploading ? 'progress_activity' : 'add_photo_alternate'}</span>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#22c55e', margin: 0 }}>{uploading ? '...' : t('admin.form.upload')}</p>
                 <p style={{ fontSize: 12, color: '#6b7280', margin: '4px 0 0' }}>PNG, JPG — до 10 фото</p>
               </div>
 
@@ -395,8 +396,8 @@ export function AdminProducts() {
                 style={{ ...inputStyle, resize: 'vertical', marginBottom: 4 }} />
             </div>
 
-            <Button fullWidth glow variant="primary" onClick={handleAdd} disabled={saving}>
-              {saving ? '…' : (editingId ? t('admin.product.save') : t('admin.product.add'))}
+            <Button fullWidth glow variant="primary" onClick={handleAdd} disabled={saving || uploading}>
+              {saving || uploading ? '…' : (editingId ? t('admin.product.save') : t('admin.product.add'))}
             </Button>
           </Glass>
         )}

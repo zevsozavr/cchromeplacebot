@@ -1,5 +1,16 @@
 import { initDb, getAppData, saveAppData } from '../lib/db.js';
 
+// Merge the client's snapshot with the server's current state so a save from the
+// admin app can't wipe products another writer (e.g. a forwarded channel post)
+// added after the admin app loaded. `knownIds` = every product id the client is
+// aware of; any server product whose id the client does NOT know is preserved.
+function mergeProducts(incoming, knownIds, current) {
+  if (!Array.isArray(knownIds)) return incoming;
+  const known = new Set(knownIds);
+  const foreign = (current.products || []).filter((p) => !known.has(p.id));
+  return [...incoming, ...foreign];
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
@@ -24,9 +35,12 @@ export default async function handler(req, res) {
       if (!body || typeof body !== 'object' || !Array.isArray(body.products)) {
         return res.status(400).json({ error: 'Invalid payload' });
       }
-      const saved = await saveAppData(body);
+      const current = await getAppData();
+      const products = mergeProducts(body.products, body.knownIds, current || { products: [] });
+      const data = { products, npConfig: body.npConfig };
+      const saved = await saveAppData(data);
       if (!saved) return res.status(503).json({ error: 'Database not configured' });
-      return res.json({ ok: true, data: body });
+      return res.json({ ok: true, data });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

@@ -52,17 +52,23 @@ export function DataProvider({ children }: { children: ReactNode }) {
   productsRef.current = products;
   npConfigRef.current = npConfig;
 
+  // Every product id this client is aware of (loaded or created). Sent with each
+  // save so the server can preserve products added by another writer meanwhile,
+  // while still honoring deletes of products this client knew about.
+  const knownIdsRef = useRef<Set<string>>(new Set());
+
   // Writes the current data to localStorage immediately (synchronous, never lost)
   // and to the server. `keepalive` lets the request finish even if the Telegram
   // webview is closed right after — fixes items vanishing after "create + close".
-  const persist = async (data: StoredData): Promise<boolean> => {
+  const persist = async (data: StoredData, merge = true): Promise<boolean> => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
     setSaving(true);
     try {
+      const payload = merge ? { ...data, knownIds: Array.from(knownIdsRef.current) } : data;
       const res = await fetch(`${API_BASE}/data`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
         keepalive: true,
       });
       return res.ok;
@@ -93,6 +99,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
           setCategories(cats);
           setProducts(db.products);
           productsRef.current = db.products;
+          db.products.forEach((p: Product) => knownIdsRef.current.add(p.id));
         }
         if (db.npConfig) { setNpConfigState(db.npConfig); npConfigRef.current = db.npConfig; }
       } catch {
@@ -100,7 +107,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
           const raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             const local: StoredData = JSON.parse(raw);
-            if (local.products?.length) { setProducts(local.products); productsRef.current = local.products; }
+            if (local.products?.length) {
+              setProducts(local.products);
+              productsRef.current = local.products;
+              local.products.forEach((p) => knownIdsRef.current.add(p.id));
+            }
             if (local.npConfig) { setNpConfigState(local.npConfig); npConfigRef.current = local.npConfig; }
           }
         } catch {}
@@ -114,7 +125,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const flush = () => {
       if (loading) return;
-      const body = JSON.stringify({ products: productsRef.current, npConfig: npConfigRef.current });
+      const body = JSON.stringify({ products: productsRef.current, npConfig: npConfigRef.current, knownIds: Array.from(knownIdsRef.current) });
       try {
         const blob = new Blob([body], { type: 'application/json' });
         if (navigator.sendBeacon && navigator.sendBeacon(`${API_BASE}/data?beacon=1`, blob)) return;
@@ -139,6 +150,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   };
 
   const addProduct = (p: Product): Promise<boolean> => {
+    knownIdsRef.current.add(p.id);
     const next = [...productsRef.current, p];
     productsRef.current = next;
     setProducts(next);
@@ -167,16 +179,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const clearProducts = () => {
     productsRef.current = [];
     setProducts([]);
-    save();
+    persist({ products: [], npConfig: npConfigRef.current }, false); // full wipe, bypass merge
   };
   const clearAllData = () => {
     productsRef.current = [];
     npConfigRef.current = undefined;
+    knownIdsRef.current = new Set();
     setProducts([]);
     setNpConfigState(undefined);
     setCategories(defaultCategories.filter((c) => c.name === 'All'));
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
-    persist({ products: [], npConfig: undefined });
+    persist({ products: [], npConfig: undefined }, false); // full wipe, bypass merge
   };
 
   return (
