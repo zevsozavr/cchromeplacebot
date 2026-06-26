@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useRef, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { Product, Category } from '../types';
 
 const STORAGE_KEY = 'cchrome_data';
@@ -40,13 +40,6 @@ const defaultCategories: Category[] = [
 
 const defaultProducts: Product[] = [];
 
-function loadLocal(): StoredData | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch { return null; }
-}
-
 function saveLocal(data: StoredData) {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
 }
@@ -58,46 +51,57 @@ function getNextCategoryId(): string {
 const DataContext = createContext<DataContextValue | null>(null);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const localData = loadLocal();
+  const [products, setProducts] = useState<Product[]>(defaultProducts);
+  const [npConfig, setNpConfigState] = useState<StoredData['npConfig']>(undefined);
+  const [categories, setCategories] = useState<Category[]>([...defaultCategories]);
+  const [loading, setLoading] = useState(true);
 
-  const [products, setProducts] = useState<Product[]>(localData?.products || defaultProducts);
-  const [npConfig, setNpConfigState] = useState<StoredData['npConfig']>(localData?.npConfig || undefined);
-  const [dbReady, setDbReady] = useState(false);
-  const syncedOnce = useRef(false);
-
-  const [categories, setCategories] = useState<Category[]>(() => {
-    const result = [...defaultCategories];
-    const names = new Set(result.map((c) => c.name));
-    (localData?.products || []).forEach((p) => {
-      if (!names.has(p.category)) {
-        result.push({ id: getNextCategoryId(), name: p.category, image: '' });
-        names.add(p.category);
-      }
-    });
-    return result;
-  });
-
-  // Sync from server once on mount — ONLY fills in when localStorage is empty
+  // On mount: load from server, fall back to localStorage
   useEffect(() => {
     (async () => {
       try {
-        const local = loadLocal();
         const res = await fetch(`${API_BASE}/data`);
         if (!res.ok) throw new Error('fail');
         const db = await res.json();
-        // Only use server data if localStorage was empty
-        if (!local) {
-          if (db.products && db.products.length > 0) setProducts(db.products);
-          if (db.npConfig) setNpConfigState(db.npConfig);
+        if (db.products && db.products.length > 0) {
+          setProducts(db.products);
+          const cats = [...defaultCategories];
+          const names = new Set(cats.map((c) => c.name));
+          db.products.forEach((p: Product) => {
+            if (!names.has(p.category)) {
+              cats.push({ id: getNextCategoryId(), name: p.category, image: '' });
+              names.add(p.category);
+            }
+          });
+          setCategories(cats);
         }
-      } catch {}
-      setDbReady(true);
-      syncedOnce.current = true;
+        if (db.npConfig) setNpConfigState(db.npConfig);
+      } catch {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          try {
+            const local = JSON.parse(raw);
+            if (local.products && local.products.length > 0) setProducts(local.products);
+            if (local.npConfig) setNpConfigState(local.npConfig);
+            const cats = [...defaultCategories];
+            const names = new Set(cats.map((c) => c.name));
+            (local.products || []).forEach((p: Product) => {
+              if (!names.has(p.category)) {
+                cats.push({ id: getNextCategoryId(), name: p.category, image: '' });
+                names.add(p.category);
+              }
+            });
+            setCategories(cats);
+          } catch {}
+        }
+      }
+      setLoading(false);
     })();
   }, []);
 
-  // Persist: save to localStorage + fire-and-forget to server
+  // On every change: persist to localStorage + fire-and-forget to server
   useEffect(() => {
+    if (loading) return;
     const data: StoredData = { products, npConfig };
     saveLocal(data);
     fetch(`${API_BASE}/data`, {
@@ -105,7 +109,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).catch(() => {});
-  }, [products, npConfig]);
+  }, [products, npConfig, loading]);
 
   const setNpConfig = (c: StoredData['npConfig']) => setNpConfigState(c);
 
@@ -139,7 +143,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       products, addProduct, updateProduct, deleteProduct,
       categories, addCategory,
       npConfig, setNpConfig,
-      dbReady, clearProducts, clearAllData,
+      dbReady: !loading, clearProducts, clearAllData,
     }}>
       {children}
     </DataContext.Provider>
