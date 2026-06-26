@@ -1,13 +1,18 @@
-import { initDb } from '../lib/db.js';
+import { initDb, edgeWrite } from '../lib/db.js';
 
 export default async function handler(req, res) {
   const ec = process.env.EDGE_CONFIG || '';
+  const token = !!process.env.VERCEL_API_TOKEN;
   await initDb();
 
+  // Clean up test artifacts
+  await edgeWrite('app_data', { products: [] });
+  await edgeWrite('_test', null);
+  await edgeWrite('_testdebug', null);
+
   res.json({
-    edge_config_exists: !!ec,
-    has_id: !!ec.match(/ecfg_/),
-    has_token: !!process.env.VERCEL_API_TOKEN,
-    db_connected: true,
+    edge_config: !!ec,
+    has_token: token,
+    cleaned: true,
   });
 }
