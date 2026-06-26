@@ -4,7 +4,7 @@ import type { Product, Category } from '../types';
 const STORAGE_KEY = 'cchrome_data';
 const DATA_VERSION = 2;
 const VERSION_KEY = 'cchrome_data_v';
-const API_BASE = '/api';
+const API_BASE = typeof window !== 'undefined' ? window.location.origin + '/api' : '/api';
 
 interface StoredData {
   products: Product[];
@@ -105,16 +105,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const persist = useCallback(async (data: StoredData) => {
     saveData(data);
-    try {
-      const res = await fetch(`${API_BASE}/data`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) saveData(data);
-    } catch {
-      saveData(data);
-    }
+    fetch(`${API_BASE}/data`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).catch(() => {});
   }, []);
 
   useEffect(() => {
