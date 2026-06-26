@@ -53,7 +53,7 @@ const chipGroupStyle: React.CSSProperties = {
 
 export function AdminProducts() {
   const navigate = useNavigate();
-  const { products, categories, addProduct, updateProduct, deleteProduct } = useData();
+  const { products, categories, addProduct, updateProduct, deleteProduct, saving } = useData();
   const { isAdmin } = useAuth();
   const { t } = useLang();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -162,8 +162,8 @@ export function AdminProducts() {
 
   const getFinalImages = (): string[] => imageDataUrls.filter(Boolean);
 
-  const handleAdd = () => {
-    if (!name || !price) return;
+  const handleAdd = async () => {
+    if (!name || !price || saving) return;
     const cat = category || newCategory || 'General';
     const productData = {
       name, category: cat, subcategory: subcategory || undefined,
@@ -175,10 +175,12 @@ export function AdminProducts() {
       colors: colors,
       sizeStock,
     };
+    // Wait for the DB write to finish before closing the form, so the product
+    // is guaranteed persisted even if the user closes the app immediately after.
     if (editingId) {
-      updateProduct(editingId, productData);
+      await updateProduct(editingId, productData);
     } else {
-      addProduct({ id: Date.now().toString(), ...productData });
+      await addProduct({ id: Date.now().toString(), ...productData });
     }
     resetForm();
   };
@@ -393,8 +395,8 @@ export function AdminProducts() {
                 style={{ ...inputStyle, resize: 'vertical', marginBottom: 4 }} />
             </div>
 
-            <Button fullWidth glow variant="primary" onClick={handleAdd}>
-              {editingId ? t('admin.product.save') : t('admin.product.add')}
+            <Button fullWidth glow variant="primary" onClick={handleAdd} disabled={saving}>
+              {saving ? '…' : (editingId ? t('admin.product.save') : t('admin.product.add'))}
             </Button>
           </Glass>
         )}

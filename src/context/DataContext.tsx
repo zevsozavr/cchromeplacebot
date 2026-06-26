@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, type ReactNode } from 'react';
 import type { Product, Category } from '../types';
 
 const STORAGE_KEY = 'cchrome_data';
@@ -11,14 +11,15 @@ interface StoredData {
 
 interface DataContextValue {
   products: Product[];
-  addProduct: (p: Product) => void;
-  updateProduct: (id: string, p: Partial<Product>) => void;
-  deleteProduct: (id: string) => void;
+  addProduct: (p: Product) => Promise<boolean>;
+  updateProduct: (id: string, p: Partial<Product>) => Promise<boolean>;
+  deleteProduct: (id: string) => Promise<boolean>;
   categories: Category[];
   addCategory: (name: string) => void;
   npConfig: StoredData['npConfig'];
   setNpConfig: (c: StoredData['npConfig']) => void;
   dbReady: boolean;
+  saving: boolean;
   clearProducts: () => void;
   clearAllData: () => void;
 }
@@ -43,6 +44,36 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [npConfig, setNpConfigState] = useState<StoredData['npConfig']>(undefined);
   const [categories, setCategories] = useState<Category[]>([...defaultCategories]);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  // Refs hold the latest values so we can flush on page-hide without stale closures.
+  const productsRef = useRef<Product[]>(products);
+  const npConfigRef = useRef<StoredData['npConfig']>(npConfig);
+  productsRef.current = products;
+  npConfigRef.current = npConfig;
+
+  // Writes the current data to localStorage immediately (synchronous, never lost)
+  // and to the server. `keepalive` lets the request finish even if the Telegram
+  // webview is closed right after — fixes items vanishing after "create + close".
+  const persist = async (data: StoredData): Promise<boolean> => {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+    setSaving(true);
+    try {
+      const res = await fetch(`${API_BASE}/data`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        keepalive: true,
+      });
+      return res.ok;
+    } catch {
+      return false;
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const save = () => persist({ products: productsRef.current, npConfig: npConfigRef.current });
 
   useEffect(() => {
     (async () => {
@@ -50,30 +81,27 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const res = await fetch(`${API_BASE}/data`);
         if (!res.ok) throw new Error('fail');
         const db = await res.json();
-        setProducts((prev) => {
-          if (prev.length > 0) return prev;
-          if (db.products?.length) {
-            const cats = [...defaultCategories];
-            const names = new Set(cats.map((c) => c.name));
-            db.products.forEach((p: Product) => {
-              if (!names.has(p.category)) {
-                cats.push({ id: getNextCategoryId(), name: p.category, image: '' });
-                names.add(p.category);
-              }
-            });
-            setCategories(cats);
-            return db.products;
-          }
-          return prev;
-        });
-        if (db.npConfig) setNpConfigState(db.npConfig);
+        if (db.products?.length) {
+          const cats = [...defaultCategories];
+          const names = new Set(cats.map((c) => c.name));
+          db.products.forEach((p: Product) => {
+            if (p.category && !names.has(p.category)) {
+              cats.push({ id: getNextCategoryId(), name: p.category, image: '' });
+              names.add(p.category);
+            }
+          });
+          setCategories(cats);
+          setProducts(db.products);
+          productsRef.current = db.products;
+        }
+        if (db.npConfig) { setNpConfigState(db.npConfig); npConfigRef.current = db.npConfig; }
       } catch {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             const local: StoredData = JSON.parse(raw);
-            if (local.products?.length) setProducts(local.products);
-            if (local.npConfig) setNpConfigState(local.npConfig);
+            if (local.products?.length) { setProducts(local.products); productsRef.current = local.products; }
+            if (local.npConfig) { setNpConfigState(local.npConfig); npConfigRef.current = local.npConfig; }
           }
         } catch {}
       }
@@ -81,42 +109,74 @@ export function DataProvider({ children }: { children: ReactNode }) {
     })();
   }, []);
 
+  // Last-chance flush when the app is being closed/backgrounded (Telegram freezes
+  // the webview on close). sendBeacon survives unload; keepalive fetch is a fallback.
   useEffect(() => {
-    if (loading) return;
-    const data: StoredData = { products, npConfig };
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
-    fetch(`${API_BASE}/data`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).catch(() => {});
-  }, [products, npConfig, loading]);
+    const flush = () => {
+      if (loading) return;
+      const body = JSON.stringify({ products: productsRef.current, npConfig: npConfigRef.current });
+      try {
+        const blob = new Blob([body], { type: 'application/json' });
+        if (navigator.sendBeacon && navigator.sendBeacon(`${API_BASE}/data?beacon=1`, blob)) return;
+      } catch {}
+      try {
+        fetch(`${API_BASE}/data`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body, keepalive: true });
+      } catch {}
+    };
+    const onVisibility = () => { if (document.visibilityState === 'hidden') flush(); };
+    window.addEventListener('pagehide', flush);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      window.removeEventListener('pagehide', flush);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [loading]);
 
-  const setNpConfig = (c: StoredData['npConfig']) => setNpConfigState(c);
-
-  const addProduct = (p: Product) => {
-    setProducts((prev) => [...prev, p]);
-    setCategories((prev) => {
-      if (prev.find((c) => c.name === p.category)) return prev;
-      return [...prev, { id: getNextCategoryId(), name: p.category, image: '' }];
-    });
+  const setNpConfig = (c: StoredData['npConfig']) => {
+    setNpConfigState(c);
+    npConfigRef.current = c;
+    save();
   };
-  const updateProduct = (id: string, p: Partial<Product>) => setProducts((prev) => prev.map((x) => x.id === id ? { ...x, ...p } : x));
-  const deleteProduct = (id: string) => setProducts((prev) => prev.filter((x) => x.id !== id));
+
+  const addProduct = (p: Product): Promise<boolean> => {
+    const next = [...productsRef.current, p];
+    productsRef.current = next;
+    setProducts(next);
+    setCategories((prev) => prev.find((c) => c.name === p.category) ? prev : [...prev, { id: getNextCategoryId(), name: p.category, image: '' }]);
+    return save();
+  };
+
+  const updateProduct = (id: string, p: Partial<Product>): Promise<boolean> => {
+    const next = productsRef.current.map((x) => x.id === id ? { ...x, ...p } : x);
+    productsRef.current = next;
+    setProducts(next);
+    return save();
+  };
+
+  const deleteProduct = (id: string): Promise<boolean> => {
+    const next = productsRef.current.filter((x) => x.id !== id);
+    productsRef.current = next;
+    setProducts(next);
+    return save();
+  };
 
   const addCategory = (name: string) => {
-    setCategories((prev) => {
-      if (prev.find((c) => c.name === name)) return prev;
-      return [...prev, { id: getNextCategoryId(), name, image: '' }];
-    });
+    setCategories((prev) => prev.find((c) => c.name === name) ? prev : [...prev, { id: getNextCategoryId(), name, image: '' }]);
   };
 
-  const clearProducts = () => setProducts([]);
+  const clearProducts = () => {
+    productsRef.current = [];
+    setProducts([]);
+    save();
+  };
   const clearAllData = () => {
+    productsRef.current = [];
+    npConfigRef.current = undefined;
     setProducts([]);
     setNpConfigState(undefined);
     setCategories(defaultCategories.filter((c) => c.name === 'All'));
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
+    persist({ products: [], npConfig: undefined });
   };
 
   return (
@@ -124,7 +184,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       products, addProduct, updateProduct, deleteProduct,
       categories, addCategory,
       npConfig, setNpConfig,
-      dbReady: !loading, clearProducts, clearAllData,
+      dbReady: !loading, saving, clearProducts, clearAllData,
     }}>
       {children}
     </DataContext.Provider>
