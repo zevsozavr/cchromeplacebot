@@ -29,6 +29,7 @@ const dropdownItemStyle: React.CSSProperties = {
 
 type Sender = { ref: string; name: string; cityRef: string; cityName: string };
 type Contact = { ref: string; name: string; phone: string };
+type City = { ref: string; name: string };
 type Warehouse = { ref: string; name: string };
 
 export function AdminNovaPoshta() {
@@ -44,6 +45,12 @@ export function AdminNovaPoshta() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
+
+  // City for the sending warehouse (may differ from sender's city field if NP left it blank)
+  const [cityQuery, setCityQuery] = useState('');
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const [cityOpen, setCityOpen] = useState(false);
 
   const [warehouseQuery, setWarehouseQuery] = useState('');
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
@@ -65,46 +72,56 @@ export function AdminNovaPoshta() {
       .then((data) => {
         if (data.error) { setError(data.error); return; }
         setSenders(data.senders || []);
-        // Pre-select saved sender
         if (npConfig?.senderRef && data.senders) {
-          const saved = data.senders.find((s: Sender) => s.ref === npConfig.senderRef);
-          if (saved) setSelectedSender(saved);
+          const s = data.senders.find((s: Sender) => s.ref === npConfig.senderRef);
+          if (s) setSelectedSender(s);
         }
       })
       .catch(() => setError('Failed to load senders'))
       .finally(() => setLoading(false));
   }, []);
 
-  // Fetch contact persons when sender is selected
+  // Fetch contacts when sender selected
   useEffect(() => {
     if (!selectedSender) { setContacts([]); setSelectedContact(null); return; }
     fetch(`/api/create-shipment?senderRef=${selectedSender.ref}`)
       .then((r) => r.json())
       .then((data) => {
         setContacts(data.contacts || []);
-        // Pre-select saved contact
         if (npConfig?.contactSenderRef && data.contacts) {
-          const saved = data.contacts.find((c: Contact) => c.ref === npConfig.contactSenderRef);
-          if (saved) setSelectedContact(saved);
+          const c = data.contacts.find((c: Contact) => c.ref === npConfig.contactSenderRef);
+          if (c) setSelectedContact(c);
         }
       })
       .catch(() => {});
   }, [selectedSender]);
 
-  // Fetch warehouses in sender's city when sender selected
+  // Debounced city search
   useEffect(() => {
-    if (!selectedSender?.cityRef) { setWarehouses([]); return; }
-    fetch(`/api/np-warehouses?cityRef=${selectedSender.cityRef}&q=${encodeURIComponent(warehouseQuery)}`)
+    if (cityQuery.length < 2) { setCities([]); return; }
+    const timer = setTimeout(() => {
+      fetch(`/api/np-cities?q=${encodeURIComponent(cityQuery)}`)
+        .then((r) => r.json())
+        .then((data) => { setCities(data || []); setCityOpen(true); })
+        .catch(() => {});
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [cityQuery]);
+
+  // Fetch warehouses when city selected
+  useEffect(() => {
+    if (!selectedCity) { setWarehouses([]); return; }
+    fetch(`/api/np-warehouses?cityRef=${selectedCity.ref}&q=${encodeURIComponent(warehouseQuery)}`)
       .then((r) => r.json())
       .then((data) => { setWarehouses(data || []); setWarehouseOpen(true); })
       .catch(() => {});
-  }, [warehouseQuery, selectedSender]);
+  }, [warehouseQuery, selectedCity]);
 
   if (!isAdmin) return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}><p>{t('admin.access.denied')}</p></div>;
 
   const handleSave = async () => {
-    if (!selectedSender || !selectedContact || !selectedWarehouse) {
-      setError('Select sender, contact person, and sender warehouse');
+    if (!selectedSender || !selectedContact || !selectedCity || !selectedWarehouse) {
+      setError('Оберіть відправника, контакт, місто та відділення');
       return;
     }
     setSaving(true);
@@ -112,7 +129,7 @@ export function AdminNovaPoshta() {
       senderRef: selectedSender.ref,
       contactSenderRef: selectedContact.ref,
       senderAddressRef: selectedWarehouse.ref,
-      citySenderRef: selectedSender.cityRef,
+      citySenderRef: selectedCity.ref,
       senderPhone: selectedContact.phone,
     });
     setSaved(true);
@@ -127,7 +144,7 @@ export function AdminNovaPoshta() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          cityRef: selectedSender?.cityRef || npConfig?.citySenderRef,
+          cityRef: selectedCity?.ref || npConfig?.citySenderRef,
           warehouseRef: selectedWarehouse?.ref || npConfig?.senderAddressRef,
           recipientName: 'Тест Отримувач',
           recipientPhone: '+380000000000',
@@ -138,7 +155,7 @@ export function AdminNovaPoshta() {
       });
       const data = await res.json();
       if (res.ok && data.ttn) {
-        setTestResult(`✅ TTN created: ${data.ttn}`);
+        setTestResult(`✅ TTN: ${data.ttn}`);
       } else {
         setTestResult(`❌ ${data.error || 'Failed'}`);
       }
@@ -155,29 +172,26 @@ export function AdminNovaPoshta() {
           <h3 style={{ font: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 4, color: '#22c55e' }}>
             {t('admin.np.title')}
           </h3>
-          <p style={{ fontSize: 13, color: '#9ca3af' }}>{t('admin.np.hint')}</p>
+          <p style={{ fontSize: 13, color: '#9ca3af' }}>Отримайте ці дані в особистому кабінеті Nova Poshta (API → Налаштування відправника). Обов'язкові для автоматичного створення ТТН.</p>
 
-          {loading && <p style={{ fontSize: 13, color: '#9ca3af' }}>Loading NP senders…</p>}
+          {loading && <p style={{ fontSize: 13, color: '#9ca3af' }}>Завантаження відправників…</p>}
           {error && <p style={{ fontSize: 13, color: '#ef4444' }}>{error}</p>}
 
           {/* Sender */}
           <div>
             <span style={labelStyle}>Відправник (з NP особистого кабінету)</span>
             <div style={{ position: 'relative' }}>
-              <button
-                type="button"
-                onClick={() => setSenderOpen((o) => !o)}
-                style={{ ...inputStyle, textAlign: 'left', cursor: 'pointer', display: 'block' }}
-              >
-                {selectedSender ? `${selectedSender.name} — ${selectedSender.cityName}` : '— оберіть відправника —'}
+              <button type="button" onClick={() => setSenderOpen((o) => !o)}
+                style={{ ...inputStyle, textAlign: 'left', cursor: 'pointer', display: 'block' }}>
+                {selectedSender ? selectedSender.name : '— оберіть відправника —'}
               </button>
               {senderOpen && senders.length > 0 && (
                 <div style={dropdownStyle}>
                   {senders.map((s) => (
                     <button key={s.ref} type="button"
-                      onClick={() => { setSelectedSender(s); setSenderOpen(false); setSelectedContact(null); setSelectedWarehouse(null); setWarehouseQuery(''); }}
+                      onClick={() => { setSelectedSender(s); setSenderOpen(false); setSelectedContact(null); setSelectedCity(null); setCityQuery(''); setSelectedWarehouse(null); setWarehouseQuery(''); }}
                       style={dropdownItemStyle}>
-                      {s.name} — {s.cityName}
+                      {s.name}
                     </button>
                   ))}
                 </div>
@@ -190,11 +204,8 @@ export function AdminNovaPoshta() {
             <div>
               <span style={labelStyle}>Контактна особа відправника</span>
               <div style={{ position: 'relative' }}>
-                <button
-                  type="button"
-                  onClick={() => setContactOpen((o) => !o)}
-                  style={{ ...inputStyle, textAlign: 'left', cursor: 'pointer', display: 'block' }}
-                >
+                <button type="button" onClick={() => setContactOpen((o) => !o)}
+                  style={{ ...inputStyle, textAlign: 'left', cursor: 'pointer', display: 'block' }}>
                   {selectedContact ? `${selectedContact.name} ${selectedContact.phone}` : '— оберіть контакт —'}
                 </button>
                 {contactOpen && (
@@ -212,8 +223,36 @@ export function AdminNovaPoshta() {
             </div>
           )}
 
-          {/* Sender warehouse */}
+          {/* City of sending warehouse */}
           {selectedSender && (
+            <div>
+              <span style={labelStyle}>Місто відділення відправника</span>
+              <div style={{ position: 'relative' }}>
+                <input
+                  value={cityQuery}
+                  onChange={(e) => { setCityQuery(e.target.value); if (selectedCity) { setSelectedCity(null); setSelectedWarehouse(null); setWarehouseQuery(''); } }}
+                  onFocus={() => setCityOpen(true)}
+                  onBlur={() => setTimeout(() => setCityOpen(false), 250)}
+                  placeholder="Введіть місто…"
+                  style={inputStyle}
+                />
+                {cityOpen && cities.length > 0 && (
+                  <div style={dropdownStyle}>
+                    {cities.map((c) => (
+                      <button key={c.ref} type="button"
+                        onClick={() => { setSelectedCity(c); setCityQuery(c.name); setCityOpen(false); setSelectedWarehouse(null); setWarehouseQuery(''); }}
+                        style={dropdownItemStyle}>
+                        {c.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Warehouse */}
+          {selectedCity && (
             <div>
               <span style={labelStyle}>Відділення відправлення</span>
               <div style={{ position: 'relative' }}>
@@ -240,7 +279,7 @@ export function AdminNovaPoshta() {
             </div>
           )}
 
-          {/* Current config summary */}
+          {/* Saved config summary */}
           {npConfig?.senderRef && (
             <div style={{ fontSize: 12, color: '#6b7280', background: 'rgba(255,255,255,0.03)', padding: '10px 14px', borderRadius: 8 }}>
               <div>✓ Sender ref: {npConfig.senderRef.slice(0, 8)}…</div>
@@ -250,7 +289,8 @@ export function AdminNovaPoshta() {
           )}
 
           <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-            <Button fullWidth glow variant="primary" onClick={handleSave} disabled={saving || !selectedSender || !selectedContact || !selectedWarehouse}>
+            <Button fullWidth glow variant="primary" onClick={handleSave}
+              disabled={saving || !selectedSender || !selectedContact || !selectedCity || !selectedWarehouse}>
               {saving ? t('admin.np.saving') : saved ? t('admin.np.saved') : t('admin.np.save')}
             </Button>
             <Button fullWidth variant="glass" onClick={handleTest}>{t('admin.np.test')}</Button>
