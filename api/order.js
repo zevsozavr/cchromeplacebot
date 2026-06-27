@@ -1,8 +1,8 @@
 import crypto from 'crypto';
 import { initDb, saveOrder, getOrders, saveUser } from '../lib/db.js';
 
-const BOT_TOKEN = process.env.BOT_TOKEN || '8649366560:AAE_Resk8hYpJUFKaLguojKkgRyH54OQbyo';
-const NOTIFY_CHAT_ID = process.env.NOTIFY_CHAT_ID || '822479618';
+const BOT_TOKEN = process.env.BOT_TOKEN || '8962788106:AAHRlKbCNCHe4nW47PmKJkQeMzDIc7GpDZ0';
+const ADMIN_IDS = [7264276513, 822479618];
 
 function validateTelegramData(initData) {
   if (!initData) return false;
@@ -23,6 +23,11 @@ function validateTelegramData(initData) {
 }
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
+
   await initDb();
 
   if (req.method === 'GET') {
@@ -80,15 +85,13 @@ export default async function handler(req, res) {
     `*Сума:* ${order.total}₴`,
   ].filter(Boolean).join('\n');
 
-  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: NOTIFY_CHAT_ID,
-      text: message,
-      parse_mode: 'Markdown',
-    }),
-  });
+  await Promise.allSettled(ADMIN_IDS.map((chat_id) =>
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id, text: message, parse_mode: 'Markdown' }),
+    })
+  ));
 
   res.json({ ok: true });
 }

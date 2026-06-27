@@ -1,4 +1,4 @@
-import { getOrders, saveOrder, deleteOrder, edgeWrite } from '../lib/db.js';
+import { initDb, getOrders, saveOrders, deleteOrder } from '../lib/db.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -6,6 +6,8 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
+
+  await initDb();
 
   try {
     if (req.method === 'GET') {
@@ -15,7 +17,7 @@ export default async function handler(req, res) {
 
     if (req.method === 'PUT') {
       const orders = Array.isArray(req.body) ? req.body : [];
-      await edgeWrite('orders', orders);
+      await saveOrders(orders);
       return res.json({ ok: true });
     }
 
@@ -24,7 +26,7 @@ export default async function handler(req, res) {
       const { status } = req.body;
       const orders = await getOrders();
       const updated = orders.map((o) => o.id === id ? { ...o, status } : o);
-      await edgeWrite('orders', updated);
+      await saveOrders(updated);
       return res.json({ ok: true });
     }
 

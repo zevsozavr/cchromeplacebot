@@ -114,16 +114,14 @@ export function Checkout() {
     setSubmitting(true)
 
     const address = `${selectedCity.name}, ${t('checkout.np_warehouse')} ${selectedWarehouse.name}`
-    const orderId = Date.now().toString(36).toUpperCase()
 
-    // Create NP shipment
+    // Create NP shipment first — its TTN becomes the order ID.
     let ttn = ''
     try {
       const shipRes = await fetch('/api/create-shipment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          orderId,
           cityRef: selectedCity.ref,
           warehouseRef: selectedWarehouse.ref,
           recipientName: name,
@@ -138,6 +136,10 @@ export function Checkout() {
         ttn = shipData.ttn || ''
       }
     } catch {}
+
+    // Use the NP TTN as the order ID so in-app number = NP tracking number.
+    // Fall back to a timestamp ID if shipment creation failed (no sender config yet).
+    const orderId = ttn || Date.now().toString(36).toUpperCase()
 
     const order = {
       id: orderId,

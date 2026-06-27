@@ -24,18 +24,18 @@ export default async function handler(req, res) {
         contactSenderRef: config.contactSenderRef,
         senderPhone: config.senderPhone,
         cityRecipientRef: cityRef,
-        recipientRef: 'create', // will be created as one-time counterparty
         recipientAddressRef: warehouseRef,
-        contactRecipientRef: 'create',
+        recipientName,
         recipientsPhone: recipientPhone,
         weightKg: weight || 0.5,
-        declaredCost: declaredCost || 1000,
-        description: `Замовлення #${orderId}`,
+        declaredCost: declaredCost || 200,
+        description: `Замовлення cchrome place`,
         payerType: prepay ? 'Sender' : 'Recipient',
         paymentMethod: prepay ? 'NonCash' : 'Cash',
       });
+      const ttn = result.IntDocNumber;
       return res.json({
-        ttn: result.IntDocNumber,
+        ttn,
         cost: result.CostOnSite ? Number(result.CostOnSite) : null,
       });
     }
