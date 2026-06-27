@@ -131,11 +131,15 @@ export function Checkout() {
           prepay,
         }),
       })
+      const shipData = await shipRes.json()
       if (shipRes.ok) {
-        const shipData = await shipRes.json()
         ttn = shipData.ttn || ''
+      } else {
+        console.error('[checkout] NP shipment failed:', shipData.error)
       }
-    } catch {}
+    } catch (err) {
+      console.error('[checkout] NP shipment exception:', err)
+    }
 
     // Use the NP TTN as the order ID so in-app number = NP tracking number.
     // Fall back to a timestamp ID if shipment creation failed (no sender config yet).

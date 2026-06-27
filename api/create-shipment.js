@@ -49,6 +49,7 @@ export default async function handler(req, res) {
       message: 'Shipment not created automatically. Configure NP sender in admin panel.',
     });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    console.error('[create-shipment] NP API error:', err.message);
+    return res.status(500).json({ error: err.message, npError: true });
   }
 }
