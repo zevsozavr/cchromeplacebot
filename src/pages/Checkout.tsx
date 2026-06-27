@@ -286,6 +286,7 @@ export function Checkout() {
         <form onSubmit={handleSubmit}>
           {/* Contact Info */}
           <section style={{
+            position: 'relative', zIndex: 1,
             background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
             border: '1px solid rgba(34, 197, 94, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
           }}>
@@ -299,6 +300,7 @@ export function Checkout() {
 
           {/* NP City Search */}
           <section style={{
+            position: 'relative', zIndex: 10,
             background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
             border: '1px solid rgba(34, 197, 94, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
           }}>
@@ -360,6 +362,7 @@ export function Checkout() {
 
           {/* Prepay option */}
           <section style={{
+            position: 'relative', zIndex: 1,
             background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
             border: '1px solid rgba(34, 197, 94, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
           }}>
@@ -375,6 +378,7 @@ export function Checkout() {
 
           {/* Order Summary */}
           <section style={{
+            position: 'relative', zIndex: 1,
             background: 'rgba(15, 21, 36, 0.75)', backdropFilter: 'blur(24px)',
             border: '1px solid rgba(34, 197, 94, 0.15)', borderRadius: 24, padding: 24, marginBottom: 24,
           }}>
