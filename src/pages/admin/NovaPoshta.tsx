@@ -16,6 +16,20 @@ const labelStyle: React.CSSProperties = {
   font: 'var(--font-label)', color: '#9ca3af', fontSize: 11, textTransform: 'uppercase',
   letterSpacing: '0.08em', marginBottom: 8, display: 'block',
 };
+const dropdownStyle: React.CSSProperties = {
+  position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
+  background: '#1a2438', border: '1px solid rgba(255,255,255,0.1)',
+  borderRadius: 12, marginTop: 4, maxHeight: 200, overflowY: 'auto',
+};
+const dropdownItemStyle: React.CSSProperties = {
+  width: '100%', padding: '10px 14px', textAlign: 'left', background: 'none',
+  border: 'none', color: '#e0e8f0', cursor: 'pointer', fontSize: 13,
+  borderBottom: '1px solid rgba(255,255,255,0.05)',
+};
+
+type Sender = { ref: string; name: string; cityRef: string; cityName: string };
+type Contact = { ref: string; name: string; phone: string };
+type Warehouse = { ref: string; name: string };
 
 export function AdminNovaPoshta() {
   const navigate = useNavigate();
@@ -23,89 +37,83 @@ export function AdminNovaPoshta() {
   const { isAdmin } = useAuth();
   const { t } = useLang();
 
-  const [senderPhone, setSenderPhone] = useState(npConfig?.senderPhone || '');
+  const [senders, setSenders] = useState<Sender[]>([]);
+  const [selectedSender, setSelectedSender] = useState<Sender | null>(null);
+  const [senderOpen, setSenderOpen] = useState(false);
 
-  // City search
-  const [cityQuery, setCityQuery] = useState('');
-  const [cities, setCities] = useState<{ ref: string; name: string }[]>([]);
-  const [selectedCity, setSelectedCity] = useState<{ ref: string; name: string } | null>(null);
-  const [cityOpen, setCityOpen] = useState(false);
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [contactOpen, setContactOpen] = useState(false);
 
-  // Warehouse search
   const [warehouseQuery, setWarehouseQuery] = useState('');
-  const [warehouses, setWarehouses] = useState<{ ref: string; name: string }[]>([]);
-  const [selectedWarehouse, setSelectedWarehouse] = useState<{ ref: string; name: string } | null>(null);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [selectedWarehouse, setSelectedWarehouse] = useState<Warehouse | null>(null);
   const [warehouseOpen, setWarehouseOpen] = useState(false);
 
+  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [testResult, setTestResult] = useState<string | null>(null);
 
-  // Load existing config into selectors on mount
+  // Load senders on mount
   useEffect(() => {
-    if (npConfig?.citySenderRef && npConfig?.senderAddressRef) {
-      // Ref values already set — show placeholder text
-      setCityQuery(t('admin.np.configured'));
-      setWarehouseQuery(t('admin.np.configured'));
-    }
+    setLoading(true);
+    setError(null);
+    fetch('/api/np-senders')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.error) { setError(data.error); return; }
+        setSenders(data.senders || []);
+        // Pre-select saved sender
+        if (npConfig?.senderRef && data.senders) {
+          const saved = data.senders.find((s: Sender) => s.ref === npConfig.senderRef);
+          if (saved) setSelectedSender(saved);
+        }
+      })
+      .catch(() => setError('Failed to load senders'))
+      .finally(() => setLoading(false));
   }, []);
 
-  // Debounced city search
+  // Fetch contact persons when sender is selected
   useEffect(() => {
-    if (cityQuery.length < 2) { setCities([]); return }
-    const timer = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/np-cities?q=${encodeURIComponent(cityQuery)}`);
-        if (res.ok) {
-          const data = await res.json();
-          setCities(data);
-          setCityOpen(true);
+    if (!selectedSender) { setContacts([]); setSelectedContact(null); return; }
+    fetch(`/api/np-senders?senderRef=${selectedSender.ref}`)
+      .then((r) => r.json())
+      .then((data) => {
+        setContacts(data.contacts || []);
+        // Pre-select saved contact
+        if (npConfig?.contactSenderRef && data.contacts) {
+          const saved = data.contacts.find((c: Contact) => c.ref === npConfig.contactSenderRef);
+          if (saved) setSelectedContact(saved);
         }
-      } catch {}
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [cityQuery]);
+      })
+      .catch(() => {});
+  }, [selectedSender]);
 
-  // Debounced warehouse search
+  // Fetch warehouses in sender's city when sender selected
   useEffect(() => {
-    if (!selectedCity) { setWarehouses([]); return }
-    const timer = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/np-warehouses?cityRef=${selectedCity.ref}&q=${encodeURIComponent(warehouseQuery)}`);
-        if (res.ok) {
-          const data = await res.json();
-          setWarehouses(data);
-          setWarehouseOpen(true);
-        }
-      } catch {}
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [warehouseQuery, selectedCity]);
+    if (!selectedSender?.cityRef) { setWarehouses([]); return; }
+    fetch(`/api/np-warehouses?cityRef=${selectedSender.cityRef}&q=${encodeURIComponent(warehouseQuery)}`)
+      .then((r) => r.json())
+      .then((data) => { setWarehouses(data || []); setWarehouseOpen(true); })
+      .catch(() => {});
+  }, [warehouseQuery, selectedSender]);
 
   if (!isAdmin) return <div style={{ padding: 40, textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}><p>{t('admin.access.denied')}</p></div>;
 
-  const selectCity = (c: { ref: string; name: string }) => {
-    setSelectedCity(c);
-    setCityQuery(c.name);
-    setCityOpen(false);
-    setSelectedWarehouse(null);
-    setWarehouseQuery('');
-  };
-
-  const selectWarehouse = (w: { ref: string; name: string }) => {
-    setSelectedWarehouse(w);
-    setWarehouseQuery(w.name);
-    setWarehouseOpen(false);
-  };
-
   const handleSave = async () => {
+    if (!selectedSender || !selectedContact || !selectedWarehouse) {
+      setError('Select sender, contact person, and sender warehouse');
+      return;
+    }
     setSaving(true);
     setNpConfig({
-      senderRef: selectedCity?.ref || npConfig?.senderRef || '',
-      senderAddressRef: selectedWarehouse?.ref || npConfig?.senderAddressRef || '',
-      contactSenderRef: selectedCity?.ref || npConfig?.contactSenderRef || '',
-      citySenderRef: selectedCity?.ref || npConfig?.citySenderRef || '',
-      senderPhone,
+      senderRef: selectedSender.ref,
+      contactSenderRef: selectedContact.ref,
+      senderAddressRef: selectedWarehouse.ref,
+      citySenderRef: selectedSender.cityRef,
+      senderPhone: selectedContact.phone,
     });
     setSaved(true);
     setSaving(false);
@@ -115,16 +123,24 @@ export function AdminNovaPoshta() {
   const handleTest = async () => {
     setTestResult(null);
     try {
-      const res = await fetch('/api/np-cost', {
+      const res = await fetch('/api/create-shipment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cityRecipientRef: selectedCity?.ref || npConfig?.citySenderRef, weight: 0.5, declaredCost: 100 }),
+        body: JSON.stringify({
+          cityRef: selectedSender?.cityRef || npConfig?.citySenderRef,
+          warehouseRef: selectedWarehouse?.ref || npConfig?.senderAddressRef,
+          recipientName: 'Тест Отримувач',
+          recipientPhone: '+380000000000',
+          declaredCost: 100,
+          weight: 0.5,
+          prepay: false,
+        }),
       });
-      if (res.ok) {
-        setTestResult('✅ NP API connected');
+      const data = await res.json();
+      if (res.ok && data.ttn) {
+        setTestResult(`✅ TTN created: ${data.ttn}`);
       } else {
-        const err = await res.json();
-        setTestResult(`❌ ${err.error || 'Connection failed'}`);
+        setTestResult(`❌ ${data.error || 'Failed'}`);
       }
     } catch {
       setTestResult('❌ Network error');
@@ -141,65 +157,100 @@ export function AdminNovaPoshta() {
           </h3>
           <p style={{ fontSize: 13, color: '#9ca3af' }}>{t('admin.np.hint')}</p>
 
-          <div style={labelStyle}>{t('admin.np.sender_phone')}</div>
-          <input value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)}
-            placeholder="+380XXXXXXXXX" style={inputStyle} />
+          {loading && <p style={{ fontSize: 13, color: '#9ca3af' }}>Loading NP senders…</p>}
+          {error && <p style={{ fontSize: 13, color: '#ef4444' }}>{error}</p>}
 
-            <div style={labelStyle}>{t('admin.np.city') || 'City'}</div>
-          <div style={{ position: 'relative' }}>
-            <input
-              value={cityQuery}
-              onChange={(e) => { setCityQuery(e.target.value); if (selectedCity && e.target.value !== selectedCity.name) setSelectedCity(null) }}
-              onFocus={() => setCityOpen(true)}
-              onBlur={() => setTimeout(() => setCityOpen(false), 250)}
-              placeholder={t('checkout.placeholder.city')}
-              style={inputStyle}
-            />
-            {cityOpen && cities.length > 0 && (
-              <div style={{
-                position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
-                background: '#1a2438', border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 12, marginTop: 4, maxHeight: 200, overflowY: 'auto',
-              }}>
-                {cities.map((c) => (
-                  <button key={c.ref} type="button" onClick={() => selectCity(c)}
-                    style={{ width: '100%', padding: '10px 14px', textAlign: 'left', background: 'none', border: 'none', color: '#e0e8f0', cursor: 'pointer', fontSize: 13, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                    {c.name}
-                  </button>
-                ))}
-              </div>
-            )}
+          {/* Sender */}
+          <div>
+            <span style={labelStyle}>Відправник (з NP особистого кабінету)</span>
+            <div style={{ position: 'relative' }}>
+              <button
+                type="button"
+                onClick={() => setSenderOpen((o) => !o)}
+                style={{ ...inputStyle, textAlign: 'left', cursor: 'pointer', display: 'block' }}
+              >
+                {selectedSender ? `${selectedSender.name} — ${selectedSender.cityName}` : '— оберіть відправника —'}
+              </button>
+              {senderOpen && senders.length > 0 && (
+                <div style={dropdownStyle}>
+                  {senders.map((s) => (
+                    <button key={s.ref} type="button"
+                      onClick={() => { setSelectedSender(s); setSenderOpen(false); setSelectedContact(null); setSelectedWarehouse(null); setWarehouseQuery(''); }}
+                      style={dropdownItemStyle}>
+                      {s.name} — {s.cityName}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-            <div style={labelStyle}>{t('admin.np.warehouse') || 'Warehouse'}</div>
-          <div style={{ position: 'relative' }}>
-            <input
-              value={warehouseQuery}
-              onChange={(e) => { setWarehouseQuery(e.target.value); if (selectedWarehouse && e.target.value !== selectedWarehouse.name) setSelectedWarehouse(null) }}
-              onFocus={() => setWarehouseOpen(true)}
-              onBlur={() => setTimeout(() => setWarehouseOpen(false), 250)}
-              placeholder={t('checkout.placeholder.warehouse')}
-              style={inputStyle}
-              disabled={!selectedCity && !npConfig?.citySenderRef}
-            />
-            {warehouseOpen && warehouses.length > 0 && (
-              <div style={{
-                position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
-                background: '#1a2438', border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 12, marginTop: 4, maxHeight: 200, overflowY: 'auto',
-              }}>
-                {warehouses.map((w) => (
-                  <button key={w.ref} type="button" onClick={() => selectWarehouse(w)}
-                    style={{ width: '100%', padding: '10px 14px', textAlign: 'left', background: 'none', border: 'none', color: '#e0e8f0', cursor: 'pointer', fontSize: 13, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                    {w.name}
-                  </button>
-                ))}
+          {/* Contact person */}
+          {contacts.length > 0 && (
+            <div>
+              <span style={labelStyle}>Контактна особа відправника</span>
+              <div style={{ position: 'relative' }}>
+                <button
+                  type="button"
+                  onClick={() => setContactOpen((o) => !o)}
+                  style={{ ...inputStyle, textAlign: 'left', cursor: 'pointer', display: 'block' }}
+                >
+                  {selectedContact ? `${selectedContact.name} ${selectedContact.phone}` : '— оберіть контакт —'}
+                </button>
+                {contactOpen && (
+                  <div style={dropdownStyle}>
+                    {contacts.map((c) => (
+                      <button key={c.ref} type="button"
+                        onClick={() => { setSelectedContact(c); setContactOpen(false); }}
+                        style={dropdownItemStyle}>
+                        {c.name} {c.phone}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {/* Sender warehouse */}
+          {selectedSender && (
+            <div>
+              <span style={labelStyle}>Відділення відправлення</span>
+              <div style={{ position: 'relative' }}>
+                <input
+                  value={warehouseQuery}
+                  onChange={(e) => { setWarehouseQuery(e.target.value); if (selectedWarehouse) setSelectedWarehouse(null); }}
+                  onFocus={() => setWarehouseOpen(true)}
+                  onBlur={() => setTimeout(() => setWarehouseOpen(false), 250)}
+                  placeholder="Пошук відділення…"
+                  style={inputStyle}
+                />
+                {warehouseOpen && warehouses.length > 0 && (
+                  <div style={dropdownStyle}>
+                    {warehouses.map((w) => (
+                      <button key={w.ref} type="button"
+                        onClick={() => { setSelectedWarehouse(w); setWarehouseQuery(w.name); setWarehouseOpen(false); }}
+                        style={dropdownItemStyle}>
+                        {w.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Current config summary */}
+          {npConfig?.senderRef && (
+            <div style={{ fontSize: 12, color: '#6b7280', background: 'rgba(255,255,255,0.03)', padding: '10px 14px', borderRadius: 8 }}>
+              <div>✓ Sender ref: {npConfig.senderRef.slice(0, 8)}…</div>
+              <div>✓ Contact ref: {npConfig.contactSenderRef?.slice(0, 8)}…</div>
+              <div>✓ Warehouse ref: {npConfig.senderAddressRef?.slice(0, 8)}…</div>
+            </div>
+          )}
 
           <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-            <Button fullWidth glow variant="primary" onClick={handleSave} disabled={saving}>
+            <Button fullWidth glow variant="primary" onClick={handleSave} disabled={saving || !selectedSender || !selectedContact || !selectedWarehouse}>
               {saving ? t('admin.np.saving') : saved ? t('admin.np.saved') : t('admin.np.save')}
             </Button>
             <Button fullWidth variant="glass" onClick={handleTest}>{t('admin.np.test')}</Button>
