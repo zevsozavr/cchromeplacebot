@@ -40,6 +40,23 @@ export function Checkout() {
   const [selectedWarehouse, setSelectedWarehouse] = useState<{ ref: string; name: string; number: string } | null>(null)
   const [warehouseOpen, setWarehouseOpen] = useState(false)
 
+  // Restore previous user data from localStorage
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('plugstreet_user') || '{}')
+      if (saved.name) setName(saved.name)
+      if (saved.phone) setPhone(saved.phone)
+      if (saved.cityName) setCityQuery(saved.cityName)
+      if (saved.cityRef && saved.cityName) {
+        setSelectedCity({ ref: saved.cityRef, name: saved.cityName })
+      }
+      if (saved.warehouseName) setWarehouseQuery(saved.warehouseName)
+      if (saved.warehouseRef && saved.warehouseName && saved.warehouseNumber) {
+        setSelectedWarehouse({ ref: saved.warehouseRef, name: saved.warehouseName, number: saved.warehouseNumber })
+      }
+    } catch {}
+  }, [])
+
   // NP cost
   const [shippingCost, setShippingCost] = useState<number | null>(null)
   const [costLoading, setCostLoading] = useState(false)
@@ -48,10 +65,13 @@ export function Checkout() {
   const subtotal = totalPrice
   const shipping = shippingCost ?? 0
   const total = subtotal + shipping
+  const afterpayCommissionRate = 0.02
+  const afterpayCommission = prepay ? 0 : Math.round(subtotal * afterpayCommissionRate)
+  const totalWithCommission = total + afterpayCommission
 
-  // Debounced city search
+  // Debounced city search — skip when query matches already-selected city
   useEffect(() => {
-    if (cityQuery.length < 2) { setCities([]); return }
+    if (cityQuery.length < 2 || cityQuery === selectedCity?.name) { setCities([]); return }
     const timer = setTimeout(async () => {
       try {
         const res = await fetch(`/api/np-cities?q=${encodeURIComponent(cityQuery)}`)
@@ -63,11 +83,11 @@ export function Checkout() {
       } catch {}
     }, 300)
     return () => clearTimeout(timer)
-  }, [cityQuery])
+  }, [cityQuery, selectedCity?.name])
 
-  // Debounced warehouse search
+  // Debounced warehouse search — skip when query matches already-selected warehouse
   useEffect(() => {
-    if (!selectedCity) { setWarehouses([]); return }
+    if (!selectedCity || warehouseQuery === selectedWarehouse?.name) { setWarehouses([]); return }
     const timer = setTimeout(async () => {
       try {
         const res = await fetch(`/api/np-warehouses?cityRef=${selectedCity.ref}&q=${encodeURIComponent(warehouseQuery)}`)
@@ -79,7 +99,7 @@ export function Checkout() {
       } catch {}
     }, 300)
     return () => clearTimeout(timer)
-  }, [warehouseQuery, selectedCity])
+  }, [warehouseQuery, selectedCity, selectedWarehouse?.name])
 
   // Calculate NP cost when city changes
   useEffect(() => {
@@ -159,7 +179,7 @@ export function Checkout() {
     const order = {
       id: orderId,
       items: [...items],
-      total,
+      total: prepay ? total : totalWithCommission,
       shipping,
       date: new Date().toISOString(),
       name,
@@ -170,6 +190,7 @@ export function Checkout() {
       prepay,
       npCity: selectedCity.name,
       npWarehouse: selectedWarehouse.name,
+      afterpayCommission: !prepay ? afterpayCommission : 0,
     }
 
     // Save order to localStorage
@@ -225,6 +246,19 @@ export function Checkout() {
         ))
       } catch {}
     }
+
+    // Save user data for next purchase
+    try {
+      localStorage.setItem('plugstreet_user', JSON.stringify({
+        name,
+        phone,
+        cityRef: selectedCity.ref,
+        cityName: selectedCity.name,
+        warehouseRef: selectedWarehouse.ref,
+        warehouseName: selectedWarehouse.name,
+        warehouseNumber: selectedWarehouse.number,
+      }))
+    } catch {}
 
     clearCart()
     navigate('/order-confirmed')
@@ -282,7 +316,7 @@ export function Checkout() {
               />
               {cityOpen && cities.length > 0 && (
                 <div style={{
-                  position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
+                  position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 9999,
                   background: '#1a2438', border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: 12, marginTop: 4, maxHeight: 200, overflowY: 'auto',
                 }}>
@@ -309,7 +343,7 @@ export function Checkout() {
               />
               {warehouseOpen && warehouses.length > 0 && (
                 <div style={{
-                  position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
+                  position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 9999,
                   background: '#1a2438', border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: 12, marginTop: 4, maxHeight: 200, overflowY: 'auto',
                 }}>
@@ -364,9 +398,15 @@ export function Checkout() {
                 {costLoading ? t('cart.shipping.calc') : shipping > 0 ? `₴${shipping.toLocaleString()}` : '—'}
               </span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, fontWeight: 700 }}>
+            {!prepay && afterpayCommission > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, fontSize: 14 }}>
+                <span style={{ color: '#a0b4c4' }}>Комісія післяплати (2%)</span>
+                <span style={{ color: '#22c55e' }}>+₴{afterpayCommission.toLocaleString()}</span>
+              </div>
+            )}
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: !prepay && afterpayCommission > 0 ? 8 : 0, fontSize: 18, fontWeight: 700 }}>
               <span style={{ color: '#e0e8f0' }}>{t('cart.total')}</span>
-              <span style={{ color: '#22c55e' }}>₴{total.toLocaleString()}</span>
+              <span style={{ color: '#22c55e' }}>₴{(prepay ? total : totalWithCommission).toLocaleString()}</span>
             </div>
           </section>
 
