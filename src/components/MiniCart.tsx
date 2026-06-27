@@ -43,32 +43,32 @@ export function MiniCart() {
         ) : (
           <>
             {items.map((item) => (
-              <div key={item.id + item.selectedSize + item.selectedColor} style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+              <div key={item.id + item.selectedSize} style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
                 <div style={{ width: 56, height: 72, borderRadius: 12, overflow: 'hidden', flexShrink: 0, background: 'rgba(255,255,255,0.05)' }}>
                   <img src={item.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0', marginBottom: 2 }}>{item.name}</p>
-                  <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 2 }}>{item.selectedColor} • {t('cart.size')} {item.selectedSize}</p>
+                  <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 2 }}>{t('cart.size')} {item.selectedSize}</p>
                   <p style={{ fontSize: 14, fontWeight: 600, color: '#22c55e' }}>₴{item.price.toLocaleString()}</p>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
                   <button
-                    onClick={() => removeItem(item.id + item.selectedSize + item.selectedColor)}
+                    onClick={() => removeItem(item.id + item.selectedSize)}
                     style={{ background: 'none', border: 'none', color: '#ff6b6b', cursor: 'pointer', padding: 2 }}
                   >
                     <span className="material-symbols-outlined" style={{ fontSize: 18 }}>delete</span>
                   </button>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <button
-                      onClick={() => updateQuantity(item.id + item.selectedSize + item.selectedColor, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.id + item.selectedSize, item.quantity - 1)}
                       style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#e0e8f0', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
                       -
                     </button>
                     <span style={{ fontSize: 13, color: '#e0e8f0', minWidth: 16, textAlign: 'center' }}>{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.id + item.selectedSize + item.selectedColor, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.id + item.selectedSize, item.quantity + 1)}
                       style={{ width: 24, height: 24, borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#e0e8f0', cursor: 'pointer', fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
                       +

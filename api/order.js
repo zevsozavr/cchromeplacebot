@@ -62,7 +62,7 @@ export default async function handler(req, res) {
   }
 
   const itemsList = order.items
-    .map((i) => `• ${i.name} (${i.color || i.selectedColor || ''}/${i.size || i.selectedSize || ''}) × ${i.quantity} — ${i.price * i.quantity}₴`)
+    .map((i) => `• ${i.name} (${i.size || i.selectedSize || ''}) × ${i.quantity} — ${i.price * i.quantity}₴`)
     .join('\n');
 
   const prepayText = order.prepay ? `💳 *ПЕРЕДОПЛАТА*` : `💵 *ПІСЛЯПЛАТА*`;

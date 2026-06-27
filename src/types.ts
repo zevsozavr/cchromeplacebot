@@ -10,7 +10,6 @@ export interface Product {
   description: string;
   condition: string;
   sizes: string[];
-  colors: { name: string; hex: string; image?: string }[];
   inCollection?: boolean;
   stock?: number;
   sizeStock?: Record<string, number>;
@@ -18,7 +17,6 @@ export interface Product {
 
 export interface CartItem extends Product {
   selectedSize: string;
-  selectedColor: string;
   quantity: number;
 }
 
@@ -40,7 +38,7 @@ export interface Collection {
 
 export interface Order {
   id: string;
-  items: { name: string; price: number; quantity: number; selectedSize: string; selectedColor: string }[];
+  items: { name: string; price: number; quantity: number; selectedSize: string }[];
   total: number;
   shipping: number;
   date: string;

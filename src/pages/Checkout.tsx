@@ -331,7 +331,7 @@ export function Checkout() {
             <h3 style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0', marginBottom: 16 }}>{t('checkout.summary')}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {items.map((item) => (
-                <div key={item.id + item.selectedSize + item.selectedColor} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 14 }}>
+                <div key={item.id + item.selectedSize} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 14 }}>
                   <span style={{ color: '#a0b4c4' }}>{item.name} x{item.quantity}</span>
                   <span style={{ color: '#e0e8f0', fontWeight: 500 }}>₴{(item.price * item.quantity).toLocaleString()}</span>
                 </div>

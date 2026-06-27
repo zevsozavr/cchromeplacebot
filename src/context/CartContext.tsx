@@ -5,7 +5,7 @@ const CART_STORAGE_KEY = 'plugstreet_cart';
 
 interface CartContextValue {
   items: CartItem[];
-  addItem: (product: Product, size: string, color: string) => void;
+  addItem: (product: Product, size: string) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, qty: number) => void;
   totalItems: number;
@@ -39,27 +39,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('beforeunload', handle);
   }, [saveToStorage]);
 
-  const addItem = useCallback((product: Product, selectedSize: string, selectedColor: string) => {
+  const addItem = useCallback((product: Product, selectedSize: string) => {
     setItems((prev) => {
       const maxStock = product.sizeStock?.[selectedSize] ?? product.stock ?? 5;
-      const existingIdx = prev.findIndex((i) => i.id === product.id && i.selectedSize === selectedSize && i.selectedColor === selectedColor);
-      
+      const existingIdx = prev.findIndex((i) => i.id === product.id && i.selectedSize === selectedSize);
+
       if (existingIdx >= 0) {
         const existing = prev[existingIdx];
         if (existing.quantity >= maxStock) return prev; // Limit to stock!
         return prev.map((i, idx) => idx === existingIdx ? { ...i, quantity: i.quantity + 1 } : i);
       }
       if (maxStock <= 0) return prev; // Cannot add if out of stock
-      return [...prev, { ...product, selectedSize, selectedColor, quantity: 1 }];
+      return [...prev, { ...product, selectedSize, quantity: 1 }];
     });
   }, []);
 
-  const removeItem = useCallback((id: string) => setItems((prev) => prev.filter((i) => i.id + i.selectedSize + i.selectedColor !== id)), []);
-  
+  const removeItem = useCallback((id: string) => setItems((prev) => prev.filter((i) => i.id + i.selectedSize !== id)), []);
+
   const updateQuantity = useCallback((id: string, qty: number) => {
-    if (qty <= 0) { setItems((prev) => prev.filter((i) => i.id + i.selectedSize + i.selectedColor !== id)); return; }
+    if (qty <= 0) { setItems((prev) => prev.filter((i) => i.id + i.selectedSize !== id)); return; }
     setItems((prev) => prev.map((i) => {
-      if (i.id + i.selectedSize + i.selectedColor === id) {
+      if (i.id + i.selectedSize === id) {
         const maxStock = i.sizeStock?.[i.selectedSize] ?? i.stock ?? 5;
         const newQty = Math.min(qty, maxStock);
         return { ...i, quantity: newQty };

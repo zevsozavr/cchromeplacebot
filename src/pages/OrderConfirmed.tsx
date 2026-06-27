@@ -70,7 +70,7 @@ export function OrderConfirmed() {
             </p>
             <p style={{ color: '#e0e8f0', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 16 }}>#{lastOrder.id}</p>
             {lastOrder.items.map((item) => (
-              <div key={item.id + item.selectedSize + item.selectedColor} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, marginBottom: 8 }}>
+              <div key={item.id + item.selectedSize} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, marginBottom: 8 }}>
                 <span style={{ color: '#a0b4c4' }}>{item.name} x{item.quantity}</span>
                 <span style={{ color: '#e0e8f0' }}>₴{(item.price * item.quantity).toLocaleString()}</span>
               </div>

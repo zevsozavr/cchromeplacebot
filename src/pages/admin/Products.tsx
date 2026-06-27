@@ -11,16 +11,6 @@ import { processAndUploadImage } from '../../lib/image';
 
 const commonSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'One Size'];
 
-const commonColorPresets = [
-  { name: 'Black', hex: '#000000' },
-  { name: 'White', hex: '#ffffff' },
-  { name: 'Gray', hex: '#9ca3af' },
-  { name: 'Red', hex: '#ef4444' },
-  { name: 'Blue', hex: '#3b82f6' },
-  { name: 'Green', hex: '#22c55e' },
-  { name: 'Yellow', hex: '#eab308' },
-  { name: 'Beige', hex: '#f5e6d3' },
-];
 
 const sectionStyle: React.CSSProperties = {
   marginBottom: 16,
@@ -70,9 +60,6 @@ export function AdminProducts() {
   const [condition, setCondition] = useState('New');
   const [selectedSizes, setSelectedSizes] = useState<string[]>(['S', 'M', 'L']);
   const [customSize, setCustomSize] = useState('');
-  const [colors, setColors] = useState<{ name: string; hex: string }[]>([{ name: 'Default', hex: '#000000' }]);
-  const [colorNameInput, setColorNameInput] = useState('');
-  const [colorHexInput, setColorHexInput] = useState('#000000');
   const [sizeStock, setSizeStock] = useState<Record<string, number>>({ 'S': 5, 'M': 5, 'L': 5 });
   const [uploading, setUploading] = useState(false);
 
@@ -119,31 +106,10 @@ export function AdminProducts() {
     setCustomSize('');
   };
 
-  const addColor = () => {
-    const name = colorNameInput.trim();
-    const hex = colorHexInput.trim() || '#000000';
-    if (name && !colors.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
-      setColors((prev) => [...prev, { name, hex }]);
-    }
-    setColorNameInput('');
-    setColorHexInput('#000000');
-  };
-
-  const removeColor = (index: number) => {
-    setColors((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const addColorPreset = (preset: typeof commonColorPresets[0]) => {
-    if (!colors.some((c) => c.name.toLowerCase() === preset.name.toLowerCase())) {
-      setColors((prev) => [...prev, { name: preset.name, hex: preset.hex }]);
-    }
-  };
-
   const resetForm = () => {
     setName(''); setCategory(''); setNewCategory(''); setSubcategory(''); setPrice('');
     setImageDataUrls([]); setDescription(''); setCondition('New');
     setSelectedSizes(['S', 'M', 'L']); setCustomSize('');
-    setColors([{ name: 'Default', hex: '#000000' }]); setColorNameInput(''); setColorHexInput('#000000');
     setSizeStock({ 'S': 5, 'M': 5, 'L': 5 });
     setEditingId(null); setShowForm(false);
   };
@@ -156,7 +122,6 @@ export function AdminProducts() {
     setDescription(p.description || '');
     setCondition(p.condition || 'New');
     setSelectedSizes(p.sizes || ['One Size']);
-    setColors(p.colors?.map((c) => ({ name: c.name, hex: c.hex })) || [{ name: 'Default', hex: '#000000' }]);
     setSizeStock(p.sizeStock || Object.fromEntries((p.sizes || ['One Size']).map((s) => [s, p.stock ?? 5])));
     setShowForm(true);
   };
@@ -173,7 +138,6 @@ export function AdminProducts() {
       images: getFinalImages().length > 0 ? getFinalImages() : undefined,
       description: description || '', condition,
       sizes: selectedSizes.length > 0 ? selectedSizes : ['One Size'],
-      colors: colors,
       sizeStock,
     };
     // Wait for the DB write to finish before closing the form, so the product
@@ -361,37 +325,6 @@ export function AdminProducts() {
                 </div>
               )}
 
-              {/* Colors */}
-              <span style={{ ...labelStyle, marginTop: 8 }}>{t('admin.product.colors_label')}</span>
-              <div style={chipGroupStyle}>
-                {colors.map((c, i) => (
-                  <button key={i} onClick={() => removeColor(i)} style={{
-                    ...chipStyle(true), display: 'flex', alignItems: 'center', gap: 6,
-                  }}>
-                    <span style={{ width: 12, height: 12, borderRadius: '50%', background: c.hex, border: '1px solid rgba(255,255,255,0.15)', flexShrink: 0 }} />
-                    {c.name}
-                    <span style={{ fontSize: 12, color: '#6b7280', marginLeft: 2 }}>×</span>
-                  </button>
-                ))}
-              </div>
-              {/* Quick color presets */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 6 }}>
-                {commonColorPresets.map((p) => (
-                  <button key={p.name} onClick={() => addColorPreset(p)} style={{
-                    width: 28, height: 28, borderRadius: '50%', cursor: 'pointer', border: '2px solid rgba(255,255,255,0.1)',
-                    background: p.hex, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    opacity: colors.some((c) => c.name.toLowerCase() === p.name.toLowerCase()) ? 0.4 : 1,
-                  }} title={p.name} />
-                ))}
-              </div>
-              <div style={{ display: 'flex', gap: 4, marginBottom: 12 }}>
-                <input placeholder={t('admin.form.color_name')} value={colorNameInput} onChange={(e) => setColorNameInput(e.target.value)}
-                  style={{ ...inputStyle, flex: 1, padding: '8px 12px', fontSize: 13 }} />
-                <input type="color" value={colorHexInput} onChange={(e) => setColorHexInput(e.target.value)}
-                  style={{ width: 42, height: 42, borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', cursor: 'pointer', padding: 2 }} />
-                <button onClick={addColor} style={{ padding: '8px 14px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', color: '#22c55e', cursor: 'pointer', fontSize: 13, whiteSpace: 'nowrap' }}>{t('admin.form.add')}</button>
-              </div>
-
               <textarea placeholder={t('admin.product.description')} value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
                 style={{ ...inputStyle, resize: 'vertical', marginBottom: 4 }} />
             </div>
@@ -420,7 +353,6 @@ export function AdminProducts() {
                   {t('categories.' + p.category) || p.category} {p.subcategory && `› ${p.subcategory}`} — {p.price.toLocaleString()}₴
                   <span style={{ marginLeft: 8, padding: '1px 6px', borderRadius: 'var(--radius-full)', background: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>{t('product.condition.' + p.condition.toLowerCase().replace(/\s+/g, '_'))}</span>
                 </p>
-                <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{p.colors?.map((c) => c.name).join(', ') || ''}</p>
                 {p.description && <p style={{ font: 'var(--font-body)', fontSize: 12, color: 'var(--on-surface-variant)', marginTop: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 200 }}>{p.description}</p>}
               </div>
               <button onClick={(e) => { e.stopPropagation(); deleteProduct(p.id); }} style={{ color: 'var(--error)', cursor: 'pointer', padding: 4 }}>

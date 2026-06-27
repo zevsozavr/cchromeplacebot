@@ -84,7 +84,7 @@ export function Cart() {
             </div>
           ) : items.map((item) => (
             <div
-              key={item.id + item.selectedSize + item.selectedColor}
+              key={item.id + item.selectedSize}
               style={{
                 background: 'rgba(15, 21, 36, 0.6)',
                 backdropFilter: 'blur(16px)',
@@ -114,23 +114,11 @@ export function Cart() {
                   <div>
                     <h3 style={{ fontWeight: 700, color: '#e0e8f0', fontSize: 15 }}>{item.name}</h3>
                     <p style={{ fontSize: 12, color: '#a0b4c4', marginTop: 2 }}>
-                      {item.colors.find((c) => c.name === item.selectedColor)?.hex ? (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                          <span style={{
-                            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                            padding: '1px 5px', borderRadius: 4, fontSize: 10, fontWeight: 700,
-                            background: item.colors.find((c) => c.name === item.selectedColor)?.hex,
-                            color: '#fff', lineHeight: '14px',
-                          }}>
-                            {item.selectedColor}
-                          </span>
-                        </span>
-                      ) : item.selectedColor}
-                      {' '}• {t('cart.size')} {item.selectedSize}
+                      {t('cart.size')} {item.selectedSize}
                     </p>
                   </div>
                   <button
-                    onClick={() => removeItem(item.id + item.selectedSize + item.selectedColor)}
+                    onClick={() => removeItem(item.id + item.selectedSize)}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#a0b4c4', padding: 0 }}
                   >
                     <span className="material-symbols-outlined" style={{ transform: 'scale(0.9)', display: 'block' }}>close</span>
@@ -149,14 +137,14 @@ export function Cart() {
                     }}
                   >
                     <button
-                      onClick={() => updateQuantity(item.id + item.selectedSize + item.selectedColor, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.id + item.selectedSize, item.quantity - 1)}
                       style={{ background: 'none', border: 'none', color: '#22c55e', cursor: 'pointer', padding: 0, display: 'flex' }}
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: 16 }}>remove</span>
                     </button>
                     <span style={{ fontSize: 14, fontWeight: 500, width: 16, textAlign: 'center', color: '#e0e8f0' }}>{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.id + item.selectedSize + item.selectedColor, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.id + item.selectedSize, item.quantity + 1)}
                       style={{ background: 'none', border: 'none', color: '#22c55e', cursor: 'pointer', padding: 0, display: 'flex' }}
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: 16 }}>add</span>

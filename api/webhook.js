@@ -198,7 +198,6 @@ export default async function handler(req, res) {
       category: parsed.category,
       subcategory: undefined,
       sizes: parsed.sizes,
-      colors: [],
       condition: parsed.condition,
       description: parsed.description,
       image: photoUrl,

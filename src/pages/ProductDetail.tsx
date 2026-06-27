@@ -15,14 +15,12 @@ export function ProductDetail() {
 
   const product = products.find((p) => p.id === id)
   const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || '')
-  const [selectedColorIdx, setSelectedColorIdx] = useState(0)
   const [currentImage, setCurrentImage] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!product) return
     setSelectedSize(product.sizes?.[0] || '')
-    setSelectedColorIdx(0)
     setCurrentImage(0)
   }, [product])
 
@@ -191,32 +189,6 @@ export function ProductDetail() {
               </div>
             </div>
 
-            {/* Color Swatches */}
-            <div style={{ marginTop: 32 }}>
-              <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#a0b4c4', marginBottom: 12 }}>
-                {t('product.color')}
-              </h3>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                {(product.colors || []).map((c, i) => (
-                  <button
-                    key={c.name}
-                    onClick={() => setSelectedColorIdx(i)}
-                    style={{
-                      padding: '6px 14px',
-                      borderRadius: 9999,
-                      border: i === selectedColorIdx ? '1.5px solid #22c55e' : '1px solid rgba(255,255,255,0.1)',
-                      background: i === selectedColorIdx ? 'rgba(34,197,94,0.1)' : 'transparent',
-                      color: '#e0e8f0',
-                      fontSize: 13,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {c.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Size Selector */}
             <div style={{ marginTop: 32 }}>
               <h3 style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#a0b4c4', marginBottom: 12 }}>
@@ -336,7 +308,7 @@ export function ProductDetail() {
             </span>
           </button>
           <button
-            onClick={() => { addItem(product, selectedSize, product.colors[selectedColorIdx].name); navigate('/cart'); }}
+            onClick={() => { addItem(product, selectedSize); navigate('/cart'); }}
             disabled={getSizeStock(selectedSize) <= 0}
             style={{
               flex: 1,
