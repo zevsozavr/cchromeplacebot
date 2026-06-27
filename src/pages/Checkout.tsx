@@ -111,9 +111,20 @@ export function Checkout() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedCity || !selectedWarehouse) return
+    if (name.trim().split(/\s+/).length < 2) {
+      alert(t('checkout.name_required') || 'Введіть імʼя та прізвище')
+      return
+    }
     setSubmitting(true)
 
     const address = `${selectedCity.name}, ${t('checkout.np_warehouse')} ${selectedWarehouse.name}`
+
+    // Build description from item categories/names (max 1-2 words)
+    const uniqueCategories = [...new Set(items.map((i) => {
+      const p = products.find((p) => p.id === i.id)
+      return p?.category || p?.name?.split(' ')[0] || 'Одяг'
+    }))]
+    const shipDescription = uniqueCategories.slice(0, 2).join(', ')
 
     // Create NP shipment first — its TTN becomes the order ID.
     let ttn = ''
@@ -127,8 +138,10 @@ export function Checkout() {
           recipientName: name,
           recipientPhone: phone,
           declaredCost: subtotal,
+          afterpayAmount: prepay ? 0 : total,
           weight,
           prepay,
+          description: shipDescription,
         }),
       })
       const shipData = await shipRes.json()

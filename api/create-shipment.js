@@ -46,7 +46,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { cityRef, warehouseRef, recipientName, recipientPhone, declaredCost, weight, prepay } = req.body;
+    const { cityRef, warehouseRef, recipientName, recipientPhone, declaredCost, afterpayAmount, weight, prepay, description } = req.body;
 
     const data = await getAppData();
     const config = data?.npConfig;
@@ -64,7 +64,8 @@ export default async function handler(req, res) {
         recipientsPhone: recipientPhone,
         weightKg: weight || 0.5,
         declaredCost: declaredCost || 200,
-        description: 'Замовлення cchrome place',
+        afterpayAmount: afterpayAmount || 0,
+        description: description || 'Одяг',
         payerType: prepay ? 'Sender' : 'Recipient',
         paymentMethod: prepay ? 'NonCash' : 'Cash',
       });
