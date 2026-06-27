@@ -60,7 +60,7 @@ export function AdminNovaPoshta() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetch('/api/np-senders')
+    fetch('/api/create-shipment')
       .then((r) => r.json())
       .then((data) => {
         if (data.error) { setError(data.error); return; }
@@ -78,7 +78,7 @@ export function AdminNovaPoshta() {
   // Fetch contact persons when sender is selected
   useEffect(() => {
     if (!selectedSender) { setContacts([]); setSelectedContact(null); return; }
-    fetch(`/api/np-senders?senderRef=${selectedSender.ref}`)
+    fetch(`/api/create-shipment?senderRef=${selectedSender.ref}`)
       .then((r) => r.json())
       .then((data) => {
         setContacts(data.contacts || []);
