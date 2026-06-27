@@ -14,6 +14,7 @@ interface Order {
   name: string
   phone: string
   address: string
+  prepay?: boolean
 }
 
 export function OrderConfirmed() {
