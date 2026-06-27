@@ -21,10 +21,10 @@ export function AdminDashboard() {
   }
 
   const cards = [
-    { label: t('admin.products'), value: products.length, icon: 'inventory_2', path: '/admin/products', color: '#22c55e' },
+    { label: t('admin.products'), value: products.length, icon: 'inventory_2', path: '/admin/products', color: '#a3a3a3' },
     { label: t('admin.np.title'), value: '', icon: 'local_shipping', path: '/admin/nova-poshta', color: '#06b6d4' },
-    { label: t('admin.orders'), value: '', icon: 'receipt_long', path: '/admin/orders', color: '#22c55e' },
-    { label: t('admin.users'), value: '', icon: 'people', path: '/admin/users', color: '#22c55e' },
+    { label: t('admin.orders'), value: '', icon: 'receipt_long', path: '/admin/orders', color: '#a3a3a3' },
+    { label: t('admin.users'), value: '', icon: 'people', path: '/admin/users', color: '#a3a3a3' },
     { label: t('admin.data'), value: '', icon: 'delete_sweep', path: '/admin/data', color: '#ff6b6b' },
   ];
 
@@ -52,3 +52,4 @@ export function AdminDashboard() {
     </div>
   );
 }
+

@@ -34,11 +34,11 @@ export function Products() {
           padding: '0 24px', height: 64,
         }}
       >
-        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
+        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#a3a3a3', display: 'flex' }}>
           <span className="material-symbols-outlined" style={{ fontSize: 28 }}>arrow_back</span>
         </button>
-        <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#22c55e' }}>{t('products.title')}</h1>
-        <button onClick={openCart} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
+        <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#a3a3a3' }}>{t('products.title')}</h1>
+        <button onClick={openCart} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#a3a3a3', display: 'flex' }}>
           <span className="material-symbols-outlined" style={{ fontSize: 28 }}>shopping_bag</span>
         </button>
       </header>
@@ -61,8 +61,8 @@ export function Products() {
           style={{
             padding: '6px 18px', borderRadius: 9999, cursor: 'pointer', fontSize: 13, fontWeight: 500,
             flexShrink: 0,
-            background: activeCategory === 'All' ? '#22c55e' : 'rgba(15, 21, 36, 0.6)',
-            color: activeCategory === 'All' ? '#001f2e' : '#a0b4c4',
+            background: activeCategory === 'All' ? '#a3a3a3' : 'rgba(15, 21, 36, 0.6)',
+            color: activeCategory === 'All' ? '#0a0a0a' : '#a0b4c4',
             border: activeCategory === 'All' ? 'none' : '1px solid rgba(255,255,255,0.1)',
           }}
         >
@@ -75,8 +75,8 @@ export function Products() {
             style={{
               padding: '6px 18px', borderRadius: 9999, cursor: 'pointer', fontSize: 13, fontWeight: 500,
               flexShrink: 0,
-              background: activeCategory === c.name ? '#22c55e' : 'rgba(15, 21, 36, 0.6)',
-              color: activeCategory === c.name ? '#001f2e' : '#a0b4c4',
+              background: activeCategory === c.name ? '#a3a3a3' : 'rgba(15, 21, 36, 0.6)',
+              color: activeCategory === c.name ? '#0a0a0a' : '#a0b4c4',
               border: activeCategory === c.name ? 'none' : '1px solid rgba(255,255,255,0.1)',
             }}
           >
@@ -105,8 +105,8 @@ export function Products() {
             style={{
               padding: '4px 14px', borderRadius: 9999, cursor: 'pointer', fontSize: 12, fontWeight: 500,
               flexShrink: 0,
-              background: activeSubcategory === 'All' ? '#22c55e' : 'rgba(15, 21, 36, 0.6)',
-              color: activeSubcategory === 'All' ? '#001f2e' : '#a0b4c4',
+              background: activeSubcategory === 'All' ? '#a3a3a3' : 'rgba(15, 21, 36, 0.6)',
+              color: activeSubcategory === 'All' ? '#0a0a0a' : '#a0b4c4',
               border: activeSubcategory === 'All' ? 'none' : '1px solid rgba(255,255,255,0.1)',
             }}
           >
@@ -119,8 +119,8 @@ export function Products() {
               style={{
                 padding: '4px 14px', borderRadius: 9999, cursor: 'pointer', fontSize: 12, fontWeight: 500,
                 flexShrink: 0,
-                background: activeSubcategory === sub ? '#22c55e' : 'rgba(15, 21, 36, 0.6)',
-                color: activeSubcategory === sub ? '#001f2e' : '#a0b4c4',
+                background: activeSubcategory === sub ? '#a3a3a3' : 'rgba(15, 21, 36, 0.6)',
+                color: activeSubcategory === sub ? '#0a0a0a' : '#a0b4c4',
                 border: activeSubcategory === sub ? 'none' : '1px solid rgba(255,255,255,0.1)',
               }}
             >
@@ -151,7 +151,7 @@ export function Products() {
                       position: 'relative', aspectRatio: ar,
                       borderRadius: 16, overflow: 'hidden',
                       background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
-                      border: '1px solid rgba(34, 197, 94, 0.1)', marginBottom: 12,
+                      border: '1px solid rgba(163, 163, 163, 0.1)', marginBottom: 12,
                     }}
                   >
                     <img
@@ -166,7 +166,7 @@ export function Products() {
                         position: 'absolute', top: 8, right: 8,
                         width: 32, height: 32, borderRadius: '50%',
                         background: 'rgba(26, 36, 56, 0.75)', backdropFilter: 'blur(24px)',
-                        border: '1px solid rgba(34, 197, 94, 0.15)',
+                        border: '1px solid rgba(163, 163, 163, 0.15)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         cursor: 'pointer', color: isFavorite(p.id) ? '#ff6b6b' : '#a0b4c4', padding: 0,
                       }}
@@ -178,7 +178,7 @@ export function Products() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <span style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0' }}>{p.name}</span>
-                    <span style={{ fontSize: 14, color: '#22c55e' }}>₴{p.price.toLocaleString()}</span>
+                    <span style={{ fontSize: 14, color: '#a3a3a3' }}>₴{p.price.toLocaleString()}</span>
                   </div>
                   {p.subcategory && (
                     <span style={{ fontSize: 11, color: '#9ca3af', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
@@ -194,3 +194,5 @@ export function Products() {
     </div>
   )
 }
+
+

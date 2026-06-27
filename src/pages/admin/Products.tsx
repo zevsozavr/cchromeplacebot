@@ -33,9 +33,9 @@ const selectStyle: React.CSSProperties = {
 };
 const chipStyle = (active: boolean): React.CSSProperties => ({
   padding: '6px 14px', borderRadius: 9999, cursor: 'pointer', fontSize: 13, fontWeight: 500,
-  border: active ? '1.5px solid #22c55e' : '1px solid rgba(255,255,255,0.1)',
-  background: active ? 'rgba(34,197,94,0.15)' : 'transparent',
-  color: active ? '#22c55e' : '#a0b4c4',
+  border: active ? '1.5px solid #a3a3a3' : '1px solid rgba(255,255,255,0.1)',
+  background: active ? 'rgba(163, 163, 163,0.15)' : 'transparent',
+  color: active ? '#a3a3a3' : '#a0b4c4',
   transition: 'all 0.12s',
 });
 const chipGroupStyle: React.CSSProperties = {
@@ -166,7 +166,7 @@ export function AdminProducts() {
         {showForm && (
           <Glass card glow style={{ borderRadius: 'var(--rounded-lg)', padding: 20, marginBottom: 20, display: 'flex', flexDirection: 'column', gap: 4 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ fontWeight: 600, color: '#22c55e', fontSize: 14 }}>
+              <span style={{ fontWeight: 600, color: '#a3a3a3', fontSize: 14 }}>
                 <Icon name={editingId ? 'edit' : 'add'} style={{ fontSize: 16, verticalAlign: 'middle', marginRight: 6 }} />
                 {editingId ? t('admin.product.save') : t('admin.add.product')}
               </span>
@@ -220,28 +220,28 @@ export function AdminProducts() {
               <div
                 onClick={() => fileInputRef.current?.click()}
                 style={{
-                  border: '2px dashed rgba(34,197,94,0.3)',
+                  border: '2px dashed rgba(163, 163, 163,0.3)',
                   borderRadius: 16,
                   padding: '32px 16px',
                   textAlign: 'center',
                   cursor: 'pointer',
-                  background: 'rgba(34,197,94,0.03)',
+                  background: 'rgba(163, 163, 163,0.03)',
                   transition: 'background 0.15s',
                   marginBottom: imageDataUrls.length > 0 ? 12 : 0,
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(34,197,94,0.08)'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(34,197,94,0.03)'}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(163, 163, 163,0.08)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(163, 163, 163,0.03)'}
               >
                 <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFilesChange} style={{ display: 'none' }} />
-                <span className="material-symbols-outlined" style={{ fontSize: 36, color: '#22c55e', marginBottom: 8, display: 'block' }}>{uploading ? 'progress_activity' : 'add_photo_alternate'}</span>
-                <p style={{ fontSize: 14, fontWeight: 600, color: '#22c55e', margin: 0 }}>{uploading ? '...' : t('admin.form.upload')}</p>
+                <span className="material-symbols-outlined" style={{ fontSize: 36, color: '#a3a3a3', marginBottom: 8, display: 'block' }}>{uploading ? 'progress_activity' : 'add_photo_alternate'}</span>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#a3a3a3', margin: 0 }}>{uploading ? '...' : t('admin.form.upload')}</p>
                 <p style={{ fontSize: 12, color: '#6b7280', margin: '4px 0 0' }}>PNG, JPG — до 10 фото</p>
               </div>
 
               {imageDataUrls.length > 0 && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                   {imageDataUrls.map((url, i) => (
-                    <div key={i} style={{ position: 'relative', aspectRatio: '4/5', borderRadius: 12, overflow: 'hidden', border: i === 0 ? '2px solid #22c55e' : '1px solid rgba(255,255,255,0.08)', background: '#0f1524' }}>
+                    <div key={i} style={{ position: 'relative', aspectRatio: '4/5', borderRadius: 12, overflow: 'hidden', border: i === 0 ? '2px solid #a3a3a3' : '1px solid rgba(255,255,255,0.08)', background: '#0f1524' }}>
                       <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       <button
                         onClick={() => removeImageDataUrl(i)}
@@ -261,7 +261,7 @@ export function AdminProducts() {
                         <span style={{
                           position: 'absolute', bottom: 4, left: 4,
                           fontSize: 9, fontWeight: 700,
-                          background: '#22c55e', color: '#001f2e',
+                          background: '#a3a3a3', color: '#0a0a0a',
                           padding: '1px 6px', borderRadius: 6,
                         }}>{t('admin.form.primary')}</span>
                       )}
@@ -306,7 +306,7 @@ export function AdminProducts() {
                 <input placeholder={t('admin.form.custom_size')} value={customSize} onChange={(e) => setCustomSize(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addCustomSize(); } }}
                   style={{ ...inputStyle, flex: 1, padding: '8px 12px', fontSize: 13 }} />
-                <button onClick={addCustomSize} style={{ padding: '8px 14px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', color: '#22c55e', cursor: 'pointer', fontSize: 13, whiteSpace: 'nowrap' }}>{t('admin.form.add')}</button>
+                <button onClick={addCustomSize} style={{ padding: '8px 14px', borderRadius: 'var(--rounded-md)', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', color: '#a3a3a3', cursor: 'pointer', fontSize: 13, whiteSpace: 'nowrap' }}>{t('admin.form.add')}</button>
               </div>
 
               {/* Per-size stock */}
@@ -373,10 +373,10 @@ export function AdminProducts() {
             style={{
               position: 'fixed', bottom: 88, right: 24,
               width: 56, height: 56, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+              background: 'linear-gradient(135deg, #a3a3a3, #737373)',
               border: 'none', color: '#fff', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              zIndex: 50, boxShadow: '0 4px 20px rgba(34,197,94,0.4)',
+              zIndex: 50, boxShadow: '0 4px 20px rgba(163, 163, 163,0.4)',
             }}
           >
             <span className="material-symbols-outlined" style={{ fontSize: 28 }}>add</span>
@@ -386,3 +386,5 @@ export function AdminProducts() {
     </div>
   );
 }
+
+

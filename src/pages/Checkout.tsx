@@ -280,7 +280,7 @@ export function Checkout() {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '0 24px', height: 64,
       }}>
-        <button onClick={() => navigate('/cart')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
+        <button onClick={() => navigate('/cart')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#a3a3a3', display: 'flex' }}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h1 style={{ fontFamily: 'Inter', color: '#e0e8f0', fontWeight: 600, fontSize: 18 }}>{t('checkout.title')}</h1>
@@ -293,7 +293,7 @@ export function Checkout() {
           <section style={{
             position: 'relative', zIndex: 1,
             background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(34, 197, 94, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
+            border: '1px solid rgba(163, 163, 163, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
           }}>
             <h3 style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0', marginBottom: 16 }}>{t('checkout.contact')}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -307,7 +307,7 @@ export function Checkout() {
           <section style={{
             position: 'relative', zIndex: 10,
             background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(34, 197, 94, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
+            border: '1px solid rgba(163, 163, 163, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
           }}>
             <h3 style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0', marginBottom: 16 }}>{t('checkout.delivery')}</h3>
 
@@ -369,11 +369,11 @@ export function Checkout() {
           <section style={{
             position: 'relative', zIndex: 1,
             background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(34, 197, 94, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
+            border: '1px solid rgba(163, 163, 163, 0.1)', borderRadius: 24, padding: 24, marginBottom: 16,
           }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
               <input type="checkbox" checked={prepay} onChange={(e) => setPrepay(e.target.checked)}
-                style={{ width: 20, height: 20, accentColor: '#22c55e', cursor: 'pointer' }} />
+                style={{ width: 20, height: 20, accentColor: '#a3a3a3', cursor: 'pointer' }} />
               <div>
                 <p style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0' }}>{t('checkout.prepay')}</p>
                 <p style={{ fontSize: 12, color: '#9ca3af' }}>{t('checkout.prepay.hint')}</p>
@@ -390,7 +390,7 @@ export function Checkout() {
           <section style={{
             position: 'relative', zIndex: 1,
             background: 'rgba(15, 21, 36, 0.75)', backdropFilter: 'blur(24px)',
-            border: '1px solid rgba(34, 197, 94, 0.15)', borderRadius: 24, padding: 24, marginBottom: 24,
+            border: '1px solid rgba(163, 163, 163, 0.15)', borderRadius: 24, padding: 24, marginBottom: 24,
           }}>
             <h3 style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0', marginBottom: 16 }}>{t('checkout.summary')}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -415,12 +415,12 @@ export function Checkout() {
             {!prepay && afterpayCommission > 0 && (
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, fontSize: 14 }}>
                 <span style={{ color: '#a0b4c4' }}>Комісія післяплати (2%)</span>
-                <span style={{ color: '#22c55e' }}>+₴{afterpayCommission.toLocaleString()}</span>
+                <span style={{ color: '#a3a3a3' }}>+₴{afterpayCommission.toLocaleString()}</span>
               </div>
             )}
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: !prepay && afterpayCommission > 0 ? 8 : 0, fontSize: 18, fontWeight: 700 }}>
               <span style={{ color: '#e0e8f0' }}>{t('cart.total')}</span>
-              <span style={{ color: '#22c55e' }}>₴{(prepay ? total : totalWithCommission).toLocaleString()}</span>
+              <span style={{ color: '#a3a3a3' }}>₴{(prepay ? total : totalWithCommission).toLocaleString()}</span>
             </div>
           </section>
 
@@ -429,12 +429,12 @@ export function Checkout() {
             disabled={!canSubmit}
             style={{
               width: '100%', height: 56,
-              background: canSubmit ? '#22c55e' : 'rgba(255,255,255,0.1)',
-              color: canSubmit ? '#001f2e' : '#a0b4c4',
+              background: canSubmit ? '#a3a3a3' : 'rgba(255,255,255,0.1)',
+              color: canSubmit ? '#0a0a0a' : '#a0b4c4',
               border: 'none', borderRadius: 24, fontWeight: 700, fontSize: 16,
               cursor: canSubmit ? 'pointer' : 'not-allowed',
               opacity: submitting ? 0.7 : 1,
-              boxShadow: canSubmit ? '0 0 20px rgba(34, 197, 94,0.3)' : 'none',
+              boxShadow: canSubmit ? '0 0 20px rgba(163, 163, 163,0.3)' : 'none',
             }}
           >
             {submitting ? t('checkout.processing') : t('checkout.place')}
@@ -444,3 +444,5 @@ export function Checkout() {
     </div>
   )
 }
+
+

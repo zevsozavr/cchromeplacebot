@@ -48,8 +48,8 @@ export function BottomBar() {
               border: 'none',
               cursor: 'pointer',
               padding: 0,
-              background: active ? '#22c55e' : 'transparent',
-              color: active ? '#001f2e' : '#a0b4c4',
+              background: active ? '#a3a3a3' : 'transparent',
+              color: active ? '#0a0a0a' : '#a0b4c4',
               borderRadius: active ? '50%' : 0,
               transition: 'all 0.2s',
               boxShadow: active ? '0 0 15px rgba(123,209,250,0.3)' : 'none',
@@ -70,3 +70,5 @@ export function BottomBar() {
     </nav>
   )
 }
+
+

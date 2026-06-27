@@ -28,13 +28,13 @@ export function Cart() {
           height: 64,
         }}
       >
-        <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
+        <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#a3a3a3', display: 'flex' }}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
         <h1 style={{ fontFamily: 'Inter', color: '#e0e8f0', fontWeight: 600, fontSize: 18 }}>
           {t('cart.bag')} ({items.length} {items.length === 1 ? t('cart.item.label') : t('cart.items.label')})
         </h1>
-        <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
+        <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#a3a3a3', display: 'flex' }}>
           <span className="material-symbols-outlined">more_vert</span>
         </button>
       </header>
@@ -48,7 +48,7 @@ export function Cart() {
           transform: 'translate(-50%, -50%)',
           width: 300,
           height: 300,
-          background: 'rgba(34, 197, 94, 0.05)',
+          background: 'rgba(163, 163, 163, 0.05)',
           borderRadius: '50%',
           filter: 'blur(100px)',
           pointerEvents: 'none',
@@ -67,8 +67,8 @@ export function Cart() {
                 onClick={() => navigate('/')}
                 style={{
                   padding: '12px 32px',
-                  background: '#22c55e',
-                  color: '#001f2e',
+                  background: '#a3a3a3',
+                  color: '#0a0a0a',
                   border: 'none',
                   borderRadius: 9999,
                   fontWeight: 600,
@@ -84,7 +84,7 @@ export function Cart() {
               style={{
                 background: 'rgba(15, 21, 36, 0.6)',
                 backdropFilter: 'blur(16px)',
-                border: '1px solid rgba(34, 197, 94, 0.1)',
+                border: '1px solid rgba(163, 163, 163, 0.1)',
                 borderRadius: 24,
                 padding: 16,
                 display: 'flex',
@@ -134,19 +134,19 @@ export function Cart() {
                   >
                     <button
                       onClick={() => updateQuantity(item.id + item.selectedSize, item.quantity - 1)}
-                      style={{ background: 'none', border: 'none', color: '#22c55e', cursor: 'pointer', padding: 0, display: 'flex' }}
+                      style={{ background: 'none', border: 'none', color: '#a3a3a3', cursor: 'pointer', padding: 0, display: 'flex' }}
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: 16 }}>remove</span>
                     </button>
                     <span style={{ fontSize: 14, fontWeight: 500, width: 16, textAlign: 'center', color: '#e0e8f0' }}>{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.id + item.selectedSize, item.quantity + 1)}
-                      style={{ background: 'none', border: 'none', color: '#22c55e', cursor: 'pointer', padding: 0, display: 'flex' }}
+                      style={{ background: 'none', border: 'none', color: '#a3a3a3', cursor: 'pointer', padding: 0, display: 'flex' }}
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: 16 }}>add</span>
                     </button>
                   </div>
-                  <span style={{ fontWeight: 700, color: '#22c55e' }}>₴{(item.price * item.quantity).toLocaleString()}</span>
+                  <span style={{ fontWeight: 700, color: '#a3a3a3' }}>₴{(item.price * item.quantity).toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -162,7 +162,7 @@ export function Cart() {
                 background: 'rgba(15, 21, 36, 0.75)',
                 backdropFilter: 'blur(24px)',
                 WebkitBackdropFilter: 'blur(24px)',
-                border: '1px solid rgba(34, 197, 94, 0.15)',
+                border: '1px solid rgba(163, 163, 163, 0.15)',
                 borderRadius: 24,
                 padding: 20,
               }}
@@ -178,7 +178,7 @@ export function Cart() {
               <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', width: '100%', marginTop: 8, marginBottom: 12 }} />
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 18, fontWeight: 700, color: '#e0e8f0' }}>{t('cart.total')}</span>
-                <span style={{ fontSize: 18, fontWeight: 700, color: '#22c55e' }}>₴{subtotal.toLocaleString()}</span>
+                <span style={{ fontSize: 18, fontWeight: 700, color: '#a3a3a3' }}>₴{subtotal.toLocaleString()}</span>
               </div>
             </section>
           </>
@@ -193,8 +193,8 @@ export function Cart() {
             style={{
               width: '100%',
               height: 64,
-              background: '#22c55e',
-              color: '#001f2e',
+              background: '#a3a3a3',
+              color: '#0a0a0a',
               border: 'none',
               borderRadius: 24,
               fontWeight: 700,
@@ -208,7 +208,7 @@ export function Cart() {
             }}
           >
             <span>{t('cart.checkout')}</span>
-            <span style={{ width: 6, height: 6, background: '#001f2e', borderRadius: '50%', display: 'inline-block' }} />
+            <span style={{ width: 6, height: 6, background: '#0a0a0a', borderRadius: '50%', display: 'inline-block' }} />
             <span>₴{subtotal.toLocaleString()}</span>
           </button>
         </div>
@@ -218,3 +218,5 @@ export function Cart() {
     </div>
   )
 }
+
+

@@ -78,15 +78,15 @@ export function ProductDetail() {
             borderRadius: '50%',
             background: 'rgba(15, 21, 36, 0.6)',
             backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(34, 197, 94, 0.1)',
+            border: '1px solid rgba(163, 163, 163, 0.1)',
             cursor: 'pointer',
-            color: '#22c55e',
+            color: '#a3a3a3',
             padding: 0,
           }}
         >
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <span style={{ fontFamily: 'Inter', fontSize: 18, fontWeight: 800, letterSpacing: '-0.03em', color: '#22c55e' }}>CCHROME PLACE</span>
+        <span style={{ fontFamily: 'Inter', fontSize: 18, fontWeight: 800, letterSpacing: '-0.03em', color: '#a3a3a3' }}>CCHROME PLACE</span>
         <button
           style={{
             width: 40,
@@ -97,9 +97,9 @@ export function ProductDetail() {
             borderRadius: '50%',
             background: 'rgba(15, 21, 36, 0.6)',
             backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(34, 197, 94, 0.1)',
+            border: '1px solid rgba(163, 163, 163, 0.1)',
             cursor: 'pointer',
-            color: '#22c55e',
+            color: '#a3a3a3',
             padding: 0,
           }}
         >
@@ -153,7 +153,7 @@ export function ProductDetail() {
                   width: i === currentImage ? 24 : 8,
                   height: 8,
                   borderRadius: 99,
-                  background: i === currentImage ? '#22c55e' : 'rgba(255,255,255,0.2)',
+                  background: i === currentImage ? '#a3a3a3' : 'rgba(255,255,255,0.2)',
                   transition: 'all 0.3s',
                 }}
               />
@@ -167,7 +167,7 @@ export function ProductDetail() {
             style={{
               background: 'rgba(26, 36, 56, 0.75)',
               backdropFilter: 'blur(24px)',
-              border: '1px solid rgba(34, 197, 94, 0.15)',
+              border: '1px solid rgba(163, 163, 163, 0.15)',
               borderRadius: 24,
               padding: 24,
               boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
@@ -180,12 +180,12 @@ export function ProductDetail() {
                   {product.name.toUpperCase()}
                 </h1>
                 <p style={{ color: '#a0b4c4', fontWeight: 500, marginTop: 4 }}>{product.condition}</p>
-                <p style={{ fontSize: 12, color: outOfStockAll ? '#ff6b6b' : '#22c55e', marginTop: 2 }}>
+                <p style={{ fontSize: 12, color: outOfStockAll ? '#ff6b6b' : '#a3a3a3', marginTop: 2 }}>
                   {outOfStockAll ? t('product.out_of_stock') : `${t('product.stock')}: ${getSizeStock(selectedSize)}`}
                 </p>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <span style={{ fontSize: 24, fontWeight: 700, color: '#22c55e' }}>₴{product.price.toLocaleString()}</span>
+                <span style={{ fontSize: 24, fontWeight: 700, color: '#a3a3a3' }}>₴{product.price.toLocaleString()}</span>
               </div>
             </div>
 
@@ -209,10 +209,10 @@ export function ProductDetail() {
                         cursor: soldOut ? 'not-allowed' : 'pointer',
                         fontSize: 14,
                         fontWeight: 500,
-                        background: active ? '#22c55e' : 'rgba(15, 21, 36, 0.6)',
+                        background: active ? '#a3a3a3' : 'rgba(15, 21, 36, 0.6)',
                         backdropFilter: active ? 'none' : 'blur(16px)',
-                        border: active ? 'none' : '1px solid rgba(34, 197, 94, 0.1)',
-                        color: soldOut ? '#6b7280' : active ? '#001f2e' : '#e0e8f0',
+                        border: active ? 'none' : '1px solid rgba(163, 163, 163, 0.1)',
+                        color: soldOut ? '#6b7280' : active ? '#0a0a0a' : '#e0e8f0',
                         boxShadow: active ? '0 0 15px rgba(123,209,250,0.3)' : 'none',
                         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1,
                       }}
@@ -238,14 +238,14 @@ export function ProductDetail() {
                   gap: 24,
                   background: 'rgba(15, 21, 36, 0.6)',
                   backdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(34, 197, 94, 0.1)',
+                  border: '1px solid rgba(163, 163, 163, 0.1)',
                   borderRadius: 9999,
                   padding: '8px 16px',
                 }}
               >
-                <span className="material-symbols-outlined" style={{ color: '#22c55e', cursor: 'pointer', fontSize: 24 }}>remove</span>
+                <span className="material-symbols-outlined" style={{ color: '#a3a3a3', cursor: 'pointer', fontSize: 24 }}>remove</span>
                 <span style={{ fontWeight: 700, width: 16, textAlign: 'center' }}>1</span>
-                <span className="material-symbols-outlined" style={{ color: '#22c55e', cursor: 'pointer', fontSize: 24 }}>add</span>
+                <span className="material-symbols-outlined" style={{ color: '#a3a3a3', cursor: 'pointer', fontSize: 24 }}>add</span>
               </div>
             </div>
           </div>
@@ -253,7 +253,7 @@ export function ProductDetail() {
 
         {/* Description */}
         <section style={{ padding: '0 24px', marginTop: 16 }}>
-          <div style={{ background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(34, 197, 94, 0.1)', borderRadius: 24, padding: 16 }}>
+          <div style={{ background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(163, 163, 163, 0.1)', borderRadius: 24, padding: 16 }}>
             <p style={{ fontSize: 14, color: '#a0b4c4', lineHeight: 1.6 }}>
               {product.description}
             </p>
@@ -277,7 +277,7 @@ export function ProductDetail() {
           style={{
             background: 'rgba(26, 36, 56, 0.75)',
             backdropFilter: 'blur(24px)',
-            border: '1px solid rgba(34, 197, 94, 0.15)',
+            border: '1px solid rgba(163, 163, 163, 0.15)',
             borderRadius: 16,
             padding: 16,
             display: 'flex',
@@ -294,7 +294,7 @@ export function ProductDetail() {
               borderRadius: 24,
               background: 'rgba(15, 21, 36, 0.6)',
               backdropFilter: 'blur(16px)',
-              border: '1px solid rgba(34, 197, 94, 0.1)',
+              border: '1px solid rgba(163, 163, 163, 0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -313,8 +313,8 @@ export function ProductDetail() {
             style={{
               flex: 1,
               height: 56,
-              background: getSizeStock(selectedSize) <= 0 ? 'rgba(255,255,255,0.1)' : '#22c55e',
-              color: getSizeStock(selectedSize) <= 0 ? '#a0b4c4' : '#001f2e',
+              background: getSizeStock(selectedSize) <= 0 ? 'rgba(255,255,255,0.1)' : '#a3a3a3',
+              color: getSizeStock(selectedSize) <= 0 ? '#a0b4c4' : '#0a0a0a',
               border: 'none',
               borderRadius: 24,
               fontWeight: 700,
@@ -324,7 +324,7 @@ export function ProductDetail() {
               alignItems: 'center',
               justifyContent: 'center',
               gap: 8,
-              boxShadow: getSizeStock(selectedSize) <= 0 ? 'none' : '0 0 20px rgba(34, 197, 94,0.4)',
+              boxShadow: getSizeStock(selectedSize) <= 0 ? 'none' : '0 0 20px rgba(163, 163, 163,0.4)',
             }}
             className="glow-hover"
           >
@@ -336,3 +336,5 @@ export function ProductDetail() {
     </div>
   )
 }
+
+

@@ -80,7 +80,7 @@ export function AdminOrders() {
         {[...orders].reverse().map((o) => (
           <Glass key={o.id} style={{ borderRadius: 'var(--rounded-lg)', padding: 16, marginBottom: 12 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-              <span style={{ color: '#22c55e', fontWeight: 700, fontSize: 14 }}>#{o.id}</span>
+              <span style={{ color: '#a3a3a3', fontWeight: 700, fontSize: 14 }}>#{o.id}</span>
               <span style={{ fontSize: 12, color: 'var(--on-surface-variant)' }}>
                 {new Date(o.date).toLocaleDateString()} {new Date(o.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
@@ -99,10 +99,10 @@ export function AdminOrders() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 8, marginBottom: 12 }}>
               <span style={{ fontWeight: 600, color: 'var(--on-surface)' }}>{t('cart.total')}</span>
-              <span style={{ fontWeight: 700, color: '#22c55e' }}>₴{o.total.toLocaleString()}</span>
+              <span style={{ fontWeight: 700, color: '#a3a3a3' }}>₴{o.total.toLocaleString()}</span>
             </div>
             {o.ttn && (
-              <div style={{ marginBottom: 8, fontSize: 12, color: '#22c55e', fontWeight: 600 }}>
+              <div style={{ marginBottom: 8, fontSize: 12, color: '#a3a3a3', fontWeight: 600 }}>
                 📦 TTN: {o.ttn}
               </div>
             )}
@@ -128,9 +128,9 @@ export function AdminOrders() {
                   onClick={() => confirmPrepay(o.id)}
                   style={{
                     padding: '8px 16px', borderRadius: 9999,
-                    background: 'rgba(34, 197, 94, 0.15)',
-                    border: '1px solid rgba(34, 197, 94, 0.3)',
-                    color: '#22c55e', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap',
+                    background: 'rgba(163, 163, 163, 0.15)',
+                    border: '1px solid rgba(163, 163, 163, 0.3)',
+                    color: '#a3a3a3', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap',
                   }}
                 >
                   ✅ Кошти отримано
@@ -154,3 +154,4 @@ export function AdminOrders() {
     </div>
   );
 }
+

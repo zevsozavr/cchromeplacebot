@@ -32,7 +32,7 @@ export function Settings() {
     background: 'rgba(15, 21, 36, 0.6)',
     backdropFilter: 'blur(16px)',
     WebkitBackdropFilter: 'blur(16px)',
-    border: '1px solid rgba(34, 197, 94, 0.1)',
+    border: '1px solid rgba(163, 163, 163, 0.1)',
     borderRadius: 16,
     overflow: 'hidden',
   }
@@ -70,8 +70,8 @@ export function Settings() {
         }}
       >
         <div style={{ width: 24 }} />
-        <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#22c55e' }}>CCHROME PLACE</h1>
-        <span className="material-symbols-outlined" style={{ color: '#22c55e', cursor: 'pointer' }} onClick={openCart}>shopping_bag</span>
+        <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#a3a3a3' }}>CCHROME PLACE</h1>
+        <span className="material-symbols-outlined" style={{ color: '#a3a3a3', cursor: 'pointer' }} onClick={openCart}>shopping_bag</span>
       </header>
 
       <main style={{ paddingTop: 96, paddingLeft: 24, paddingRight: 24 }}>
@@ -102,7 +102,7 @@ export function Settings() {
                 </div>
                 <span style={{ fontWeight: 500, color: '#e0e8f0' }}>{t('settings.lang')}</span>
               </div>
-              <div onClick={() => setLang(lang === 'UA' ? 'RU' : 'UA')} style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#22c55e' }}>
+              <div onClick={() => setLang(lang === 'UA' ? 'RU' : 'UA')} style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#a3a3a3' }}>
                 <span style={{ fontSize: 14, fontWeight: 700 }}>{lang === 'UA' ? 'Українська' : 'Русский'}</span>
                 <span className="material-symbols-outlined" style={{ fontSize: 16 }}>expand_more</span>
               </div>
@@ -120,7 +120,7 @@ export function Settings() {
           <div style={sectionStyle}>
             <div style={{ ...rowStyle }} onClick={() => setShowOrders(!showOrders)}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                <div style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 24, background: 'rgba(34, 197, 94, 0.1)', color: '#22c55e' }}>
+                <div style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 24, background: 'rgba(163, 163, 163, 0.1)', color: '#a3a3a3' }}>
                   <span className="material-symbols-outlined">receipt_long</span>
                 </div>
                 <div>
@@ -135,7 +135,7 @@ export function Settings() {
                 {[...orders].reverse().map((o) => (
                   <div key={o.id} style={{ marginBottom: 16, background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: 12 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <span style={{ fontSize: 12, color: '#22c55e', fontWeight: 600 }}>#{o.id}</span>
+                      <span style={{ fontSize: 12, color: '#a3a3a3', fontWeight: 600 }}>#{o.id}</span>
                       <span style={{ fontSize: 11, color: '#a0b4c4' }}>{new Date(o.date).toLocaleDateString()}</span>
                     </div>
                     {o.items.map((item) => (
@@ -146,7 +146,7 @@ export function Settings() {
                     ))}
                     <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: 8, paddingTop: 8 }}>
                       <span style={{ fontSize: 13, fontWeight: 600, color: '#e0e8f0' }}>{t('cart.total')}</span>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: '#22c55e' }}>₴{o.total.toLocaleString()}</span>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#a3a3a3' }}>₴{o.total.toLocaleString()}</span>
                     </div>
                   </div>
                 ))}
@@ -189,3 +189,5 @@ export function Settings() {
     </div>
   )
 }
+
+

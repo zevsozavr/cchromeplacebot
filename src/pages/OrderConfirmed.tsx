@@ -42,21 +42,21 @@ export function OrderConfirmed() {
           padding: '0 24px', height: 64,
         }}
       >
-        <button style={{ color: '#22c55e', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+        <button style={{ color: '#a3a3a3', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
           <span className="material-symbols-outlined">menu</span>
         </button>
-        <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#22c55e' }}>CCHROME PLACE</h1>
-        <button onClick={() => navigate('/cart')} style={{ color: '#22c55e', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+        <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#a3a3a3' }}>CCHROME PLACE</h1>
+        <button onClick={() => navigate('/cart')} style={{ color: '#a3a3a3', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
           <span className="material-symbols-outlined">shopping_bag</span>
         </button>
       </header>
 
       <main style={{ paddingTop: 96, paddingLeft: 24, paddingRight: 24, maxWidth: 512, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ marginBottom: 40, textAlign: 'center' }}>
-          <div style={{ width: 80, height: 80, background: 'rgba(34, 197, 94, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
-            <span className="material-symbols-outlined" style={{ color: '#22c55e', fontSize: 48 }}>check_circle</span>
+          <div style={{ width: 80, height: 80, background: 'rgba(163, 163, 163, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', border: '1px solid rgba(163, 163, 163, 0.2)' }}>
+            <span className="material-symbols-outlined" style={{ color: '#a3a3a3', fontSize: 48 }}>check_circle</span>
           </div>
-          <h2 style={{ color: '#22c55e', fontWeight: 700, fontSize: 24, letterSpacing: '0.2em', marginBottom: 8 }}>
+          <h2 style={{ color: '#a3a3a3', fontWeight: 700, fontSize: 24, letterSpacing: '0.2em', marginBottom: 8 }}>
             {t('order.confirmed')}
           </h2>
           <p style={{ color: '#a0b4c4', fontWeight: 300, fontSize: 14, maxWidth: 280, margin: '0 auto', lineHeight: 1.5 }}>
@@ -71,7 +71,7 @@ export function OrderConfirmed() {
         </div>
 
         {lastOrder && (
-          <div style={{ width: '100%', background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(34, 197, 94, 0.1)', borderRadius: 24, padding: 20, marginBottom: 24 }}>
+          <div style={{ width: '100%', background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(163, 163, 163, 0.1)', borderRadius: 24, padding: 20, marginBottom: 24 }}>
             <p style={{ fontSize: 10, color: '#a0b4c4', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>
               {t('order.reference')}
             </p>
@@ -85,7 +85,7 @@ export function OrderConfirmed() {
             <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', marginTop: 8, marginBottom: 12 }} />
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span style={{ fontWeight: 700, color: '#e0e8f0' }}>{t('cart.total')}</span>
-              <span style={{ fontWeight: 700, color: '#22c55e' }}>₴{lastOrder.total.toLocaleString()}</span>
+              <span style={{ fontWeight: 700, color: '#a3a3a3' }}>₴{lastOrder.total.toLocaleString()}</span>
             </div>
           </div>
         )}
@@ -97,12 +97,12 @@ export function OrderConfirmed() {
           }}
           style={{
             width: '100%', height: 64, borderRadius: 9999,
-            background: 'rgba(34, 197, 94, 0.2)',
-            border: '1px solid rgba(34, 197, 94, 0.4)',
-            color: '#22c55e', fontWeight: 700, letterSpacing: '0.1em',
+            background: 'rgba(163, 163, 163, 0.2)',
+            border: '1px solid rgba(163, 163, 163, 0.4)',
+            color: '#a3a3a3', fontWeight: 700, letterSpacing: '0.1em',
             fontSize: 14, cursor: 'pointer', display: 'flex',
             alignItems: 'center', justifyContent: 'center', gap: 8,
-            boxShadow: '0 0 20px rgba(34, 197, 94,0.1)', marginBottom: 16,
+            boxShadow: '0 0 20px rgba(163, 163, 163,0.1)', marginBottom: 16,
           }}
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>send</span>
@@ -128,3 +128,4 @@ export function OrderConfirmed() {
     </div>
   )
 }
+

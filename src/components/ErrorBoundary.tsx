@@ -19,7 +19,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: 24, maxWidth: 280 }}>{this.state.error?.message}</p>
           <button
             onClick={() => { this.setState({ hasError: false }); window.location.reload() }}
-            style={{ padding: '12px 32px', borderRadius: 9999, background: '#22c55e', color: '#001f2e', border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
+            style={{ padding: '12px 32px', borderRadius: 9999, background: '#a3a3a3', color: '#0a0a0a', border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
           >
             Спробувати знову
           </button>
@@ -29,3 +29,4 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children
   }
 }
+

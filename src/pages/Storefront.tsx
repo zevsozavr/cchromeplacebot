@@ -60,9 +60,9 @@ export function Storefront() {
                 fontSize: 14,
                 fontWeight: 500,
                 flexShrink: 0,
-                background: cat.key === 'All' ? '#22c55e' : 'rgba(15, 21, 36, 0.6)',
+                background: cat.key === 'All' ? '#a3a3a3' : 'rgba(15, 21, 36, 0.6)',
                 backdropFilter: cat.key === 'All' ? 'none' : 'blur(16px)',
-                color: cat.key === 'All' ? '#001f2e' : '#a0b4c4',
+                color: cat.key === 'All' ? '#0a0a0a' : '#a0b4c4',
                 border: cat.key === 'All' ? 'none' : '1px solid rgba(255,255,255,0.1)',
                 boxShadow: cat.key === 'All' ? '0 0 15px rgba(123,209,250,0.3)' : 'none',
               }}
@@ -92,7 +92,7 @@ export function Storefront() {
                       position: 'relative', aspectRatio: '3/4',
                       borderRadius: 16, overflow: 'hidden',
                       background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
-                      border: oos ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(34, 197, 94, 0.1)',
+                      border: oos ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(163, 163, 163, 0.1)',
                       marginBottom: 12,
                       filter: oos ? 'grayscale(0.8)' : 'none',
                       opacity: oos ? 0.5 : 1,
@@ -112,7 +112,7 @@ export function Storefront() {
                     {!oos && (
                     <div
                       style={{
-                        position: 'absolute', inset: 0, background: 'rgba(34, 197, 94, 0.1)',
+                        position: 'absolute', inset: 0, background: 'rgba(163, 163, 163, 0.1)',
                         opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                         transition: 'opacity 0.3s',
                       }}
@@ -121,7 +121,7 @@ export function Storefront() {
                       <button
                         onClick={(e) => { e.stopPropagation(); addItem(p, p.sizes?.[0] || '') }}
                         style={{
-                          padding: '8px 16px', background: '#22c55e', color: '#001f2e',
+                          padding: '8px 16px', background: '#a3a3a3', color: '#0a0a0a',
                           border: 'none', borderRadius: 9999, fontSize: 12, fontWeight: 700,
                           cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
                         }}
@@ -133,7 +133,7 @@ export function Storefront() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <span style={{ fontSize: 14, fontWeight: 600, color: oos ? '#6b7280' : '#e0e8f0' }}>{p.name}</span>
-                    <span style={{ fontSize: 14, color: oos ? '#6b7280' : '#22c55e' }}>₴{p.price.toLocaleString()}</span>
+                    <span style={{ fontSize: 14, color: oos ? '#6b7280' : '#a3a3a3' }}>₴{p.price.toLocaleString()}</span>
                   </div>
                   {p.subcategory && (
                     <span style={{ fontSize: 11, color: '#6b7280', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
@@ -154,7 +154,7 @@ export function Storefront() {
                         position: 'relative', aspectRatio: ar,
                         borderRadius: 16, overflow: 'hidden',
                         background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
-                        border: oos ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(34, 197, 94, 0.1)',
+                        border: oos ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(163, 163, 163, 0.1)',
                         marginBottom: 12,
                         filter: oos ? 'grayscale(0.8)' : 'none',
                         opacity: oos ? 0.5 : 1,
@@ -174,7 +174,7 @@ export function Storefront() {
                       {!oos && (
                       <div
                         style={{
-                          position: 'absolute', inset: 0, background: 'rgba(34, 197, 94, 0.1)',
+                          position: 'absolute', inset: 0, background: 'rgba(163, 163, 163, 0.1)',
                           opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                           transition: 'opacity 0.3s',
                         }}
@@ -183,7 +183,7 @@ export function Storefront() {
                         <button
                           onClick={(e) => { e.stopPropagation(); addItem(p, p.sizes?.[0] || '') }}
                           style={{
-                            padding: '8px 16px', background: '#22c55e', color: '#001f2e',
+                            padding: '8px 16px', background: '#a3a3a3', color: '#0a0a0a',
                             border: 'none', borderRadius: 9999, fontSize: 12, fontWeight: 700,
                             cursor: 'pointer', boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
                           }}
@@ -195,7 +195,7 @@ export function Storefront() {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                       <span style={{ fontSize: 14, fontWeight: 600, color: oos ? '#6b7280' : '#e0e8f0' }}>{p.name}</span>
-                      <span style={{ fontSize: 14, color: oos ? '#6b7280' : '#22c55e' }}>₴{p.price.toLocaleString()}</span>
+                      <span style={{ fontSize: 14, color: oos ? '#6b7280' : '#a3a3a3' }}>₴{p.price.toLocaleString()}</span>
                     </div>
                     {p.subcategory && (
                       <span style={{ fontSize: 11, color: '#6b7280', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
@@ -213,3 +213,5 @@ export function Storefront() {
     </div>
   )
 }
+
+

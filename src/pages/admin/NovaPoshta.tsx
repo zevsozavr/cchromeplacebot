@@ -171,7 +171,7 @@ export function AdminNovaPoshta() {
       <Header showBack title={t('admin.np.title')} onBack={() => navigate('/admin')} />
       <main style={{ flex: 1, overflow: 'auto', padding: '20px var(--pad)' }}>
         <Glass card glow style={{ borderRadius: 'var(--rounded-lg)', padding: 20, display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <h3 style={{ font: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 4, color: '#22c55e' }}>
+          <h3 style={{ font: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 4, color: '#a3a3a3' }}>
             {t('admin.np.title')}
           </h3>
           <p style={{ fontSize: 13, color: '#9ca3af' }}>Отримайте ці дані в особистому кабінеті Nova Poshta (API → Налаштування відправника). Обов'язкові для автоматичного створення ТТН.</p>
@@ -307,3 +307,4 @@ export function AdminNovaPoshta() {
     </div>
   );
 }
+

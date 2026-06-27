@@ -58,7 +58,7 @@ export function AdminUsers() {
         {users.map((u) => (
           <Glass key={u.username || u.phone || u.id} style={{ borderRadius: 'var(--rounded-lg)', padding: 16, marginBottom: 12 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-              <span style={{ fontWeight: 700, color: '#22c55e', fontSize: 14 }}>
+              <span style={{ fontWeight: 700, color: '#a3a3a3', fontSize: 14 }}>
                 {u.first_name || u.name || '—'} {u.last_name || ''}
               </span>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -87,7 +87,7 @@ export function AdminUsers() {
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {u.deal ? (
-                <div style={{ fontSize: 12, color: '#22c55e', flex: 1 }}>
+                <div style={{ fontSize: 12, color: '#a3a3a3', flex: 1 }}>
                   {t('admin.deal.active')}: {u.deal.discountPercent}% {u.deal.note && `— ${u.deal.note}`}
                   <button onClick={() => removeDeal(u.phone)} style={{ marginLeft: 8, background: 'none', border: 'none', color: '#ff6b6b', cursor: 'pointer', fontSize: 12, textDecoration: 'underline' }}>
                     {t('admin.deal.remove')}
@@ -99,12 +99,12 @@ export function AdminUsers() {
                     style={{ width: 48, padding: '4px 8px', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#e0e8f0', fontSize: 12, outline: 'none' }} />
                   <input placeholder={t('admin.deal.note')} value={note} onChange={(e) => setNote(e.target.value)}
                     style={{ flex: 1, padding: '4px 8px', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#e0e8f0', fontSize: 12, outline: 'none' }} />
-                  <button onClick={() => applyDeal(u.phone)} style={{ padding: '4px 12px', borderRadius: 999, background: '#22c55e', border: 'none', color: '#fff', fontSize: 12, cursor: 'pointer' }}>
+                  <button onClick={() => applyDeal(u.phone)} style={{ padding: '4px 12px', borderRadius: 999, background: '#a3a3a3', border: 'none', color: '#fff', fontSize: 12, cursor: 'pointer' }}>
                     {t('admin.collection.save')}
                   </button>
                 </div>
               ) : (
-                <button onClick={() => { setSelectedPhone(u.phone || u.username); setDiscount(''); setNote(''); }} style={{ padding: '4px 12px', borderRadius: 999, background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e', fontSize: 12, cursor: 'pointer' }}>
+                <button onClick={() => { setSelectedPhone(u.phone || u.username); setDiscount(''); setNote(''); }} style={{ padding: '4px 12px', borderRadius: 999, background: 'rgba(163, 163, 163,0.15)', border: '1px solid rgba(163, 163, 163,0.3)', color: '#a3a3a3', fontSize: 12, cursor: 'pointer' }}>
                   {t('admin.deal.add')}
                 </button>
               )}
@@ -115,3 +115,4 @@ export function AdminUsers() {
     </div>
   );
 }
+

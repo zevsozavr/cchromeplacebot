@@ -33,11 +33,11 @@ export function Favorites() {
           height: 64,
         }}
       >
-        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
+        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#a3a3a3', display: 'flex' }}>
           <span className="material-symbols-outlined" style={{ fontSize: 28 }}>arrow_back</span>
         </button>
-        <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#22c55e' }}>{t('favorites.title').toUpperCase()}</h1>
-        <button onClick={openCart} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#22c55e', display: 'flex' }}>
+        <h1 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: '#a3a3a3' }}>{t('favorites.title').toUpperCase()}</h1>
+        <button onClick={openCart} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#a3a3a3', display: 'flex' }}>
           <span className="material-symbols-outlined" style={{ fontSize: 28 }}>shopping_bag</span>
         </button>
       </header>
@@ -56,8 +56,8 @@ export function Favorites() {
               onClick={() => navigate('/')}
               style={{
                 padding: '12px 32px',
-                background: '#22c55e',
-                color: '#001f2e',
+                background: '#a3a3a3',
+                color: '#0a0a0a',
                 border: 'none',
                 borderRadius: 9999,
                 fontWeight: 600,
@@ -83,7 +83,7 @@ export function Favorites() {
                       overflow: 'hidden',
                       background: 'rgba(15, 21, 36, 0.6)',
                       backdropFilter: 'blur(16px)',
-                      border: '1px solid rgba(34, 197, 94, 0.1)',
+                      border: '1px solid rgba(163, 163, 163, 0.1)',
                       marginBottom: 12,
                     }}
                   >
@@ -109,7 +109,7 @@ export function Favorites() {
                         borderRadius: '50%',
                         background: 'rgba(26, 36, 56, 0.75)',
                         backdropFilter: 'blur(24px)',
-                        border: '1px solid rgba(34, 197, 94, 0.15)',
+                        border: '1px solid rgba(163, 163, 163, 0.15)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -123,7 +123,7 @@ export function Favorites() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <span style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0' }}>{p.name}</span>
-                    <span style={{ fontSize: 14, color: '#22c55e' }}>₴{p.price.toLocaleString()}</span>
+                    <span style={{ fontSize: 14, color: '#a3a3a3' }}>₴{p.price.toLocaleString()}</span>
                   </div>
                 </div>
               )
@@ -136,3 +136,5 @@ export function Favorites() {
     </div>
   )
 }
+
+

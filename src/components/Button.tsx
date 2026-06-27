@@ -30,19 +30,19 @@ export function Button({ children, onClick, variant = 'primary', fullWidth, glow
 
   const variants: Record<string, CSSProperties> = {
     primary: {
-      background: '#22c55e',
-      color: '#001f2e',
-      boxShadow: glow ? '0 0 20px rgba(34, 197, 94,0.3)' : 'none',
+      background: '#a3a3a3',
+      color: '#0a0a0a',
+      boxShadow: glow ? '0 0 20px rgba(163, 163, 163,0.3)' : 'none',
     },
     glass: {
       background: 'rgba(15, 21, 36, 0.6)',
       backdropFilter: 'blur(16px)',
-      border: '1px solid rgba(34, 197, 94, 0.1)',
+      border: '1px solid rgba(163, 163, 163, 0.1)',
       color: '#e0e8f0',
     },
     ghost: {
       background: 'transparent',
-      color: '#22c55e',
+      color: '#a3a3a3',
     },
   }
 
@@ -57,3 +57,5 @@ export function Button({ children, onClick, variant = 'primary', fullWidth, glow
     </button>
   )
 }
+
+

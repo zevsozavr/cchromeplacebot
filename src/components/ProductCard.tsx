@@ -27,7 +27,7 @@ export function ProductCard({
           overflow: 'hidden',
           background: 'rgba(15, 21, 36, 0.6)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(34, 197, 94, 0.1)',
+          border: '1px solid rgba(163, 163, 163, 0.1)',
           marginBottom: 12,
         }}
       >
@@ -47,7 +47,7 @@ export function ProductCard({
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'rgba(34, 197, 94, 0.1)',
+              background: 'rgba(163, 163, 163, 0.1)',
               opacity: 0,
               display: 'flex',
               alignItems: 'center',
@@ -60,8 +60,8 @@ export function ProductCard({
               onClick={onAddToCart}
               style={{
                 padding: '8px 16px',
-                background: '#22c55e',
-                color: '#001f2e',
+                background: '#a3a3a3',
+                color: '#0a0a0a',
                 border: 'none',
                 borderRadius: 9999,
                 fontSize: 12,
@@ -86,7 +86,7 @@ export function ProductCard({
               borderRadius: '50%',
               background: 'rgba(26, 36, 56, 0.75)',
               backdropFilter: 'blur(24px)',
-              border: '1px solid rgba(34, 197, 94, 0.15)',
+              border: '1px solid rgba(163, 163, 163, 0.15)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -103,7 +103,7 @@ export function ProductCard({
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <span style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0' }}>{name}</span>
-        <span style={{ fontSize: 14, fontWeight: 600, color: '#22c55e' }}>{price}</span>
+        <span style={{ fontSize: 14, fontWeight: 600, color: '#a3a3a3' }}>{price}</span>
       </div>
     </div>
   )
@@ -120,7 +120,7 @@ export function ProductCardHorizontal({ image, name, price, onAddToCart }: Produ
           overflow: 'hidden',
           background: 'rgba(15, 21, 36, 0.6)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(34, 197, 94, 0.1)',
+          border: '1px solid rgba(163, 163, 163, 0.1)',
           marginBottom: 16,
         }}
       >
@@ -152,8 +152,8 @@ export function ProductCardHorizontal({ image, name, price, onAddToCart }: Produ
               width: 48,
               height: 48,
               borderRadius: '50%',
-              background: '#22c55e',
-              color: '#001f2e',
+              background: '#a3a3a3',
+              color: '#0a0a0a',
               border: 'none',
               cursor: 'pointer',
               display: 'flex',
@@ -171,3 +171,5 @@ export function ProductCardHorizontal({ image, name, price, onAddToCart }: Produ
     </div>
   )
 }
+
+

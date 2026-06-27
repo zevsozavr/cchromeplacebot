@@ -50,7 +50,7 @@ export function MiniCart() {
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0', marginBottom: 2 }}>{item.name}</p>
                   <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 2 }}>{t('cart.size')} {item.selectedSize}</p>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#22c55e' }}>₴{item.price.toLocaleString()}</p>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: '#a3a3a3' }}>₴{item.price.toLocaleString()}</p>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
                   <button
@@ -81,13 +81,13 @@ export function MiniCart() {
             <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 16, marginTop: 8 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
                 <span style={{ fontSize: 16, fontWeight: 600, color: '#e0e8f0' }}>{t('cart.total')}</span>
-                <span style={{ fontSize: 18, fontWeight: 700, color: '#22c55e' }}>₴{totalPrice.toLocaleString()}</span>
+                <span style={{ fontSize: 18, fontWeight: 700, color: '#a3a3a3' }}>₴{totalPrice.toLocaleString()}</span>
               </div>
               <button
                 onClick={() => { closeCart(); navigate('/cart'); }}
                 style={{
                   width: '100%', height: 48, borderRadius: 9999,
-                  background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                  background: 'linear-gradient(135deg, #a3a3a3, #737373)',
                   border: 'none', color: '#fff', fontSize: 15, fontWeight: 600,
                   cursor: 'pointer', marginBottom: 8,
                 }}
@@ -101,3 +101,4 @@ export function MiniCart() {
     </>
   );
 }
+
