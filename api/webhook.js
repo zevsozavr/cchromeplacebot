@@ -68,18 +68,6 @@ const CATEGORY_KEYWORDS = [
   { cat: 'Accessories', words: ['сумк', 'кепк', 'шапк', 'окуляр', 'очки', 'ремін', 'ремень', 'рюкзак', 'панам', 'бананк', 'аксесуар', 'bag', 'cap', 'hat', 'beanie', 'belt', 'backpack'] },
 ];
 
-const KNOWN_COLORS = [
-  { re: /(чорн|черн|black)/i, name: 'Black', hex: '#000000' },
-  { re: /(біл|бел|white)/i, name: 'White', hex: '#ffffff' },
-  { re: /(сір|сер|gray|grey)/i, name: 'Gray', hex: '#9ca3af' },
-  { re: /(червон|красн|red)/i, name: 'Red', hex: '#ef4444' },
-  { re: /(син|блакит|голуб|blue)/i, name: 'Blue', hex: '#3b82f6' },
-  { re: /(зелен|green|хакі|хаки|khaki)/i, name: 'Green', hex: '#22c55e' },
-  { re: /(жовт|желт|yellow)/i, name: 'Yellow', hex: '#eab308' },
-  { re: /(беж|beige|крем|cream)/i, name: 'Beige', hex: '#f5e6d3' },
-  { re: /(коричнев|brown)/i, name: 'Brown', hex: '#92400e' },
-  { re: /(рожев|розов|pink)/i, name: 'Pink', hex: '#ec4899' },
-];
 
 function parseProduct(caption) {
   const text = (caption || '').trim();
@@ -122,13 +110,6 @@ function parseProduct(caption) {
   }
   if (sizes.length === 0) sizes = ['One Size'];
 
-  // Colors
-  const colors = [];
-  for (const c of KNOWN_COLORS) {
-    if (c.re.test(text) && !colors.some((x) => x.name === c.name)) colors.push({ name: c.name, hex: c.hex });
-  }
-  if (colors.length === 0) colors.push({ name: 'Default', hex: '#000000' });
-
   // Condition
   let condition = 'New';
   if (/(б\/?[ув]|вживан|бывш|used|second)/i.test(text)) condition = 'Good';
@@ -142,7 +123,7 @@ function parseProduct(caption) {
     if (words.some((w) => lower.includes(w))) { category = cat; break; }
   }
 
-  return { name, price, sizes, colors, condition, category, description: text };
+  return { name, price, sizes, condition, category, description: text };
 }
 
 async function getPhotoUrl(message) {
@@ -217,12 +198,12 @@ export default async function handler(req, res) {
       category: parsed.category,
       subcategory: undefined,
       sizes: parsed.sizes,
-      colors: parsed.colors,
+      colors: [],
       condition: parsed.condition,
       description: parsed.description,
       image: photoUrl,
       images: photoUrl ? [photoUrl] : undefined,
-      sizeStock: Object.fromEntries(parsed.sizes.map((s) => [s, 999])),
+      sizeStock: Object.fromEntries(parsed.sizes.map((s) => [s, 1])),
     };
 
     const { ok, product: stored } = await upsertChannelProduct(product);
@@ -233,7 +214,7 @@ export default async function handler(req, res) {
       await tgSend({
         chat_id: message.chat.id,
         text: ok
-          ? `✅ Товар «${stored.name}» додано\n💵 Ціна: ${stored.price || '—'}₴\n🏷 Категорія: ${stored.category}\n📏 Розміри: ${(stored.sizes || []).join(', ')}\n🎨 Колір: ${(stored.colors || []).map((c) => c.name).join(', ')}\n🧩 Стан: ${stored.condition}`
+          ? `✅ Товар «${stored.name}» додано\n💵 Ціна: ${stored.price || '—'}₴\n🏷 Категорія: ${stored.category}\n📏 Розміри: ${(stored.sizes || []).join(', ')}\n🧩 Стан: ${stored.condition}\n📦 Кількість: 1 на розмір`
           : `❌ Помилка: товар «${parsed.name}» не збережено — база даних недоступна`,
       });
     }
