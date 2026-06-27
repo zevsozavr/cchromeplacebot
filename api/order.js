@@ -65,8 +65,9 @@ export default async function handler(req, res) {
     .map((i) => `• ${i.name} (${i.size || i.selectedSize || ''}) × ${i.quantity} — ${i.price * i.quantity}₴`)
     .join('\n');
 
-  const prepayText = order.prepay ? `💳 *ПЕРЕДОПЛАТА*` : `💵 *ПІСЛЯПЛАТА*`;
+  const prepayText = order.prepay ? `💳 *ПЕРЕДОПЛАТА (очікує)*` : `💵 *ПІСЛЯПЛАТА*`;
   const ttnText = order.ttn ? `📦 *ТТН:* ${order.ttn}` : '';
+  const prepayNotice = order.prepay ? `⚠️ Замовлення не відправлять до підтвердження оплати адміністратором` : '';
 
   const message = [
     `🛍 *Нове замовлення — cchrome place*`,
@@ -77,6 +78,7 @@ export default async function handler(req, res) {
     `*Адреса:* ${order.address}`,
     `*Оплата:* ${prepayText}`,
     ttnText,
+    prepayNotice,
     `*TG:* ${user.first_name || ''} ${user.last_name || ''} @${user.username || ''}`,
     ``,
     `*Товари:*`,

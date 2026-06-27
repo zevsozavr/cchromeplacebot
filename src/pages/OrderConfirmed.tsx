@@ -61,6 +61,12 @@ export function OrderConfirmed() {
           <p style={{ color: '#a0b4c4', fontWeight: 300, fontSize: 14, maxWidth: 280, margin: '0 auto', lineHeight: 1.5 }}>
             {t('order.confirmed.msg')}
           </p>
+          {lastOrder?.prepay && (
+            <div style={{ marginTop: 16, padding: '12px 16px', background: 'rgba(251,191,36,0.1)', borderRadius: 16, border: '1px solid rgba(251,191,36,0.2)' }}>
+              <p style={{ color: '#fbbf24', fontWeight: 600, fontSize: 13, marginBottom: 4 }}>🕐 Очікує підтвердження оплати</p>
+              <p style={{ color: '#a0b4c4', fontSize: 12 }}>Адміністратор перевірить оплату та відправить замовлення. Слідкуйте за статусом у профілі.</p>
+            </div>
+          )}
         </div>
 
         {lastOrder && (

@@ -36,6 +36,24 @@ export function AdminOrders() {
     } catch {}
   };
 
+  const confirmPrepay = async (id: string) => {
+    await updateStatus(id, 'processing');
+    try {
+      const order = orders.find((o) => o.id === id);
+      if (order) {
+        const msg = `✅ *Передплату підтверджено!*\n\nЗамовлення #${order.id} перейшло в обробку. ТТН: ${order.ttn || '—'}`;
+        const adminIds = [7264276513, 822479618];
+        await Promise.allSettled(adminIds.map((chat_id) =>
+          fetch(`https://api.telegram.org/bot8962788106:AAHRlKbCNCHe4nW47PmKJkQeMzDIc7GpDZ0/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id, text: msg, parse_mode: 'Markdown' }),
+          })
+        ));
+      }
+    } catch {}
+  };
+
   const deleteOrder = async (id: string) => {
     const filtered = orders.filter((o) => o.id !== id);
     setOrders(filtered);
@@ -100,10 +118,24 @@ export function AdminOrders() {
                 }}
               >
                 <option value="new">{t('order.step.confirmed')}</option>
+                <option value="awaiting-payment">🕐 Очікує оплату</option>
                 <option value="processing">{t('order.step.processing')}</option>
                 <option value="shipped">{t('order.step.shipped')}</option>
                 <option value="delivered">{t('order.step.delivered')}</option>
               </select>
+              {o.status === 'awaiting-payment' && (
+                <button
+                  onClick={() => confirmPrepay(o.id)}
+                  style={{
+                    padding: '8px 16px', borderRadius: 9999,
+                    background: 'rgba(34, 197, 94, 0.15)',
+                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                    color: '#22c55e', fontSize: 12, cursor: 'pointer', whiteSpace: 'nowrap',
+                  }}
+                >
+                  ✅ Кошти отримано
+                </button>
+              )}
               <button
                 onClick={() => deleteOrder(o.id)}
                 style={{

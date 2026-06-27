@@ -45,7 +45,7 @@ export interface Order {
   name: string;
   phone: string;
   address: string;
-  status: 'new' | 'processing' | 'shipped' | 'delivered';
+  status: 'new' | 'awaiting-payment' | 'processing' | 'shipped' | 'delivered';
   ttn?: string;
   prepay?: boolean;
   npCity?: string;

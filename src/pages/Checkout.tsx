@@ -185,12 +185,17 @@ export function Checkout() {
       name,
       phone,
       address,
-      status: 'new',
+      status: prepay ? 'awaiting-payment' as const : 'new',
       ttn: ttn || undefined,
       prepay,
       npCity: selectedCity.name,
       npWarehouse: selectedWarehouse.name,
       afterpayCommission: !prepay ? afterpayCommission : 0,
+    }
+
+    // Notify user about prepay
+    if (prepay && !ttn) {
+      alert('Ваше замовлення створено. Очікуйте підтвердження оплати від адміністратора.')
     }
 
     // Save order to localStorage
@@ -374,6 +379,11 @@ export function Checkout() {
                 <p style={{ fontSize: 12, color: '#9ca3af' }}>{t('checkout.prepay.hint')}</p>
               </div>
             </label>
+            {prepay && (
+              <p style={{ fontSize: 12, color: '#fbbf24', marginTop: 12, padding: '8px 12px', background: 'rgba(251,191,36,0.1)', borderRadius: 12, border: '1px solid rgba(251,191,36,0.2)' }}>
+                Замовлення буде відправлено після підтвердження оплати адміністратором
+              </p>
+            )}
           </section>
 
           {/* Order Summary */}
