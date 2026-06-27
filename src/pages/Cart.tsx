@@ -2,16 +2,12 @@ import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useLang } from '../context/LangContext'
 import { BottomBar } from '../components/BottomBar'
-import { getNovaPoshtaPrice, estimateWeight } from '../lib/pricing'
 
 export function Cart() {
   const navigate = useNavigate()
   const { items, removeItem, updateQuantity, totalPrice } = useCart()
   const { t } = useLang()
   const subtotal = totalPrice
-  const weight = estimateWeight(items.length)
-  const shipping = getNovaPoshtaPrice(weight)
-  const total = subtotal + shipping
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 196 }}>
@@ -177,14 +173,12 @@ export function Cart() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, fontSize: 14 }}>
                 <span style={{ color: '#a0b4c4' }}>{t('cart.shipping')}</span>
-                <span style={{ color: shipping === 0 ? '#22c55e' : '#e0e8f0', fontWeight: 500 }}>
-                  ₴{shipping.toLocaleString()}
-                </span>
+                <span style={{ color: '#a0b4c4', fontWeight: 400, fontSize: 12 }}>{t('cart.shipping.calc')}</span>
               </div>
               <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', width: '100%', marginTop: 8, marginBottom: 12 }} />
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 18, fontWeight: 700, color: '#e0e8f0' }}>{t('cart.total')}</span>
-                <span style={{ fontSize: 18, fontWeight: 700, color: '#22c55e' }}>₴{total.toLocaleString()}</span>
+                <span style={{ fontSize: 18, fontWeight: 700, color: '#22c55e' }}>₴{subtotal.toLocaleString()}</span>
               </div>
             </section>
           </>
@@ -215,7 +209,7 @@ export function Cart() {
           >
             <span>{t('cart.checkout')}</span>
             <span style={{ width: 6, height: 6, background: '#001f2e', borderRadius: '50%', display: 'inline-block' }} />
-            <span>₴{total.toLocaleString()}</span>
+            <span>₴{subtotal.toLocaleString()}</span>
           </button>
         </div>
       )}

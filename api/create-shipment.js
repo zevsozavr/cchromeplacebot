@@ -7,8 +7,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  // GET /api/create-shipment?senders=1 — list sender counterparties
-  // GET /api/create-shipment?senderRef=X — list sender + contact persons
+  // GET /api/create-shipment — list sender counterparties
   if (req.method === 'GET') {
     try {
       const counterparties = await npRequest('Counterparty', 'getCounterparties', {
@@ -65,7 +64,7 @@ export default async function handler(req, res) {
         weightKg: weight || 0.5,
         declaredCost: declaredCost || 200,
         afterpayAmount: afterpayAmount || 0,
-        description: description || 'Одяг',
+        description: description || 'одяг',
         payerType: prepay ? 'Sender' : 'Recipient',
         paymentMethod: prepay ? 'NonCash' : 'Cash',
       });

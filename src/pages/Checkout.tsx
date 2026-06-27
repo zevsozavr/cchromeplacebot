@@ -26,6 +26,7 @@ export function Checkout() {
   const [phone, setPhone] = useState('')
   const [prepay, setPrepay] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [nameError, setNameError] = useState(false)
 
   // NP city search
   const [cityQuery, setCityQuery] = useState('')
@@ -35,8 +36,8 @@ export function Checkout() {
 
   // NP warehouse search
   const [warehouseQuery, setWarehouseQuery] = useState('')
-  const [warehouses, setWarehouses] = useState<{ ref: string; name: string }[]>([])
-  const [selectedWarehouse, setSelectedWarehouse] = useState<{ ref: string; name: string } | null>(null)
+  const [warehouses, setWarehouses] = useState<{ ref: string; name: string; number: string }[]>([])
+  const [selectedWarehouse, setSelectedWarehouse] = useState<{ ref: string; name: string; number: string } | null>(null)
   const [warehouseOpen, setWarehouseOpen] = useState(false)
 
   // NP cost
@@ -102,7 +103,7 @@ export function Checkout() {
     setWarehouseQuery('')
   }
 
-  const selectWarehouse = (w: { ref: string; name: string }) => {
+  const selectWarehouse = (w: { ref: string; name: string; number: string }) => {
     setSelectedWarehouse(w)
     setWarehouseQuery(w.name)
     setWarehouseOpen(false)
@@ -112,19 +113,15 @@ export function Checkout() {
     e.preventDefault()
     if (!selectedCity || !selectedWarehouse) return
     if (name.trim().split(/\s+/).length < 2) {
-      alert(t('checkout.name_required') || 'Введіть імʼя та прізвище')
+      setNameError(true)
       return
     }
+    setNameError(false)
     setSubmitting(true)
 
     const address = `${selectedCity.name}, ${t('checkout.np_warehouse')} ${selectedWarehouse.name}`
 
-    // Build description from item categories/names (max 1-2 words)
-    const uniqueCategories = [...new Set(items.map((i) => {
-      const p = products.find((p) => p.id === i.id)
-      return p?.category || p?.name?.split(' ')[0] || 'Одяг'
-    }))]
-    const shipDescription = uniqueCategories.slice(0, 2).join(', ')
+    const shipDescription = 'одяг'
 
     // Create NP shipment first — its TTN becomes the order ID.
     let ttn = ''
@@ -135,10 +132,11 @@ export function Checkout() {
         body: JSON.stringify({
           cityRef: selectedCity.ref,
           warehouseRef: selectedWarehouse.ref,
+          warehouseNumber: selectedWarehouse.number,
           recipientName: name,
           recipientPhone: phone,
           declaredCost: subtotal,
-          afterpayAmount: prepay ? 0 : total,
+          afterpayAmount: prepay ? 0 : subtotal,
           weight,
           prepay,
           description: shipDescription,
@@ -259,7 +257,8 @@ export function Checkout() {
           }}>
             <h3 style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0', marginBottom: 16 }}>{t('checkout.contact')}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t('checkout.placeholder.name')} required style={inputStyle} />
+              <input value={name} onChange={(e) => { setName(e.target.value); setNameError(false) }} placeholder={t('checkout.placeholder.name')} required style={{ ...inputStyle, border: nameError ? '1px solid #ff6b6b' : inputStyle.border }} />
+              {nameError && <span style={{ fontSize: 12, color: '#ff6b6b', marginTop: 4 }}>{t('checkout.name_required') || 'Введіть імʼя та прізвище'}</span>}
               <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t('checkout.placeholder.phone')} required style={inputStyle} />
             </div>
           </section>

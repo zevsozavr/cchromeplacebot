@@ -11,7 +11,14 @@ export function Storefront() {
   const { addItem } = useCart()
   const { t } = useLang()
 
-  const gridProducts = products
+  const isOutOfStock = (p: typeof products[0]) =>
+    p.sizes?.every((s) => (p.sizeStock?.[s] ?? p.stock ?? 5) <= 0) ?? true
+
+  const gridProducts = [...products].sort((a, b) => {
+    if (isOutOfStock(a) && !isOutOfStock(b)) return 1
+    if (!isOutOfStock(a) && isOutOfStock(b)) return -1
+    return 0
+  })
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 128 }}>
@@ -76,14 +83,19 @@ export function Storefront() {
           ) : (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-              {gridProducts.filter((_, i) => i % 2 === 0).map((p) => (
+              {gridProducts.filter((_, i) => i % 2 === 0).map((p) => {
+                const oos = isOutOfStock(p)
+                return (
                 <div key={p.id} className="group" onClick={() => navigate(`/product/${p.id}`)} style={{ cursor: 'pointer' }}>
                   <div
                     style={{
                       position: 'relative', aspectRatio: '3/4',
                       borderRadius: 16, overflow: 'hidden',
                       background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
-                      border: '1px solid rgba(34, 197, 94, 0.1)', marginBottom: 12,
+                      border: oos ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(34, 197, 94, 0.1)',
+                      marginBottom: 12,
+                      filter: oos ? 'grayscale(0.8)' : 'none',
+                      opacity: oos ? 0.5 : 1,
                     }}
                   >
                     <img
@@ -92,6 +104,12 @@ export function Storefront() {
                       style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
                       className="group-hover:scale-110"
                     />
+                    {oos && (
+                      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase', background: 'rgba(10,14,26,0.7)', padding: '4px 10px', borderRadius: 9999 }}>{t('product.out_of_stock_short')}</span>
+                      </div>
+                    )}
+                    {!oos && (
                     <div
                       style={{
                         position: 'absolute', inset: 0, background: 'rgba(34, 197, 94, 0.1)',
@@ -111,21 +129,24 @@ export function Storefront() {
                         {t('product.add').toUpperCase()}
                       </button>
                     </div>
+                    )}
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0' }}>{p.name}</span>
-                    <span style={{ fontSize: 14, color: '#22c55e' }}>₴{p.price.toLocaleString()}</span>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: oos ? '#6b7280' : '#e0e8f0' }}>{p.name}</span>
+                    <span style={{ fontSize: 14, color: oos ? '#6b7280' : '#22c55e' }}>₴{p.price.toLocaleString()}</span>
                   </div>
                   {p.subcategory && (
-                    <span style={{ fontSize: 11, color: '#9ca3af', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
+                    <span style={{ fontSize: 11, color: '#6b7280', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
                   )}
                 </div>
-              ))}
+                )
+              })}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingTop: 48 }}>
               {gridProducts.filter((_, i) => i % 2 === 1).map((p) => {
                 const aspectRatios = ['4/5', '3/4', '1/1']
                 const ar = aspectRatios[p.id.length % 3]
+                const oos = isOutOfStock(p)
                 return (
                   <div key={p.id} className="group" onClick={() => navigate(`/product/${p.id}`)} style={{ cursor: 'pointer' }}>
                     <div
@@ -133,7 +154,10 @@ export function Storefront() {
                         position: 'relative', aspectRatio: ar,
                         borderRadius: 16, overflow: 'hidden',
                         background: 'rgba(15, 21, 36, 0.6)', backdropFilter: 'blur(16px)',
-                        border: '1px solid rgba(34, 197, 94, 0.1)', marginBottom: 12,
+                        border: oos ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(34, 197, 94, 0.1)',
+                        marginBottom: 12,
+                        filter: oos ? 'grayscale(0.8)' : 'none',
+                        opacity: oos ? 0.5 : 1,
                       }}
                     >
                       <img
@@ -142,6 +166,12 @@ export function Storefront() {
                         style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
                         className="group-hover:scale-110"
                       />
+                      {oos && (
+                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <span style={{ fontSize: 11, fontWeight: 700, color: '#9ca3af', letterSpacing: 1, textTransform: 'uppercase', background: 'rgba(10,14,26,0.7)', padding: '4px 10px', borderRadius: 9999 }}>{t('product.out_of_stock_short')}</span>
+                        </div>
+                      )}
+                      {!oos && (
                       <div
                         style={{
                           position: 'absolute', inset: 0, background: 'rgba(34, 197, 94, 0.1)',
@@ -161,13 +191,14 @@ export function Storefront() {
                           {t('product.add').toUpperCase()}
                         </button>
                       </div>
+                      )}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <span style={{ fontSize: 14, fontWeight: 600, color: '#e0e8f0' }}>{p.name}</span>
-                      <span style={{ fontSize: 14, color: '#22c55e' }}>₴{p.price.toLocaleString()}</span>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: oos ? '#6b7280' : '#e0e8f0' }}>{p.name}</span>
+                      <span style={{ fontSize: 14, color: oos ? '#6b7280' : '#22c55e' }}>₴{p.price.toLocaleString()}</span>
                     </div>
                     {p.subcategory && (
-                      <span style={{ fontSize: 11, color: '#9ca3af', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
+                      <span style={{ fontSize: 11, color: '#6b7280', marginTop: 2, display: 'block' }}>{p.subcategory}</span>
                     )}
                   </div>
                 )

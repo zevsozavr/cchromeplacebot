@@ -149,8 +149,10 @@ export function AdminNovaPoshta() {
           recipientName: 'Тест Отримувач',
           recipientPhone: '+380000000000',
           declaredCost: 100,
+          afterpayAmount: 100,
           weight: 0.5,
           prepay: false,
+          description: 'одяг',
         }),
       });
       const data = await res.json();
